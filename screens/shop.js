@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   FlatList,
   SafeAreaView,
@@ -6,21 +6,21 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-} from 'react-native';
+} from "react-native";
 import * as SQLite from "expo-sqlite";
 
 const DATA = [
   {
-    id: '1',
-    title: 'First Item',
+    id: "1",
+    title: "First Item",
   },
   {
-    id: '2',
-    title: 'Second Item',
+    id: "2",
+    title: "Second Item",
   },
   {
-    id: '3',
-    title: 'Third Item',
+    id: "3",
+    title: "Third Item",
   },
 ];
 
@@ -52,17 +52,15 @@ const Shop = () => {
   const [forceUpdate] = useForceUpdate();
 
   const renderItem = ({ item }) => {
-    const backgroundColor = item.id === selectedId ? '#6e3b6e' : '#f9c2ff';
-    const color = item.id === selectedId ? 'white' : 'black';
+    const backgroundColor = item.id === selectedId ? "#6e3b6e" : "#f9c2ff";
+    const color = item.id === selectedId ? "white" : "black";
 
     return (
       <Item
         item={item}
         onPress={() => {
-          setSelectedId(item.id),
-          add(item)
-        }
-        }
+          setSelectedId(item.id), add(item);
+        }}
         backgroundColor={{ backgroundColor }}
         textColor={{ color }}
       />
@@ -70,13 +68,12 @@ const Shop = () => {
   };
 
   const add = (item) => {
-
     db.transaction(
       (tx) => {
         tx.executeSql("insert into items (value) values (?)", [item.title]);
-        tx.executeSql("select * from items", [], (_, { rows }) => 
+        tx.executeSql("select * from items", [], (_, { rows }) =>
           console.log(JSON.stringify(rows))
-          );
+        );
       },
       null,
       forceUpdate
@@ -88,7 +85,7 @@ const Shop = () => {
       <FlatList
         data={DATA}
         renderItem={renderItem}
-        keyExtractor={item => item.id}
+        keyExtractor={(item) => item.id}
         extraData={selectedId}
       />
     </SafeAreaView>
