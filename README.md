@@ -24,9 +24,10 @@ There were two versions of this app:
 2. Electrical_Assembli_order_Ver2 (github link: https://github.com/skrel/Electrical_Assembli_order_Ver2)
 Both (ver1 and ver2) are Android Studio projects and working only on Android devices. Generaly, they were built as screens that require data entry.
 Electrical_Assembli_order_Ver2 was posted in Google Play - the app called Prefab Solutions (link: https://play.google.com/store/apps/details?id=com.configurator.android_app&hl=en_US&gl=US)
+3. Electrical Assembly 
 
 # What this is right now
-React Native mobile application available for both iOS and Android platforms. The app displays data stored on an external server in a json file. Sample file - https://skrel.github.io/jsonapi/box.json . This is a newer version of the two previous versions built as a "shopping cart" principle. This app will work on its own. List of items from the cart can be emailed.
+React Native mobile application available for both iOS and Android platforms. The app displays data stored on an external server in a json file. Sample file - https://skrel.github.io/jsonapi/box.json . This is a newer version of the two previous versions built on a "shopping cart" principle. List of items from the cart can be emailed.
 
 # Stack
 - React Native with Expo: https://docs.expo.dev/
