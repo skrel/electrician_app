@@ -6,6 +6,10 @@
 There is a need to divide complex electrical installations into manageable subassemblies that can be prefabricated: electrical boxes for wall roughing, light fixtures, transformer wiring, overhead and underground conduits, panels, j-boxes etc. 
 Creating a native component configurator application for on-site team members will help optimize proper off-site assembly and functionality. The on-site team members can put together a list of assemblies they need based on the construction condition and pass the list directly to the prefab shop. This tool can help you tie all pre-construction information together throughout the entire project, boost productivity and profitability of design and prefabrication teams.
 
+# Download
+Android - https://play.google.com/store/apps/details?id=com.skrel.electricianapp
+iOS - 
+
 # Who is using it
 1. Electrical Contractors and Subcontractors that have prefab shops.
 2. Electrical Supply Companies.
