@@ -10,6 +10,9 @@ Creating a native component configurator application for on-site team members wi
 - Android - https://play.google.com/store/apps/details?id=com.skrel.electricianapp
 - iOS - 
 
+# Support page
+
+
 # Who is using it
 1. Electrical Contractors and Subcontractors that have prefab shops.
 2. Electrical Supply Companies.
