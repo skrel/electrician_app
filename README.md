@@ -11,7 +11,7 @@ Creating a native component configurator application for on-site team members wi
 - iOS - 
 
 # Support page
-
+https://github.com/skrel/Electrician/wiki
 
 # Who is using it
 1. Electrical Contractors and Subcontractors that have prefab shops.
