@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import * as SQLite from "expo-sqlite";
 
-import { sendEmail } from '../components/sendEmail.js';
+import { sendEmail } from "../components/sendEmail.js";
 
 function openDatabase() {
   if (Platform.OS === "web") {
@@ -34,10 +34,12 @@ const ShopingCart = ({ navigation }) => {
   let [flatListItems, setFlatListItems] = useState([]);
   const [forceUpdate] = useForceUpdate();
 
-  let emailString = JSON.stringify(flatListItems, ['name', 'qty']);
+  let emailString = JSON.stringify(flatListItems, ["name", "qty"]);
+  let newEmailtring = emailString.replace(/"/g, "");
+
 
   React.useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
+    const unsubscribe = navigation.addListener("focus", () => {
       db.transaction((tx) => {
         tx.executeSql("select * from cart", [], (tx, results) => {
           var temp = [];
@@ -75,7 +77,8 @@ const ShopingCart = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+      <Text style={[styles.screenTitle]}>Cart</Text>
       <View style={{ flex: 1, backgroundColor: "white" }}>
         <View style={{ flex: 1, padding: 5 }}>
           <FlatList
@@ -101,9 +104,9 @@ const ShopingCart = ({ navigation }) => {
                     source={{ uri: item.image }}
                   />
                   <View style={{ flex: 1, padding: 10 }}>
-                    <Text style={[styles.titletext]} >{item.name}</Text>
+                    <Text style={[styles.titletext]}>{item.name}</Text>
                     <Text>{item.purpose}</Text>
-                    <Text style={styles.innerText}>Quantity: {item.qty}</Text>
+                    <Text style={styles.innerText}>QTY: {item.qty}</Text>
                   </View>
                 </View>
               </TouchableOpacity>
@@ -112,27 +115,32 @@ const ShopingCart = ({ navigation }) => {
 
           <View style={styles.flexRow}>
             <TouchableOpacity style={styles.buttonDelete} onPress={clear}>
-            <Text style={styles.buttontext}>Delete All</Text>
-
+              <Text style={styles.buttontext}>Delete All</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.buttonadd} onPress={() => navigation.navigate("Add My Own Item")}>
-            <Text style={styles.buttontext}>Add</Text>
+            <TouchableOpacity
+              style={styles.buttonadd}
+              onPress={() => navigation.navigate("Add My Own Item")}
+            >
+              <Text style={styles.buttontext}>Add</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.buttonsend} onPress={ () => {
-              sendEmail(
-                '',
-                '',
-                'This was sent from electrician-app -- ' + emailString.replace(/"/g, ''),
-             { cc: '' }
-            ).then(() => {
-                console.log('Your message was successfully sent!');
-            })
-            }}>
-            <Text style={styles.buttontext}>Email</Text>
+            <TouchableOpacity
+              style={styles.buttonsend}
+              onPress={() => {
+                sendEmail(
+                  "",
+                  "",
+                  "This was sent from electrician-app -- " +
+                  newEmailtring.replace(/,/g, "\n"),
+                  { cc: "" }
+                ).then(() => {
+                  console.log("Your message was successfully sent!");
+                });
+              }}
+            >
+              <Text style={styles.buttontext}>Email</Text>
             </TouchableOpacity>
-
           </View>
         </View>
       </View>
@@ -152,7 +160,7 @@ const styles = StyleSheet.create({
   buttontext: {
     fontWeight: "bold",
     fontSize: 14,
-    color: '#ffffff'
+    color: "#ffffff",
   },
   buttonsend: {
     alignItems: "center",
@@ -188,6 +196,7 @@ const styles = StyleSheet.create({
   },
   innerText: {
     color: "#0000ff",
+    paddingTop: 5,
   },
   titletext: {
     fontWeight: "bold",
@@ -201,6 +210,13 @@ const styles = StyleSheet.create({
     margin: 16,
     padding: 10,
     borderRadius: 10,
+  },
+  screenTitle: {
+    margin: 2,
+    padding: 10,
+    fontSize: 40,
+    fontStyle: "italic",
+    //textDecorationLine: 'underline',
   },
 });
 

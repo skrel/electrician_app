@@ -11,7 +11,8 @@ import {
 function Info() {
   return (
     <ScrollView>
-      <SafeAreaView style={{ flex: 1 }}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
+      <Text style={[styles.screenTitle]}>Info</Text>
         <View style={{ flex: 1, justifyContent: "center", margin: 10 }}>
           <Text style={[styles.titletext]}>What is Electrician </Text>
           <Text>- Electrical assembly configurator</Text>
@@ -46,7 +47,7 @@ function Info() {
              Reach out to us 
             </Text>
             <Text>- Instagram #construction_automation </Text>
-          <Text>- Email rufio3427@yahoo.com </Text>
+          <Text>- Email appforelectrician@gmail.com </Text>
 
 
         </View>
@@ -76,6 +77,13 @@ const styles = StyleSheet.create({
     },
     shadowRadius: 5,
     shadowOpacity: 1.0,
+  },
+  screenTitle: {
+    margin: 2,
+    padding: 10,
+    fontSize: 40,
+    fontStyle: 'italic',
+    //textDecorationLine: 'underline',
   },
 });
 
