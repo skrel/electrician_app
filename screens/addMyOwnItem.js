@@ -64,8 +64,9 @@ function addMyOwnItem() {
     };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
       <View style={{ flex: 1, backgroundColor: "white", padding: 10 }}>
+      <Text style={[styles.screenTitle]}>Add Item</Text>
 
       <Text style={[styles.textSmall]}>{counter} items added</Text>
         
@@ -183,7 +184,14 @@ const styles = StyleSheet.create({
     //fontWeight: "bold",
     fontSize: 8,
     textAlign: 'right'
-  }
+  },
+  screenTitle: {
+    margin: 2,
+    padding: 10,
+    fontSize: 40,
+    fontStyle: 'italic',
+    //textDecorationLine: 'underline',
+  },
 });
 
 export default addMyOwnItem;

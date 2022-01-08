@@ -80,8 +80,9 @@ function shopingCartItem({ route, navigation }) {
   };
 
   return (
-    <ScrollView>
-      <SafeAreaView style={{ flex: 1 }}>
+    <ScrollView style={{ flex: 1, backgroundColor: "white" }}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+      <Text style={[styles.screenTitle]}>Cart Item</Text>
         <View style={styles.container}>
           <Image style={{ width: 250, height: 250 }} source={{ uri: image }} />
         </View>
@@ -192,6 +193,13 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 20,
     padding: 10,
+  },
+  screenTitle: {
+    margin: 2,
+    padding: 10,
+    fontSize: 40,
+    fontStyle: 'italic',
+    //textDecorationLine: 'underline',
   },
 });
 

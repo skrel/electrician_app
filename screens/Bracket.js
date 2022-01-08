@@ -90,8 +90,9 @@ const Bracket = (props) => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
       <View style={{ flex: 1, padding: 10 }}>
+      <Text style={[styles.screenTitle]}>Bracket</Text>
         <Text style={[styles.textSmall]}>{counter} items added</Text>
       <TextInput
           style={styles.textInputStyle}
@@ -160,7 +161,14 @@ const styles = StyleSheet.create({
     //fontWeight: "bold",
     fontSize: 8,
     textAlign: 'right'
-  }
+  },
+  screenTitle: {
+    margin: 2,
+    padding: 10,
+    fontSize: 40,
+    fontStyle: 'italic',
+    //textDecorationLine: 'underline',
+  },
 });
 
 export default Bracket;

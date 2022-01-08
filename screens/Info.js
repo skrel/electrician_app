@@ -46,7 +46,6 @@ function Info() {
            <Text style={[styles.titletext]}>
              Reach out to us 
             </Text>
-            <Text>- Instagram #construction_automation </Text>
           <Text>- Email appforelectrician@gmail.com </Text>
 
 

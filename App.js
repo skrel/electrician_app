@@ -67,7 +67,9 @@ function HomeScreen({ navigation }) {
     <ScrollView style={{ backgroundColor: "white" }}>
       <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
         <Text style={[styles.screenTitle]}>Home</Text>
-        <Text style={{paddingLeft: 20, fontWeight: 'bold', fontSize: 14}}>Parts</Text>
+        <Text style={{ paddingLeft: 20, fontWeight: "bold", fontSize: 14 }}>
+          Parts
+        </Text>
         <View
           style={{
             borderBottomColor: "black",
@@ -146,7 +148,23 @@ function HomeScreen({ navigation }) {
           </TouchableOpacity>
         </View>
 
-        <Text style={{paddingLeft: 20, fontWeight: 'bold', fontSize: 14}}>Assemblies</Text>
+        <View style={styles.flexRow}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigation.navigate("Panel")}
+          >
+            <FontAwesome5 name="solar-panel" size={24} color="black" />
+            <Text style={[styles.buttontext]}> Panel </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.invisibleButton}
+            //onPress={() => navigation.navigate("Assembly")}
+          ></TouchableOpacity>
+        </View>
+
+        <Text style={{ paddingLeft: 20, fontWeight: "bold", fontSize: 14 }}>
+          Assemblies
+        </Text>
         <View
           style={{
             borderBottomColor: "black",
@@ -157,18 +175,15 @@ function HomeScreen({ navigation }) {
         <View style={styles.flexRow}>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => navigation.navigate("Panel")}
-          >
-            <FontAwesome5 name="solar-panel" size={24} color="black" />
-            <Text style={[styles.buttontext]}> Panel </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.button}
             onPress={() => navigation.navigate("Assembly")}
           >
             <Feather name="inbox" size={24} color="black" />
             <Text style={[styles.buttontext]}> Assembly </Text>
           </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.invisibleButton}
+            //onPress={() => navigation.navigate("Panel")}
+          ></TouchableOpacity>
         </View>
       </SafeAreaView>
     </ScrollView>
@@ -305,13 +320,104 @@ function App() {
             },
           }}
         />
-        <Stack.Screen name="Add My Own Item" component={addMyOwnItem} />
-        <Stack.Screen name="Panel" component={Panel} />
-        <Stack.Screen name="Wire" component={Wire} />
-        <Stack.Screen name="Conduit" component={Conduit} />
-        <Stack.Screen name="Connector" component={Connector} />
-        <Stack.Screen name="Extension Ring" component={ExtensionRing} />
-        <Stack.Screen name="Assembly" component={Assembly} />
+        <Stack.Screen
+          name="Add My Own Item"
+          component={addMyOwnItem}
+          options={{
+            title: "",
+            headerShadowVisible: false,
+            headerStyle: {
+              borderBottomColor: "transparent",
+              shadowColor: "transparent",
+              borderBottomWidth: 0,
+              elevation: 0,
+            },
+          }}
+        />
+        <Stack.Screen
+          name="Panel"
+          component={Panel}
+          options={{
+            title: "",
+            headerShadowVisible: false,
+            headerStyle: {
+              borderBottomColor: "transparent",
+              shadowColor: "transparent",
+              borderBottomWidth: 0,
+              elevation: 0,
+            },
+          }}
+        />
+        <Stack.Screen
+          name="Wire"
+          component={Wire}
+          options={{
+            title: "",
+            headerShadowVisible: false,
+            headerStyle: {
+              borderBottomColor: "transparent",
+              shadowColor: "transparent",
+              borderBottomWidth: 0,
+              elevation: 0,
+            },
+          }}
+        />
+        <Stack.Screen
+          name="Conduit"
+          component={Conduit}
+          options={{
+            title: "",
+            headerShadowVisible: false,
+            headerStyle: {
+              borderBottomColor: "transparent",
+              shadowColor: "transparent",
+              borderBottomWidth: 0,
+              elevation: 0,
+            },
+          }}
+        />
+        <Stack.Screen
+          name="Connector"
+          component={Connector}
+          options={{
+            title: "",
+            headerShadowVisible: false,
+            headerStyle: {
+              borderBottomColor: "transparent",
+              shadowColor: "transparent",
+              borderBottomWidth: 0,
+              elevation: 0,
+            },
+          }}
+        />
+        <Stack.Screen
+          name="Extension Ring"
+          component={ExtensionRing}
+          options={{
+            title: "",
+            headerShadowVisible: false,
+            headerStyle: {
+              borderBottomColor: "transparent",
+              shadowColor: "transparent",
+              borderBottomWidth: 0,
+              elevation: 0,
+            },
+          }}
+        />
+        <Stack.Screen
+          name="Assembly"
+          component={Assembly}
+          options={{
+            title: "",
+            headerShadowVisible: false,
+            headerStyle: {
+              borderBottomColor: "transparent",
+              shadowColor: "transparent",
+              borderBottomWidth: 0,
+              elevation: 0,
+            },
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -362,6 +468,18 @@ const styles = StyleSheet.create({
     fontSize: 40,
     fontStyle: "italic",
     //textDecorationLine: 'underline',
+  },
+  invisibleButton: {
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "white",
+    borderWidth: 1,
+    borderColor: "white",
+    flex: 1,
+    height: 80,
+    margin: 16,
+    padding: 10,
+    borderRadius: 10,
   },
 });
 
