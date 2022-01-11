@@ -29,6 +29,7 @@ import Conduit from "./screens/Conduit.js";
 import Connector from "./screens/Connector.js";
 import ExtensionRing from "./screens/ExtensionRing.js";
 import Assembly from "./screens/Assembly.js";
+import Configurator from "./screens/Configurator.js";
 
 //expo icons
 import { Feather } from "@expo/vector-icons";
@@ -181,10 +182,26 @@ function HomeScreen({ navigation }) {
             <Text style={[styles.buttontext]}> Assembly </Text>
           </TouchableOpacity>
           <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigation.navigate("Configurator")}
+          >
+            <Feather name="inbox" size={24} color="black" />
+            <Text style={[styles.buttontext]}> Configurator </Text>
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.flexRow}>
+        <TouchableOpacity
             style={styles.invisibleButton}
-            //onPress={() => navigation.navigate("Panel")}
+            //onPress={() => navigation.navigate("Assembly")}
+          ></TouchableOpacity>
+                    <TouchableOpacity
+            style={styles.invisibleButton}
+            //onPress={() => navigation.navigate("Assembly")}
           ></TouchableOpacity>
         </View>
+
+
       </SafeAreaView>
     </ScrollView>
   );
@@ -407,6 +424,20 @@ function App() {
         <Stack.Screen
           name="Assembly"
           component={Assembly}
+          options={{
+            title: "",
+            headerShadowVisible: false,
+            headerStyle: {
+              borderBottomColor: "transparent",
+              shadowColor: "transparent",
+              borderBottomWidth: 0,
+              elevation: 0,
+            },
+          }}
+        />
+          <Stack.Screen
+          name="Configurator"
+          component={Configurator}
           options={{
             title: "",
             headerShadowVisible: false,
