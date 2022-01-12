@@ -9,6 +9,7 @@ import {
   Image,
   TextInput,
   ScrollView,
+  KeyboardAvoidingView,
 } from "react-native";
 import * as SQLite from "expo-sqlite";
 
@@ -81,45 +82,61 @@ function shopingCartItem({ route, navigation }) {
 
   return (
     <ScrollView style={{ flex: 1, backgroundColor: "white" }}>
-      <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
-      <Text style={[styles.screenTitle]}>Cart Item</Text>
-        <View style={styles.container}>
-          <Image style={{ width: 250, height: 250 }} source={{ uri: image }} />
-        </View>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={{ flex: 1 }}
+      >
+        <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+          <Text style={[styles.screenTitle]}>Cart Item</Text>
+          <View style={styles.container}>
+            <Image
+              style={{ width: 250, height: 250 }}
+              source={{ uri: image }}
+            />
+          </View>
 
-        <View style={styles.itemcard}>
-          <Text style={styles.titletext}>
-            Item Name: {JSON.stringify(value)}{" "}
-          </Text>
-          <Text style={styles.normaltext}>
-            Used for {JSON.stringify(purpose)}
-          </Text>
-          <Text style={styles.normaltext}>
-            Residential and comersial construction. Can be used in assemblies
-            with other electrical items
-          </Text>
-          <Text> </Text>
-          <Text style={styles.titletext}>Quantity</Text>
-          <TextInput
-            style={styles.input}
-            placeholder={JSON.stringify(qty)}
-            onChangeText={(text) => setText(text)}
-            onSubmitEditing={() => {
-              addQty(text);
-            }}
-            maxLength={12}
-          />
-        </View>
+          <View style={styles.itemcard}>
+            <Text style={styles.titletext}>
+              Item Name: {JSON.stringify(value)}{" "}
+            </Text>
+            <Text style={styles.normaltext}>
+              Used for {JSON.stringify(purpose)}
+            </Text>
+            <Text style={styles.normaltext}>
+              Residential and comersial construction. Can be used in assemblies
+              with other electrical items
+            </Text>
+            <Text> </Text>
+            <Text style={styles.titletext}>Quantity</Text>
 
-        <View style={styles.flexRow}>
-          <TouchableOpacity style={styles.buttonDelete} onPress={deleteItem}>
-            <Text style={[styles.buttontext]}> Delete Item </Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button}>
-            <Text style={[styles.buttontext]}> Update Item </Text>
-          </TouchableOpacity>
-        </View>
-      </SafeAreaView>
+            <TextInput
+              style={styles.input}
+              placeholder={JSON.stringify(qty)}
+              onChangeText={(text) => setText(text)}
+              onSubmitEditing={() => {
+                addQty(text);
+              }}
+              maxLength={12}
+            />
+          </View>
+
+          <View style={{ flex: 1 }} />
+
+          <View style={styles.flexRow}>
+            <TouchableOpacity style={styles.buttonDelete} onPress={deleteItem}>
+              <Text style={[styles.buttontext]}> Delete Item </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                addQty(text);
+              }}
+            >
+              <Text style={[styles.buttontext]}> Update Item </Text>
+            </TouchableOpacity>
+          </View>
+        </SafeAreaView>
+      </KeyboardAvoidingView>
     </ScrollView>
   );
 }
@@ -198,8 +215,11 @@ const styles = StyleSheet.create({
     margin: 2,
     padding: 10,
     fontSize: 40,
-    fontStyle: 'italic',
+    fontStyle: "italic",
     //textDecorationLine: 'underline',
+  },
+  keyboardContainer: {
+    flex: 1,
   },
 });
 

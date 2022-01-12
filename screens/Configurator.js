@@ -66,6 +66,14 @@ const Configurator = () => {
   const trkoToggleSwitch = () =>
     setTrkoIsEnabled((previousState) => !previousState);
 
+  let itemImage = "https://skrel.github.io/jsonapi/image/na.png";
+  const [itemName, setItemName] = React.useState(null);
+  const [boxDescription, setBoxDescription] = useState("");
+  const [bracketDescription, setBracketDescription] = useState("");
+  const itemDescription =
+    '{"box":"' + boxDescription + '","bracket":"' + bracketDescription + '"}';
+  const itemQty = "add quantity";
+
   //counter
   const [counter, setCounter] = useState(0);
 
@@ -74,12 +82,12 @@ const Configurator = () => {
     setCounter(counter + 1);
   };
 
-  const add = (item) => {
+  const add = () => {
     db.transaction(
       (tx) => {
         tx.executeSql(
           "insert into cart (image, name, purpose, qty) values (?, ?, ?, ?)",
-          [item.image, item.name, item.purpose, item.qty]
+          [itemImage, itemName, itemDescription, itemQty]
         );
         tx.executeSql("select * from cart", [], (_, { rows }) =>
           console.log(JSON.stringify(rows))
@@ -149,24 +157,22 @@ const Configurator = () => {
           }}
         />
         <ScrollView style={{ backgroundColor: "white" }}>
-
-        <View
-            style={styles.flexRow}
-            borderRadius="20"
-          >
+          <View style={styles.flexRow} borderRadius="20">
             <Text
               style={{ paddingLeft: 20, fontStyle: "italic", fontSize: 22 }}
             >
               Assembly Name
             </Text>
-            </View>
-            <View style={{ flex: 1 }}>
-              <TextInput
-                style={styles.input}
-                placeholder="Type Assembly Name here"
-                maxLength={18}
-              />
-              </View>
+          </View>
+          <View style={{ flex: 1 }}>
+            <TextInput
+              style={styles.input}
+              placeholder="Type Assembly Name here"
+              onChangeText={(text) => setItemName(text)}
+              value={itemName}
+              maxLength={18}
+            />
+          </View>
 
           <View
             style={styles.flexRow}
@@ -193,6 +199,8 @@ const Configurator = () => {
               <TextInput
                 style={styles.input}
                 placeholder="Type box name here"
+                onChangeText={(text) => setBoxDescription(text)}
+                value={boxDescription}
                 maxLength={18}
               />
             ) : (
@@ -225,6 +233,8 @@ const Configurator = () => {
               <TextInput
                 style={styles.input}
                 placeholder="Type box name here"
+                onChangeText={(text) => setBracketDescription(text)}
+                value={bracketDescription}
                 maxLength={18}
               />
             ) : (
@@ -508,7 +518,12 @@ const Configurator = () => {
             )}
           </View>
 
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              add(), handleClick1();
+            }}
+          >
             <Text style={[styles.buttontext]}> Add Item </Text>
           </TouchableOpacity>
         </ScrollView>

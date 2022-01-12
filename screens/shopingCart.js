@@ -105,7 +105,7 @@ const ShopingCart = ({ navigation }) => {
                   />
                   <View style={{ flex: 1, padding: 10 }}>
                     <Text style={[styles.titletext]}>{item.name}</Text>
-                    <Text>{item.purpose}</Text>
+                    <Text numberOfLines={1}>{item.purpose}</Text>
                     <Text style={styles.innerText}>QTY: {item.qty}</Text>
                   </View>
                 </View>

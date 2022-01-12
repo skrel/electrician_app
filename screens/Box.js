@@ -12,25 +12,24 @@ import {
 import * as SQLite from "expo-sqlite";
 
 function openDatabase() {
-    if (Platform.OS === "web") {
-      return {
-        transaction: () => {
-          return {
-            executeSql: () => {},
-          };
-        },
-      };
-    }
-  
-    const db = SQLite.openDatabase("db.db");
-    return db;
+  if (Platform.OS === "web") {
+    return {
+      transaction: () => {
+        return {
+          executeSql: () => {},
+        };
+      },
+    };
   }
-  
-  const db = openDatabase();
+
+  const db = SQLite.openDatabase("db.db");
+  return db;
+}
+
+const db = openDatabase();
 
 const Box = (props) => {
-
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
   const [filteredDataSource, setFilteredDataSource] = useState([]);
   const [masterDataSource, setMasterDataSource] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
@@ -38,16 +37,16 @@ const Box = (props) => {
   const [forceUpdate] = useForceUpdate();
 
   //counter
-  const [counter, setCounter] = useState(0)
+  const [counter, setCounter] = useState(0);
 
   const handleClick1 = () => {
     // Counter state is incremented
-    setCounter(counter + 1)
-  }
+    setCounter(counter + 1);
+  };
 
   useEffect(() => {
     setLoading(true);
-    fetch('https://skrel.github.io/jsonapi/box.json') //change link
+    fetch("https://skrel.github.io/jsonapi/box.json") //change link
       .then((response) => response.json())
       .then((responseJson) => {
         setFilteredDataSource(responseJson);
@@ -62,9 +61,7 @@ const Box = (props) => {
   const searchFilterFunction = (text) => {
     if (text) {
       const newData = masterDataSource.filter(function (item) {
-        const itemData = item.name
-          ? item.name.toLowerCase()
-          : ''.toLowerCase();
+        const itemData = item.name ? item.name.toLowerCase() : "".toLowerCase();
         const textData = text.toLowerCase();
         return itemData.indexOf(textData) > -1;
       });
@@ -79,7 +76,10 @@ const Box = (props) => {
   const add = (item) => {
     db.transaction(
       (tx) => {
-        tx.executeSql("insert into cart (image, name, purpose, qty) values (?, ?, ?, ?)", [item.image, item.name, item.purpose, item.qty]);
+        tx.executeSql(
+          "insert into cart (image, name, purpose, qty) values (?, ?, ?, ?)",
+          [item.image, item.name, item.purpose, item.qty]
+        );
         tx.executeSql("select * from cart", [], (_, { rows }) =>
           console.log(JSON.stringify(rows))
         );
@@ -92,9 +92,9 @@ const Box = (props) => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
       <View style={{ flex: 1, padding: 10 }}>
-      <Text style={[styles.screenTitle]}>Box</Text>
+        <Text style={[styles.screenTitle]}>Box</Text>
         <Text style={[styles.textSmall]}>{counter} items added</Text>
-      <TextInput
+        <TextInput
           style={styles.textInputStyle}
           onChangeText={(text) => searchFilterFunction(text)}
           value={search}
@@ -109,14 +109,17 @@ const Box = (props) => {
             keyExtractor={({ id }) => id.toString()}
             renderItem={({ item }) => (
               <TouchableOpacity
-              onPress={() => {
-                setSelectedId(item.id), add(item), handleClick1();
-              }}
+                onPress={() => {
+                  setSelectedId(item.id), add(item), handleClick1();
+                }}
               >
                 <View
                   style={{ flex: 1, flexDirection: "row", marginBottom: 10 }}
                 >
-                  <Image style={{ width: 100, height: 100 }} source={{ uri: item.image}} />
+                  <Image
+                    style={{ width: 100, height: 100 }}
+                    source={{ uri: item.image }}
+                  />
                   <View style={{ flex: 1, padding: 10 }}>
                     <Text style={[styles.titletext]}>{item.name}</Text>
                     <Text>{item.purpose}</Text>
@@ -153,20 +156,20 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     paddingLeft: 20,
     margin: 5,
-    borderColor: '#009688',
-    backgroundColor: '#FFFFFF',
+    borderColor: "#009688",
+    backgroundColor: "#FFFFFF",
     borderRadius: 20,
   },
   textSmall: {
     //fontWeight: "bold",
     fontSize: 8,
-    textAlign: 'right'
+    textAlign: "right",
   },
   screenTitle: {
     margin: 2,
     padding: 10,
     fontSize: 40,
-    fontStyle: 'italic',
+    fontStyle: "italic",
     //textDecorationLine: 'underline',
   },
 });
