@@ -12,6 +12,7 @@ import {
   ScrollView,
 } from "react-native";
 import * as SQLite from "expo-sqlite";
+import Svg, { Circle, Rect, Line } from "react-native-svg";
 
 function openDatabase() {
   if (Platform.OS === "web") {
@@ -35,15 +36,35 @@ const Configurator = () => {
 
   const [boxIsEnabled, setBoxIsEnabled] = useState(false);
   const [bracketIsEnabled, setBracketIsEnabled] = useState(false);
-
-  const [isEnabled, setIsEnabled] = useState(false);
+  const [groundIsEnabled, setGroundIsEnabled] = useState(false);
+  const [mudringIsEnabled, setMudringIsEnabled] = useState(false);
+  const [extensionringIsEnabled, setExtensionringIsEnabled] = useState(false);
+  const [coverplateIsEnabled, setCoverplateIsEnabled] = useState(false);
+  const [deviceIsEnabled, setDeviceIsEnabled] = useState(false);
+  const [tlkoIsEnabled, setTlkoIsEnabled] = useState(false);
+  const [tckoIsEnabled, setTckoIsEnabled] = useState(false);
+  const [trkoIsEnabled, setTrkoIsEnabled] = useState(false);
 
   const boxToggleSwitch = () =>
     setBoxIsEnabled((previousState) => !previousState);
   const bracketToggleSwitch = () =>
     setBracketIsEnabled((previousState) => !previousState);
-
-  const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
+  const groundToggleSwitch = () =>
+    setGroundIsEnabled((previousState) => !previousState);
+  const mudringToggleSwitch = () =>
+    setMudringIsEnabled((previousState) => !previousState);
+  const extensionringToggleSwitch = () =>
+    setExtensionringIsEnabled((previousState) => !previousState);
+  const coverplateToggleSwitch = () =>
+    setCoverplateIsEnabled((previousState) => !previousState);
+  const deviceToggleSwitch = () =>
+    setDeviceIsEnabled((previousState) => !previousState);
+  const tlkoToggleSwitch = () =>
+    setTlkoIsEnabled((previousState) => !previousState);
+  const tckoToggleSwitch = () =>
+    setTckoIsEnabled((previousState) => !previousState);
+  const trkoToggleSwitch = () =>
+    setTrkoIsEnabled((previousState) => !previousState);
 
   //counter
   const [counter, setCounter] = useState(0);
@@ -74,7 +95,48 @@ const Configurator = () => {
       <Text style={[styles.screenTitle]}>Configurator</Text>
       <Text style={[styles.textSmall]}>{counter} items added</Text>
 
-      <View style={{ flex: 1, padding: 10 }}></View>
+      <View style={{ flex: 1, padding: 10 }}>
+        <Svg height="100%" width="100%">
+          {boxIsEnabled ? (
+            [
+              <Line
+                x1="100"
+                y1="100"
+                x2="100"
+                y2="250"
+                stroke="red"
+                strokeWidth="2"
+              />,
+              <Line
+                x1="250"
+                y1="100"
+                x2="250"
+                y2="250"
+                stroke="red"
+                strokeWidth="2"
+              />,
+              <Line
+                x1="100"
+                y1="250"
+                x2="250"
+                y2="250"
+                stroke="red"
+                strokeWidth="2"
+              />,
+              <Line
+                x1="100"
+                y1="100"
+                x2="250"
+                y2="100"
+                stroke="red"
+                strokeWidth="2"
+              />,
+            ]
+          ) : (
+            <Circle cx="10" cy="10" r="5" strokeWidth="2.5" fill="green" />
+          )}
+        </Svg>
+      </View>
 
       <View style={{ flex: 1, padding: 10 }}>
         <Text style={{ paddingLeft: 20, fontWeight: "bold", fontSize: 14 }}>
@@ -87,6 +149,25 @@ const Configurator = () => {
           }}
         />
         <ScrollView style={{ backgroundColor: "white" }}>
+
+        <View
+            style={styles.flexRow}
+            borderRadius="20"
+          >
+            <Text
+              style={{ paddingLeft: 20, fontStyle: "italic", fontSize: 22 }}
+            >
+              Assembly Name
+            </Text>
+            </View>
+            <View style={{ flex: 1 }}>
+              <TextInput
+                style={styles.input}
+                placeholder="Type Assembly Name here"
+                maxLength={18}
+              />
+              </View>
+
           <View
             style={styles.flexRow}
             backgroundColor="#e6e6e6"
@@ -97,11 +178,6 @@ const Configurator = () => {
             >
               Box
             </Text>
-            <TextInput
-              style={styles.inputHidden}
-              placeholder="Type here"
-              maxLength={18}
-            />
             <View style={styles.toggleSwitchContainer}>
               <Switch
                 trackColor={{ false: "#767577", true: "#81b0ff" }}
@@ -112,6 +188,22 @@ const Configurator = () => {
               />
             </View>
           </View>
+          <View style={{ flex: 1 }}>
+            {boxIsEnabled ? (
+              <TextInput
+                style={styles.input}
+                placeholder="Type box name here"
+                maxLength={18}
+              />
+            ) : (
+              <TextInput
+                style={styles.inputHidden}
+                placeholder="Type box name here"
+                maxLength={18}
+              />
+            )}
+          </View>
+
           <View style={styles.flexRow}>
             <Text
               style={{ paddingLeft: 20, fontStyle: "italic", fontSize: 22 }}
@@ -128,6 +220,22 @@ const Configurator = () => {
               />
             </View>
           </View>
+          <View style={{ flex: 1 }}>
+            {bracketIsEnabled ? (
+              <TextInput
+                style={styles.input}
+                placeholder="Type box name here"
+                maxLength={18}
+              />
+            ) : (
+              <TextInput
+                style={styles.inputHidden}
+                placeholder="Type box name here"
+                maxLength={18}
+              />
+            )}
+          </View>
+
           <View
             style={styles.flexRow}
             backgroundColor="#e6e6e6"
@@ -141,13 +249,29 @@ const Configurator = () => {
             <View style={styles.toggleSwitchContainer}>
               <Switch
                 trackColor={{ false: "#767577", true: "#81b0ff" }}
-                thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
+                thumbColor={groundIsEnabled ? "#f5dd4b" : "#f4f3f4"}
                 ios_backgroundColor="#3e3e3e"
-                onValueChange={toggleSwitch}
-                value={isEnabled}
+                onValueChange={groundToggleSwitch}
+                value={groundIsEnabled}
               />
             </View>
           </View>
+          <View style={{ flex: 1 }}>
+            {groundIsEnabled ? (
+              <TextInput
+                style={styles.input}
+                placeholder="Type box name here"
+                maxLength={18}
+              />
+            ) : (
+              <TextInput
+                style={styles.inputHidden}
+                placeholder="Type box name here"
+                maxLength={18}
+              />
+            )}
+          </View>
+
           <View style={styles.flexRow}>
             <Text
               style={{ paddingLeft: 20, fontStyle: "italic", fontSize: 22 }}
@@ -157,13 +281,29 @@ const Configurator = () => {
             <View style={styles.toggleSwitchContainer}>
               <Switch
                 trackColor={{ false: "#767577", true: "#81b0ff" }}
-                thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
+                thumbColor={mudringIsEnabled ? "#f5dd4b" : "#f4f3f4"}
                 ios_backgroundColor="#3e3e3e"
-                onValueChange={toggleSwitch}
-                value={isEnabled}
+                onValueChange={mudringToggleSwitch}
+                value={mudringIsEnabled}
               />
             </View>
           </View>
+          <View style={{ flex: 1 }}>
+            {mudringIsEnabled ? (
+              <TextInput
+                style={styles.input}
+                placeholder="Type box name here"
+                maxLength={18}
+              />
+            ) : (
+              <TextInput
+                style={styles.inputHidden}
+                placeholder="Type box name here"
+                maxLength={18}
+              />
+            )}
+          </View>
+
           <View
             style={styles.flexRow}
             backgroundColor="#e6e6e6"
@@ -177,13 +317,29 @@ const Configurator = () => {
             <View style={styles.toggleSwitchContainer}>
               <Switch
                 trackColor={{ false: "#767577", true: "#81b0ff" }}
-                thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
+                thumbColor={extensionringIsEnabled ? "#f5dd4b" : "#f4f3f4"}
                 ios_backgroundColor="#3e3e3e"
-                onValueChange={toggleSwitch}
-                value={isEnabled}
+                onValueChange={extensionringToggleSwitch}
+                value={extensionringIsEnabled}
               />
             </View>
           </View>
+          <View style={{ flex: 1 }}>
+            {extensionringIsEnabled ? (
+              <TextInput
+                style={styles.input}
+                placeholder="Type box name here"
+                maxLength={18}
+              />
+            ) : (
+              <TextInput
+                style={styles.inputHidden}
+                placeholder="Type box name here"
+                maxLength={18}
+              />
+            )}
+          </View>
+
           <View style={styles.flexRow}>
             <Text
               style={{ paddingLeft: 20, fontStyle: "italic", fontSize: 22 }}
@@ -193,13 +349,29 @@ const Configurator = () => {
             <View style={styles.toggleSwitchContainer}>
               <Switch
                 trackColor={{ false: "#767577", true: "#81b0ff" }}
-                thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
+                thumbColor={coverplateIsEnabled ? "#f5dd4b" : "#f4f3f4"}
                 ios_backgroundColor="#3e3e3e"
-                onValueChange={toggleSwitch}
-                value={isEnabled}
+                onValueChange={coverplateToggleSwitch}
+                value={coverplateIsEnabled}
               />
             </View>
           </View>
+          <View style={{ flex: 1 }}>
+            {coverplateIsEnabled ? (
+              <TextInput
+                style={styles.input}
+                placeholder="Type box name here"
+                maxLength={18}
+              />
+            ) : (
+              <TextInput
+                style={styles.inputHidden}
+                placeholder="Type box name here"
+                maxLength={18}
+              />
+            )}
+          </View>
+
           <View
             style={styles.flexRow}
             backgroundColor="#e6e6e6"
@@ -213,29 +385,61 @@ const Configurator = () => {
             <View style={styles.toggleSwitchContainer}>
               <Switch
                 trackColor={{ false: "#767577", true: "#81b0ff" }}
-                thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
+                thumbColor={deviceIsEnabled ? "#f5dd4b" : "#f4f3f4"}
                 ios_backgroundColor="#3e3e3e"
-                onValueChange={toggleSwitch}
-                value={isEnabled}
+                onValueChange={deviceToggleSwitch}
+                value={deviceIsEnabled}
               />
             </View>
           </View>
+          <View style={{ flex: 1 }}>
+            {deviceIsEnabled ? (
+              <TextInput
+                style={styles.input}
+                placeholder="Type box name here"
+                maxLength={18}
+              />
+            ) : (
+              <TextInput
+                style={styles.inputHidden}
+                placeholder="Type box name here"
+                maxLength={18}
+              />
+            )}
+          </View>
+
           <View style={styles.flexRow}>
             <Text
               style={{ paddingLeft: 20, fontStyle: "italic", fontSize: 22 }}
             >
-              Top left KO
+              Top Left KO
             </Text>
             <View style={styles.toggleSwitchContainer}>
               <Switch
                 trackColor={{ false: "#767577", true: "#81b0ff" }}
-                thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
+                thumbColor={tlkoIsEnabled ? "#f5dd4b" : "#f4f3f4"}
                 ios_backgroundColor="#3e3e3e"
-                onValueChange={toggleSwitch}
-                value={isEnabled}
+                onValueChange={tlkoToggleSwitch}
+                value={tlkoIsEnabled}
               />
             </View>
           </View>
+          <View style={{ flex: 1 }}>
+            {tlkoIsEnabled ? (
+              <TextInput
+                style={styles.input}
+                placeholder="Type box name here"
+                maxLength={18}
+              />
+            ) : (
+              <TextInput
+                style={styles.inputHidden}
+                placeholder="Type box name here"
+                maxLength={18}
+              />
+            )}
+          </View>
+
           <View
             style={styles.flexRow}
             backgroundColor="#e6e6e6"
@@ -249,13 +453,29 @@ const Configurator = () => {
             <View style={styles.toggleSwitchContainer}>
               <Switch
                 trackColor={{ false: "#767577", true: "#81b0ff" }}
-                thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
+                thumbColor={tckoIsEnabled ? "#f5dd4b" : "#f4f3f4"}
                 ios_backgroundColor="#3e3e3e"
-                onValueChange={toggleSwitch}
-                value={isEnabled}
+                onValueChange={tckoToggleSwitch}
+                value={tckoIsEnabled}
               />
             </View>
           </View>
+          <View style={{ flex: 1 }}>
+            {tckoIsEnabled ? (
+              <TextInput
+                style={styles.input}
+                placeholder="Type box name here"
+                maxLength={18}
+              />
+            ) : (
+              <TextInput
+                style={styles.inputHidden}
+                placeholder="Type box name here"
+                maxLength={18}
+              />
+            )}
+          </View>
+
           <View style={styles.flexRow}>
             <Text
               style={{ paddingLeft: 20, fontStyle: "italic", fontSize: 22 }}
@@ -265,12 +485,27 @@ const Configurator = () => {
             <View style={styles.toggleSwitchContainer}>
               <Switch
                 trackColor={{ false: "#767577", true: "#81b0ff" }}
-                thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
+                thumbColor={trkoIsEnabled ? "#f5dd4b" : "#f4f3f4"}
                 ios_backgroundColor="#3e3e3e"
-                onValueChange={toggleSwitch}
-                value={isEnabled}
+                onValueChange={trkoToggleSwitch}
+                value={trkoIsEnabled}
               />
             </View>
+          </View>
+          <View style={{ flex: 1 }}>
+            {trkoIsEnabled ? (
+              <TextInput
+                style={styles.input}
+                placeholder="Type box name here"
+                maxLength={18}
+              />
+            ) : (
+              <TextInput
+                style={styles.inputHidden}
+                placeholder="Type box name here"
+                maxLength={18}
+              />
+            )}
           </View>
 
           <TouchableOpacity style={styles.button}>
@@ -357,7 +592,7 @@ const styles = StyleSheet.create({
   inputHidden: {
     width: 0,
     height: 0,
-  }
+  },
 });
 
 export default Configurator;
