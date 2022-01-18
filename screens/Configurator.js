@@ -2,14 +2,15 @@ import React, { useState } from "react";
 import {
   View,
   Text,
-  FlatList,
   SafeAreaView,
   TouchableOpacity,
-  Image,
   StyleSheet,
   TextInput,
   Switch,
   ScrollView,
+  Keyboard,
+  TouchableWithoutFeedback,
+  KeyboardAvoidingView,
 } from "react-native";
 import * as SQLite from "expo-sqlite";
 import Svg, { Circle, Rect, Line } from "react-native-svg";
@@ -70,8 +71,36 @@ const Configurator = () => {
   const [itemName, setItemName] = React.useState(null);
   const [boxDescription, setBoxDescription] = useState("");
   const [bracketDescription, setBracketDescription] = useState("");
+  const [groundDescription, setGroundDescription] = useState("");
+  const [mudringDescription, setMudringDescription] = useState("");
+  const [extensionringDescription, setExtensionringDescription] = useState("");
+  const [coverplateDescription, setCoverplateDescription] = useState("");
+  const [deviceDescription, setDeviceDescription] = useState("");
+  const [tlkoDescription, setTlkoDescription] = useState("");
+  const [tckoDescription, setTckoDescription] = useState("");
+  const [trkoDescription, setTrkoDescription] = useState("");
+
   const itemDescription =
-    '{"box":"' + boxDescription + '","bracket":"' + bracketDescription + '"}';
+    '{"box":"' +
+    boxDescription +
+    '","bracket":"' +
+    bracketDescription +
+    '","ground":"' +
+    groundDescription +
+    '","mudring":"' +
+    mudringDescription +
+    '","extension_ring":"' +
+    extensionringDescription +
+    '","cover_plate":"' +
+    coverplateDescription +
+    '","device":"' +
+    deviceDescription +
+    '","top_lko":"' +
+    tlkoDescription +
+    '","top_cko":"' +
+    tckoDescription +
+    '","top_rko":"' +
+    trkoDescription + '}';
   const itemQty = "add quantity";
 
   //counter
@@ -99,64 +128,15 @@ const Configurator = () => {
   };
 
   return (
+
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
       <Text style={[styles.screenTitle]}>Configurator</Text>
       <Text style={[styles.textSmall]}>{counter} items added</Text>
 
       <View style={{ flex: 1, padding: 10 }}>
-        <Svg height="100%" width="100%">
-          {boxIsEnabled ? (
-            [
-              <Line
-                x1="100"
-                y1="100"
-                x2="100"
-                y2="250"
-                stroke="red"
-                strokeWidth="2"
-              />,
-              <Line
-                x1="250"
-                y1="100"
-                x2="250"
-                y2="250"
-                stroke="red"
-                strokeWidth="2"
-              />,
-              <Line
-                x1="100"
-                y1="250"
-                x2="250"
-                y2="250"
-                stroke="red"
-                strokeWidth="2"
-              />,
-              <Line
-                x1="100"
-                y1="100"
-                x2="250"
-                y2="100"
-                stroke="red"
-                strokeWidth="2"
-              />,
-            ]
-          ) : (
-            <Circle cx="10" cy="10" r="5" strokeWidth="2.5" fill="green" />
-          )}
-        </Svg>
-      </View>
 
-      <View style={{ flex: 1, padding: 10 }}>
-        <Text style={{ paddingLeft: 20, fontWeight: "bold", fontSize: 14 }}>
-          Build Your Assembly
-        </Text>
-        <View
-          style={{
-            borderBottomColor: "black",
-            borderBottomWidth: 1,
-          }}
-        />
-        <ScrollView style={{ backgroundColor: "white" }}>
+        <ScrollView style={{ backgroundColor: "white" }}> 
+
           <View style={styles.flexRow} borderRadius="20">
             <Text
               style={{ paddingLeft: 20, fontStyle: "italic", fontSize: 22 }}
@@ -164,6 +144,8 @@ const Configurator = () => {
               Assembly Name
             </Text>
           </View>
+
+          
           <View style={{ flex: 1 }}>
             <TextInput
               style={styles.input}
@@ -271,6 +253,8 @@ const Configurator = () => {
               <TextInput
                 style={styles.input}
                 placeholder="Type box name here"
+                onChangeText={(text) => setGroundDescription(text)}
+                value={groundDescription}
                 maxLength={18}
               />
             ) : (
@@ -303,6 +287,8 @@ const Configurator = () => {
               <TextInput
                 style={styles.input}
                 placeholder="Type box name here"
+                onChangeText={(text) => setMudringDescription(text)}
+                value={mudringDescription}
                 maxLength={18}
               />
             ) : (
@@ -339,6 +325,8 @@ const Configurator = () => {
               <TextInput
                 style={styles.input}
                 placeholder="Type box name here"
+                onChangeText={(text) => setExtensionringDescription(text)}
+                value={extensionringDescription}
                 maxLength={18}
               />
             ) : (
@@ -371,6 +359,8 @@ const Configurator = () => {
               <TextInput
                 style={styles.input}
                 placeholder="Type box name here"
+                onChangeText={(text) => setCoverplateDescription(text)}
+                value={coverplateDescription}
                 maxLength={18}
               />
             ) : (
@@ -407,6 +397,8 @@ const Configurator = () => {
               <TextInput
                 style={styles.input}
                 placeholder="Type box name here"
+                onChangeText={(text) => setDeviceDescription(text)}
+                value={deviceDescription}
                 maxLength={18}
               />
             ) : (
@@ -439,6 +431,8 @@ const Configurator = () => {
               <TextInput
                 style={styles.input}
                 placeholder="Type box name here"
+                onChangeText={(text) => setTlkoDescription(text)}
+                value={tlkoDescription}
                 maxLength={18}
               />
             ) : (
@@ -475,6 +469,8 @@ const Configurator = () => {
               <TextInput
                 style={styles.input}
                 placeholder="Type box name here"
+                onChangeText={(text) => setTckoDescription(text)}
+                value={tckoDescription}
                 maxLength={18}
               />
             ) : (
@@ -507,6 +503,8 @@ const Configurator = () => {
               <TextInput
                 style={styles.input}
                 placeholder="Type box name here"
+                onChangeText={(text) => setTrkoDescription(text)}
+                value={trkoDescription}
                 maxLength={18}
               />
             ) : (
@@ -526,9 +524,62 @@ const Configurator = () => {
           >
             <Text style={[styles.buttontext]}> Add Item </Text>
           </TouchableOpacity>
+
         </ScrollView>
+
       </View>
+
+      <View style={{ flex: 1, padding: 10 }}>
+        <Svg height="100%" width="100%">
+          {boxIsEnabled ? (
+            [
+              <Rect
+                key="box"
+                x="100"
+                y="100"
+                width="150"
+                height="150"
+                stroke="red"
+                strokeWidth="2"
+              />,
+            ]
+          ) : (
+            <Circle
+              key="zeroBox"
+              cx="10"
+              cy="10"
+              r="5"
+              strokeWidth="2.5"
+              fill="green"
+            />
+          )}
+          {bracketIsEnabled ? (
+            [
+              <Rect
+                key="bracket"
+                x="10"
+                y="165"
+                width="330"
+                height="25"
+                stroke="black"
+                strokeWidth="2"
+              />,
+            ]
+          ) : (
+            <Circle
+              key="zeroBracket"
+              cx="10"
+              cy="10"
+              r="5"
+              strokeWidth="2.5"
+              fill="green"
+            />
+          )}
+        </Svg>
+      </View>
+
     </SafeAreaView>
+
   );
 };
 

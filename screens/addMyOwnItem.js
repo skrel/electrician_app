@@ -10,6 +10,8 @@ import {
   Image,
   TextInput,
   Button,
+  Keyboard,
+  TouchableWithoutFeedback,
 } from "react-native";
 import * as SQLite from "expo-sqlite";
 
@@ -34,76 +36,82 @@ function openDatabase() {
 const db = openDatabase();
 
 function addMyOwnItem() {
-    const [forceUpdate] = useForceUpdate();
-    let itemImage = 'https://skrel.github.io/jsonapi/image/na.png';
-    const [itemName, setItemName] = React.useState(null);
-    const [itemDescription, setItemDescription] = useState('');
-    const [itemQuantity, setItemQuantity] = useState('');
+  const [forceUpdate] = useForceUpdate();
+  let itemImage = "https://skrel.github.io/jsonapi/image/na.png";
+  const [itemName, setItemName] = React.useState(null);
+  const [itemDescription, setItemDescription] = useState("");
+  const [itemQuantity, setItemQuantity] = useState("");
 
-      //counter
-  const [counter, setCounter] = useState(0)
+  //counter
+  const [counter, setCounter] = useState(0);
 
   const handleClick1 = () => {
     // Counter state is incremented
-    setCounter(counter + 1)
-  }
+    setCounter(counter + 1);
+  };
 
-    const addItem = () => {
-
-      db.transaction(
-        function (tx) {
-          tx.executeSql("insert into cart (image, name, purpose, qty) values (?,?,?,?)", 
-          [itemImage, itemName, itemDescription, itemQuantity]);
-          tx.executeSql("select * from cart", [], (_, { rows }) =>
-            console.log(JSON.stringify(rows))
-          );
-        },
-        null,
-        forceUpdate
-      );
-    };
+  const addItem = () => {
+    db.transaction(
+      function (tx) {
+        tx.executeSql(
+          "insert into cart (image, name, purpose, qty) values (?,?,?,?)",
+          [itemImage, itemName, itemDescription, itemQuantity]
+        );
+        tx.executeSql("select * from cart", [], (_, { rows }) =>
+          console.log(JSON.stringify(rows))
+        );
+      },
+      null,
+      forceUpdate
+    );
+  };
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
-      <View style={{ flex: 1, backgroundColor: "white", padding: 10 }}>
-      <Text style={[styles.screenTitle]}>Add Item</Text>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} 
+                                accessible={false}>
+        <View style={{ flex: 1, backgroundColor: "white", padding: 10 }}>
+          <Text style={[styles.screenTitle]}>Add Item</Text>
+          <Text style={[styles.textSmall]}>{counter} items added</Text>
+          <Text style={styles.titletext}>Name</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Type here"
+            onChangeText={(text) => setItemName(text)}
+            value={itemName}
+            maxLength={18}
+          />
 
-      <Text style={[styles.textSmall]}>{counter} items added</Text>
-        
-        <Text style={styles.titletext}>Name</Text>
-        <TextInput 
-        style={styles.input} 
-        placeholder="Type here" 
-        onChangeText={(text) => setItemName(text)}
-        value={itemName}
-        maxLength = {18}
-        />
+          <Text style={styles.titletext}>Description</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Type here"
+            onChangeText={(text) => setItemDescription(text)}
+            value={itemDescription}
+            maxLength={35}
+          />
 
-        <Text style={styles.titletext}>Description</Text>
-        <TextInput 
-        style={styles.input} 
-        placeholder="Type here" 
-        onChangeText={(text) => setItemDescription(text)}
-        value={itemDescription}
-        maxLength = {35}
-        />
-
-        <Text style={styles.titletext}>Quantity</Text>
-        <TextInput 
-        style={styles.input} 
-        placeholder="Type here" 
-        onChangeText={(text) => setItemQuantity(text)}
-        value={itemQuantity}
-        maxLength = {12}
-        />
-
-      </View>
+          <Text style={styles.titletext}>Quantity</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Type here"
+            onChangeText={(text) => setItemQuantity(text)}
+            value={itemQuantity}
+            maxLength={12}
+          />
+        </View>
+        </TouchableWithoutFeedback>
 
       <View style={styles.flexRow}>
-      <TouchableOpacity style={styles.button} onPress={() => {addItem(), handleClick1()}}>
-          <Text style={[styles.buttontext]} > Add Item </Text>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            addItem(), handleClick1();
+          }}
+        >
+          <Text style={[styles.buttontext]}> Add Item </Text>
         </TouchableOpacity>
-        </View>
+      </View>
     </SafeAreaView>
   );
 }
@@ -120,7 +128,7 @@ const styles = StyleSheet.create({
   buttontext: {
     fontWeight: "bold",
     fontSize: 14,
-    color: '#ffffff'
+    color: "#ffffff",
   },
   buttonDelete: {
     alignItems: "center",
@@ -183,13 +191,13 @@ const styles = StyleSheet.create({
   textSmall: {
     //fontWeight: "bold",
     fontSize: 8,
-    textAlign: 'right'
+    textAlign: "right",
   },
   screenTitle: {
     margin: 2,
     padding: 10,
     fontSize: 40,
-    fontStyle: 'italic',
+    fontStyle: "italic",
     //textDecorationLine: 'underline',
   },
 });

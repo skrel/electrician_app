@@ -10,8 +10,12 @@ import {
   TextInput,
   ScrollView,
   KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Keyboard,
+  Dimensions,
 } from "react-native";
 import * as SQLite from "expo-sqlite";
+import { borderTopColor } from "react-native/Libraries/Components/View/ReactNativeStyleAttributes";
 
 function openDatabase() {
   if (Platform.OS === "web") {
@@ -29,6 +33,8 @@ function openDatabase() {
 }
 
 const db = openDatabase();
+
+const { height } = Dimensions.get("window");
 
 function shopingCartItem({ route, navigation }) {
   const { itemId } = route.params;
@@ -88,39 +94,41 @@ function shopingCartItem({ route, navigation }) {
       >
         <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
           <Text style={[styles.screenTitle]}>Cart Item</Text>
+
+          <View style={styles.itemcard}>
+            <View style={styles.flexRow}>
+              <Text style={styles.titletext}>Quantity:</Text>
+              <View style={{flex:1, paddingLeft:20}}>
+              <TextInput
+                style={styles.input}
+                placeholder={JSON.stringify(qty)}
+                onChangeText={(text) => setText(text)}
+                onSubmitEditing={() => {
+                  addQty(text);
+                }}
+                maxLength={12}
+              />
+            </View>
+            </View>
+
+            <Text style={styles.titletext}>
+              Item Name: {JSON.stringify(value)}{" "}
+            </Text>
+            <Text style={styles.normaltext}>
+              Description {JSON.stringify(purpose)}
+            </Text>
+            <Text style={styles.normaltext}>
+              Residential and comersial construction. Can be used in assemblies
+              with other electrical items
+            </Text>
+          </View>
+
           <View style={styles.container}>
             <Image
               style={{ width: 250, height: 250 }}
               source={{ uri: image }}
             />
           </View>
-
-          <View style={styles.itemcard}>
-            <Text style={styles.titletext}>
-              Item Name: {JSON.stringify(value)}{" "}
-            </Text>
-            <Text style={styles.normaltext}>
-              Used for {JSON.stringify(purpose)}
-            </Text>
-            <Text style={styles.normaltext}>
-              Residential and comersial construction. Can be used in assemblies
-              with other electrical items
-            </Text>
-            <Text> </Text>
-            <Text style={styles.titletext}>Quantity</Text>
-
-            <TextInput
-              style={styles.input}
-              placeholder={JSON.stringify(qty)}
-              onChangeText={(text) => setText(text)}
-              onSubmitEditing={() => {
-                addQty(text);
-              }}
-              maxLength={12}
-            />
-          </View>
-
-          <View style={{ flex: 1 }} />
 
           <View style={styles.flexRow}>
             <TouchableOpacity style={styles.buttonDelete} onPress={deleteItem}>
@@ -149,6 +157,11 @@ function useForceUpdate() {
 const styles = StyleSheet.create({
   flexRow: {
     flexDirection: "row",
+  },
+  inner: {
+    padding: 24,
+    flex: 1,
+    justifyContent: "space-around",
   },
   buttontext: {
     fontWeight: "bold",
@@ -196,20 +209,16 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 10,
-    shadowColor: "#000000",
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowRadius: 5,
-    shadowOpacity: 1.0,
   },
   input: {
     height: 40,
     margin: 6,
     borderWidth: 1,
-    borderRadius: 20,
-    padding: 10,
+    borderBottomColor: "black",
+    borderTopColor: "white",
+    borderLeftColor: "white",
+    borderRightColor: "white",
+    alignSelf: 'stretch'
   },
   screenTitle: {
     margin: 2,

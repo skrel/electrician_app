@@ -34,7 +34,7 @@ const ShopingCart = ({ navigation }) => {
   let [flatListItems, setFlatListItems] = useState([]);
   const [forceUpdate] = useForceUpdate();
 
-  let emailString = JSON.stringify(flatListItems, ["name", "qty"]);
+  let emailString = JSON.stringify(flatListItems, ["name", "purpose", "qty"]);
   let newEmailtring = emailString.replace(/"/g, "");
 
 
