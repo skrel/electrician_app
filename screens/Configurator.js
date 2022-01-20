@@ -13,7 +13,7 @@ import {
   KeyboardAvoidingView,
 } from "react-native";
 import * as SQLite from "expo-sqlite";
-import Svg, { Circle, Rect, Line } from "react-native-svg";
+import Svg, { Circle, Rect, Line, Polygon } from "react-native-svg";
 
 function openDatabase() {
   if (Platform.OS === "web") {
@@ -81,26 +81,26 @@ const Configurator = () => {
   const [trkoDescription, setTrkoDescription] = useState("");
 
   const itemDescription =
-    '{"box":"' +
+    'box: ' +
     boxDescription +
-    '","bracket":"' +
+    ', bracket: ' +
     bracketDescription +
-    '","ground":"' +
+    ', ground: ' +
     groundDescription +
-    '","mudring":"' +
+    ', mudring: ' +
     mudringDescription +
-    '","extension_ring":"' +
+    ', extension ring: ' +
     extensionringDescription +
-    '","cover_plate":"' +
+    ', cover plate: ' +
     coverplateDescription +
-    '","device":"' +
+    ', device: ' +
     deviceDescription +
-    '","top_lko":"' +
+    ', top lko: ' +
     tlkoDescription +
-    '","top_cko":"' +
+    ', top cko: ' +
     tckoDescription +
-    '","top_rko":"' +
-    trkoDescription + '}';
+    ', top rko: ' +
+    trkoDescription ;
   const itemQty = "add quantity";
 
   //counter
@@ -128,15 +128,12 @@ const Configurator = () => {
   };
 
   return (
-
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
       <Text style={[styles.screenTitle]}>Configurator</Text>
       <Text style={[styles.textSmall]}>{counter} items added</Text>
 
       <View style={{ flex: 1, padding: 10 }}>
-
-        <ScrollView style={{ backgroundColor: "white" }}> 
-
+        <ScrollView style={{ backgroundColor: "white" }}>
           <View style={styles.flexRow} borderRadius="20">
             <Text
               style={{ paddingLeft: 20, fontStyle: "italic", fontSize: 22 }}
@@ -145,11 +142,11 @@ const Configurator = () => {
             </Text>
           </View>
 
-          
           <View style={{ flex: 1 }}>
             <TextInput
               style={styles.input}
-              placeholder="Type Assembly Name here"
+              //placeholder="Type Assembly Name here"
+              defaultValue='Assembly Name' 
               onChangeText={(text) => setItemName(text)}
               value={itemName}
               maxLength={18}
@@ -524,9 +521,7 @@ const Configurator = () => {
           >
             <Text style={[styles.buttontext]}> Add Item </Text>
           </TouchableOpacity>
-
         </ScrollView>
-
       </View>
 
       <View style={{ flex: 1, padding: 10 }}>
@@ -535,12 +530,13 @@ const Configurator = () => {
             [
               <Rect
                 key="box"
-                x="100"
-                y="100"
-                width="150"
-                height="150"
-                stroke="red"
-                strokeWidth="2"
+                x="125"
+                y="125"
+                width="100"
+                height="100"
+                //stroke="red"
+                //strokeWidth="2"
+                fill="#949494"
               />,
             ]
           ) : (
@@ -558,11 +554,12 @@ const Configurator = () => {
               <Rect
                 key="bracket"
                 x="10"
-                y="165"
+                y="170"
                 width="330"
-                height="25"
-                stroke="black"
-                strokeWidth="2"
+                height="12"
+                //stroke="black"
+                //strokeWidth="2"
+                fill="#949494"
               />,
             ]
           ) : (
@@ -575,11 +572,186 @@ const Configurator = () => {
               fill="green"
             />
           )}
+          {groundIsEnabled ? (
+            [
+              <Circle
+                key="groundCircle"
+                cx="135"
+                cy="135"
+                r="4"
+                //strokeWidth="2.5"
+                fill="green"
+              />,
+              <Rect
+                key="groundLine"
+                x="134"
+                y="134"
+                width="2"
+                height="80"
+                fill="green"
+              />,
+            ]
+          ) : (
+            <Circle
+              key="zeroGround"
+              cx="10"
+              cy="10"
+              r="5"
+              strokeWidth="2.5"
+              fill="green"
+            />
+          )}
+          {mudringIsEnabled ? (
+            [
+              <Rect
+                key="mudringRect"
+                x="155"
+                y="140"
+                width="40"
+                height="70"
+                fill="#9dc7fa"
+                opacity="1"
+              />,
+            ]
+          ) : (
+            <Circle
+              key="zeroMudring"
+              cx="10"
+              cy="10"
+              r="5"
+              strokeWidth="2.5"
+              fill="green"
+            />
+          )}
+          {extensionringIsEnabled ? (
+            [
+              <Rect
+                key="extringRect"
+                x="110"
+                y="110"
+                width="130"
+                height="130"
+                //fill="#9dc7fa"
+                stroke="#0019fc"
+                strokeWidth="2.5"
+                stroke-dasharray="5 20"
+              />,
+            ]
+          ) : (
+            <Circle
+              key="zeroExt"
+              cx="10"
+              cy="10"
+              r="5"
+              strokeWidth="2.5"
+              fill="green"
+            />
+          )}
+          {coverplateIsEnabled ? (
+            [
+              <Rect
+                key="coverRect"
+                x="120"
+                y="120"
+                width="110"
+                height="110"
+                //fill="#9dc7fa"
+                stroke="#fc0022"
+                strokeWidth="2.5"
+                stroke-dasharray="5 20"
+              />,
+            ]
+          ) : (
+            <Circle
+              key="zeroCover"
+              cx="10"
+              cy="10"
+              r="5"
+              strokeWidth="2.5"
+              fill="green"
+            />
+          )}
+          {deviceIsEnabled ? (
+            [
+              <Circle
+                key="deviceCirc"
+                cx="175"
+                cy="175"
+                r="5"
+                strokeWidth="2.5"
+                fill="#000000"
+              />,
+            ]
+          ) : (
+            <Circle
+              key="zeroDevice"
+              cx="10"
+              cy="10"
+              r="5"
+              strokeWidth="2.5"
+              fill="green"
+            />
+          )}
+          {tlkoIsEnabled ? (
+            [
+              <Polygon
+                key="tlkoPoly"
+                points="130,70 140,100 150,70"
+                strokeWidth="2.5"
+                fill="#ffaa00"
+              />,
+            ]
+          ) : (
+            <Circle
+              key="zeroTlko"
+              cx="10"
+              cy="10"
+              r="5"
+              strokeWidth="2.5"
+              fill="green"
+            />
+          )}
+          {tckoIsEnabled ? (
+            [
+              <Polygon
+                key="tckoPoly"
+                points="165,70 175,100 185,70"
+                strokeWidth="2.5"
+                fill="#ffaa00"
+              />,
+            ]
+          ) : (
+            <Circle
+              key="zeroTcko"
+              cx="10"
+              cy="10"
+              r="5"
+              strokeWidth="2.5"
+              fill="green"
+            />
+          )}
+          {trkoIsEnabled ? (
+            [
+              <Polygon
+                key="trkoPoly"
+                points="200,70 210,100 220,70"
+                strokeWidth="2.5"
+                fill="#ffaa00"
+              />,
+            ]
+          ) : (
+            <Circle
+              key="zeroTrko"
+              cx="10"
+              cy="10"
+              r="5"
+              strokeWidth="2.5"
+              fill="green"
+            />
+          )}
         </Svg>
       </View>
-
     </SafeAreaView>
-
   );
 };
 

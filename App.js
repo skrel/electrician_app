@@ -185,7 +185,7 @@ function HomeScreen({ navigation }) {
             style={styles.button}
             onPress={() => navigation.navigate("Configurator")}
           >
-            <Feather name="inbox" size={24} color="black" />
+            <MaterialIcons name="build" size={24} color="black" />
             <Text style={[styles.buttontext]}> Configurator </Text>
           </TouchableOpacity>
         </View>

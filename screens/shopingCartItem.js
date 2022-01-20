@@ -86,6 +86,9 @@ function shopingCartItem({ route, navigation }) {
     );
   };
 
+  let purposeString = JSON.stringify(purpose);
+  let purposeToDisplay = purposeString.replace(/,/g, "\n");
+
   return (
     <ScrollView style={{ flex: 1, backgroundColor: "white" }}>
       <KeyboardAvoidingView
@@ -101,7 +104,9 @@ function shopingCartItem({ route, navigation }) {
               <View style={{flex:1, paddingLeft:20}}>
               <TextInput
                 style={styles.input}
-                placeholder={JSON.stringify(qty)}
+                textAlign={'center'}
+                defaultValue={JSON.stringify(qty).replace(/"/g, "")}
+                //placeholder={JSON.stringify(qty)}
                 onChangeText={(text) => setText(text)}
                 onSubmitEditing={() => {
                   addQty(text);
@@ -115,7 +120,7 @@ function shopingCartItem({ route, navigation }) {
               Item Name: {JSON.stringify(value)}{" "}
             </Text>
             <Text style={styles.normaltext}>
-              Description {JSON.stringify(purpose)}
+              Description {purposeToDisplay}
             </Text>
             <Text style={styles.normaltext}>
               Residential and comersial construction. Can be used in assemblies
@@ -218,7 +223,8 @@ const styles = StyleSheet.create({
     borderTopColor: "white",
     borderLeftColor: "white",
     borderRightColor: "white",
-    alignSelf: 'stretch'
+    alignSelf: 'stretch',
+    fontSize: 30,
   },
   screenTitle: {
     margin: 2,
