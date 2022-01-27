@@ -2,7 +2,7 @@
   "expo": {
     "name": "electrician-app",
     "slug": "electrician-app",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "orientation": "portrait",
     "icon": "./assets/ios_logo.png",
     "splash": {
@@ -19,9 +19,10 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.skrel.electricianapp",
-      "buildNumber": "1.0.0"
+      "buildNumber": "1.2.0"
     },
     "android": {
+      "versionCode": 2,
       "adaptiveIcon": {
         "foregroundImage": "./assets/logo.png",
         "backgroundColor": "#FFFFFF"

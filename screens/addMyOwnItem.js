@@ -40,7 +40,9 @@ function addMyOwnItem() {
   let itemImage = "https://skrel.github.io/jsonapi/image/na.png";
   const [itemName, setItemName] = React.useState(null);
   const [itemDescription, setItemDescription] = useState("");
-  const [itemQuantity, setItemQuantity] = useState("");
+  //const [itemQuantity, setItemQuantity] = useState("");
+
+  let itemQuantity = 'add quantity';
 
   //counter
   const [counter, setCounter] = useState(0);
@@ -91,14 +93,6 @@ function addMyOwnItem() {
             maxLength={35}
           />
 
-          <Text style={styles.titletext}>Quantity</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Type here"
-            onChangeText={(text) => setItemQuantity(text)}
-            value={itemQuantity}
-            maxLength={12}
-          />
         </View>
         </TouchableWithoutFeedback>
 

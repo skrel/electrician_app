@@ -13,7 +13,7 @@ import {
   KeyboardAvoidingView,
 } from "react-native";
 import * as SQLite from "expo-sqlite";
-import Svg, { Circle, Rect, Line, Polygon } from "react-native-svg";
+import Svg, { Circle, Rect, Path, Polygon } from "react-native-svg";
 
 function openDatabase() {
   if (Platform.OS === "web") {
@@ -46,26 +46,26 @@ const Configurator = () => {
   const [tckoIsEnabled, setTckoIsEnabled] = useState(false);
   const [trkoIsEnabled, setTrkoIsEnabled] = useState(false);
 
-  const boxToggleSwitch = () =>
-    setBoxIsEnabled((previousState) => !previousState);
-  const bracketToggleSwitch = () =>
-    setBracketIsEnabled((previousState) => !previousState);
-  const groundToggleSwitch = () =>
-    setGroundIsEnabled((previousState) => !previousState);
-  const mudringToggleSwitch = () =>
-    setMudringIsEnabled((previousState) => !previousState);
-  const extensionringToggleSwitch = () =>
-    setExtensionringIsEnabled((previousState) => !previousState);
-  const coverplateToggleSwitch = () =>
-    setCoverplateIsEnabled((previousState) => !previousState);
-  const deviceToggleSwitch = () =>
-    setDeviceIsEnabled((previousState) => !previousState);
-  const tlkoToggleSwitch = () =>
-    setTlkoIsEnabled((previousState) => !previousState);
-  const tckoToggleSwitch = () =>
-    setTckoIsEnabled((previousState) => !previousState);
-  const trkoToggleSwitch = () =>
-    setTrkoIsEnabled((previousState) => !previousState);
+  // const boxToggleSwitch = () =>
+  //   setBoxIsEnabled((previousState) => !previousState);
+  // const bracketToggleSwitch = () =>
+  //   setBracketIsEnabled((previousState) => !previousState);
+  // const groundToggleSwitch = () =>
+  //   setGroundIsEnabled((previousState) => !previousState);
+  // const mudringToggleSwitch = () =>
+  //   setMudringIsEnabled((previousState) => !previousState);
+  // const extensionringToggleSwitch = () =>
+  //   setExtensionringIsEnabled((previousState) => !previousState);
+  // const coverplateToggleSwitch = () =>
+  //   setCoverplateIsEnabled((previousState) => !previousState);
+  // const deviceToggleSwitch = () =>
+  //   setDeviceIsEnabled((previousState) => !previousState);
+  // const tlkoToggleSwitch = () =>
+  //   setTlkoIsEnabled((previousState) => !previousState);
+  // const tckoToggleSwitch = () =>
+  //   setTckoIsEnabled((previousState) => !previousState);
+  // const trkoToggleSwitch = () =>
+  //   setTrkoIsEnabled((previousState) => !previousState);
 
   let itemImage = "https://skrel.github.io/jsonapi/image/na.png";
   const [itemName, setItemName] = React.useState(null);
@@ -81,26 +81,26 @@ const Configurator = () => {
   const [trkoDescription, setTrkoDescription] = useState("");
 
   const itemDescription =
-    'box: ' +
+    "box: " +
     boxDescription +
-    ', bracket: ' +
+    ", bracket: " +
     bracketDescription +
-    ', ground: ' +
+    ", ground: " +
     groundDescription +
-    ', mudring: ' +
+    ", mudring: " +
     mudringDescription +
-    ', extension ring: ' +
+    ", extension ring: " +
     extensionringDescription +
-    ', cover plate: ' +
+    ", cover plate: " +
     coverplateDescription +
-    ', device: ' +
+    ", device: " +
     deviceDescription +
-    ', top lko: ' +
+    ", top lko: " +
     tlkoDescription +
-    ', top cko: ' +
+    ", top cko: " +
     tckoDescription +
-    ', top rko: ' +
-    trkoDescription ;
+    ", top rko: " +
+    trkoDescription;
   const itemQty = "add quantity";
 
   //counter
@@ -128,7 +128,288 @@ const Configurator = () => {
   };
 
   return (
+    /*test*/
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+      <Text style={[styles.screenTitle]}>Configurator</Text>
+
+      <View style={{ flex: 1, padding: 10 }}>
+        <ScrollView style={{ backgroundColor: "white" }}>
+          <View style={styles.flexRow} borderRadius="20">
+            <Text
+              style={{ paddingLeft: 20, fontStyle: "italic", fontSize: 22 }}
+            >
+              Name
+            </Text>
+          </View>
+
+          <View style={{ flex: 1 }}>
+            <TextInput
+              style={styles.input}
+              //placeholder="Type Assembly Name here"
+              defaultValue="Assembly Name"
+              onChangeText={(text) => setItemName(text)}
+              value={itemName}
+              maxLength={18}
+            />
+          </View>
+
+          <View
+            style={styles.flexRow}
+            backgroundColor="#e6e6e6"
+            borderRadius="10"
+            borderColor='white'
+            borderWidth='2'
+          >
+            <Text
+              style={{ paddingLeft: 20, fontStyle: "italic", fontSize: 22 }}
+            >
+              Box
+            </Text>
+            <View style={styles.toggleSwitchContainer}>
+              <TouchableOpacity
+                style={styles.buttonForConfig}
+                onPress={() => setBoxIsEnabled(!boxIsEnabled)}
+              >
+                <Text style={[styles.buttontext]}> Add? </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          <View style={{ flex: 1 }}>
+            {boxIsEnabled ? (
+              <TextInput
+                style={styles.input}
+                placeholder="Type box name here"
+                onChangeText={(text) => setBoxDescription(text)}
+                value={boxDescription}
+                maxLength={18}
+              />
+            ) : null}
+          </View>
+
+          <View
+            style={styles.flexRow}
+            backgroundColor="#e6e6e6"
+            borderRadius="10"
+            borderColor='white'
+            borderWidth='2'
+          >
+            <Text
+              style={{ paddingLeft: 20, fontStyle: "italic", fontSize: 22 }}
+            >
+              Bracket
+            </Text>
+            <View style={styles.toggleSwitchContainer}>
+              <TouchableOpacity
+                style={styles.buttonForConfig}
+                onPress={() => setBoxIsEnabled(!boxIsEnabled)}
+              >
+                <Text style={[styles.buttontext]}> Add? </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          <View
+            style={styles.flexRow}
+            backgroundColor="#e6e6e6"
+            borderRadius="10"
+            borderColor='white'
+            borderWidth='2'
+          >
+            <Text
+              style={{ paddingLeft: 20, fontStyle: "italic", fontSize: 22 }}
+            >
+              Ground
+            </Text>
+            <View style={styles.toggleSwitchContainer}>
+              <TouchableOpacity
+                style={styles.buttonForConfig}
+                onPress={() => setBoxIsEnabled(!boxIsEnabled)}
+              >
+                <Text style={[styles.buttontext]}> Add? </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          <View
+            style={styles.flexRow}
+            backgroundColor="#e6e6e6"
+            borderRadius="10"
+            borderColor='white'
+            borderWidth='2'
+          >
+            <Text
+              style={{ paddingLeft: 20, fontStyle: "italic", fontSize: 22 }}
+            >
+              Mudring
+            </Text>
+            <View style={styles.toggleSwitchContainer}>
+              <TouchableOpacity
+                style={styles.buttonForConfig}
+                onPress={() => setBoxIsEnabled(!boxIsEnabled)}
+              >
+                <Text style={[styles.buttontext]}> Add? </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          <View
+            style={styles.flexRow}
+            backgroundColor="#e6e6e6"
+            borderRadius="10"
+            borderColor='white'
+            borderWidth='2'
+          >
+            <Text
+              style={{ paddingLeft: 20, fontStyle: "italic", fontSize: 22 }}
+            >
+              Extension Ring
+            </Text>
+            <View style={styles.toggleSwitchContainer}>
+              <TouchableOpacity
+                style={styles.buttonForConfig}
+                onPress={() => setBoxIsEnabled(!boxIsEnabled)}
+              >
+                <Text style={[styles.buttontext]}> Add? </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          <View
+            style={styles.flexRow}
+            backgroundColor="#e6e6e6"
+            borderRadius="10"
+            borderColor='white'
+            borderWidth='2'
+          >
+            <Text
+              style={{ paddingLeft: 20, fontStyle: "italic", fontSize: 22 }}
+            >
+              Cover Plate
+            </Text>
+            <View style={styles.toggleSwitchContainer}>
+              <TouchableOpacity
+                style={styles.buttonForConfig}
+                onPress={() => setBoxIsEnabled(!boxIsEnabled)}
+              >
+                <Text style={[styles.buttontext]}> Add? </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          <View
+            style={styles.flexRow}
+            backgroundColor="#e6e6e6"
+            borderRadius="10"
+            borderColor='white'
+            borderWidth='2'
+          >
+            <Text
+              style={{ paddingLeft: 20, fontStyle: "italic", fontSize: 22 }}
+            >
+              Device
+            </Text>
+            <View style={styles.toggleSwitchContainer}>
+              <TouchableOpacity
+                style={styles.buttonForConfig}
+                onPress={() => setBoxIsEnabled(!boxIsEnabled)}
+              >
+                <Text style={[styles.buttontext]}> Add? </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          <View
+            style={styles.flexRow}
+            backgroundColor="#e6e6e6"
+            borderRadius="10"
+            borderColor='white'
+            borderWidth='2'
+          >
+            <Text
+              style={{ paddingLeft: 20, fontStyle: "italic", fontSize: 22 }}
+            >
+              Top LKO
+            </Text>
+            <View style={styles.toggleSwitchContainer}>
+              <TouchableOpacity
+                style={styles.buttonForConfig}
+                onPress={() => setBoxIsEnabled(!boxIsEnabled)}
+              >
+                <Text style={[styles.buttontext]}> Add? </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          <View
+            style={styles.flexRow}
+            backgroundColor="#e6e6e6"
+            borderRadius="10"
+            borderColor='white'
+            borderWidth='2'
+          >
+            <Text
+              style={{ paddingLeft: 20, fontStyle: "italic", fontSize: 22 }}
+            >
+              Top CKO
+            </Text>
+            <View style={styles.toggleSwitchContainer}>
+              <TouchableOpacity
+                style={styles.buttonForConfig}
+                onPress={() => setBoxIsEnabled(!boxIsEnabled)}
+              >
+                <Text style={[styles.buttontext]}> Add? </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          <View
+            style={styles.flexRow}
+            backgroundColor="#e6e6e6"
+            borderRadius="10"
+            borderColor='white'
+            borderWidth='2'
+          >
+            <Text
+              style={{ paddingLeft: 20, fontStyle: "italic", fontSize: 22 }}
+            >
+              Top RKO
+            </Text>
+            <View style={styles.toggleSwitchContainer}>
+              <TouchableOpacity
+                style={styles.buttonForConfig}
+                onPress={() => setTrkoIsEnabled(!trkoIsEnabled)}
+              >
+                <Text style={[styles.buttontext]}> Add? </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          <View style={{ flex: 1 }}>
+            {trkoIsEnabled ? (
+              <TextInput
+                style={styles.input}
+                placeholder="Type RKO name here"
+                onChangeText={(text) => setTrkoDescription(text)}
+                value={trkoDescription}
+                maxLength={18}
+              />
+            ) : null}
+          </View>
+
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              add(), handleClick1();
+            }}
+          >
+            <Text style={[styles.buttontext]}> Add Item </Text>
+          </TouchableOpacity>
+
+        </ScrollView>
+      </View>
+    </SafeAreaView>
+
+    /*<SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
       <Text style={[styles.screenTitle]}>Configurator</Text>
       <Text style={[styles.textSmall]}>{counter} items added</Text>
 
@@ -528,7 +809,7 @@ const Configurator = () => {
         <Svg height="100%" width="100%">
           {boxIsEnabled ? (
             [
-              <Rect
+              <Path
                 key="box"
                 x="125"
                 y="125"
@@ -551,7 +832,7 @@ const Configurator = () => {
           )}
           {bracketIsEnabled ? (
             [
-              <Rect
+              <Path
                 key="bracket"
                 x="10"
                 y="170"
@@ -582,7 +863,7 @@ const Configurator = () => {
                 //strokeWidth="2.5"
                 fill="green"
               />,
-              <Rect
+              <Path
                 key="groundLine"
                 x="134"
                 y="134"
@@ -603,7 +884,7 @@ const Configurator = () => {
           )}
           {mudringIsEnabled ? (
             [
-              <Rect
+              <Path
                 key="mudringRect"
                 x="155"
                 y="140"
@@ -625,7 +906,7 @@ const Configurator = () => {
           )}
           {extensionringIsEnabled ? (
             [
-              <Rect
+              <Path
                 key="extringRect"
                 x="110"
                 y="110"
@@ -649,7 +930,7 @@ const Configurator = () => {
           )}
           {coverplateIsEnabled ? (
             [
-              <Rect
+              <Path
                 key="coverRect"
                 x="120"
                 y="120"
@@ -751,7 +1032,7 @@ const Configurator = () => {
           )}
         </Svg>
       </View>
-    </SafeAreaView>
+    </SafeAreaView> */
   );
 };
 
@@ -830,6 +1111,22 @@ const styles = StyleSheet.create({
   inputHidden: {
     width: 0,
     height: 0,
+  },
+  buttonForConfig: {
+    alignItems: "center",
+    backgroundColor: "#dba400",
+    flex: 0.2,
+    height: 30,
+    marginRight: 20,
+    padding: 6,
+    borderRadius: 10,
+    shadowColor: "#000000",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowRadius: 2,
+    shadowOpacity: 0.5,
   },
 });
 
