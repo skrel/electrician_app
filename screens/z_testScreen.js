@@ -28,7 +28,7 @@ function openDatabase() {
 
 const db = openDatabase();
 
-const Configurator = () => {
+const z_testScreen = () => {
   const [forceUpdate] = useForceUpdate();
   const itemImage = "https://skrel.github.io/jsonapi/image/na.png";
   const itemQty = "add quantity";
@@ -583,4 +583,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Configurator;
+export default z_testScreen;

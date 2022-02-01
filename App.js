@@ -30,6 +30,7 @@ import Connector from "./screens/Connector.js";
 import ExtensionRing from "./screens/ExtensionRing.js";
 import Assembly from "./screens/Assembly.js";
 import Configurator from "./screens/Configurator.js";
+//import z_testScreen from "./screens/z_testScreen.js";
 
 //expo icons
 import { Feather } from "@expo/vector-icons";
@@ -193,7 +194,7 @@ function HomeScreen({ navigation }) {
         <View style={styles.flexRow}>
         <TouchableOpacity
             style={styles.invisibleButton}
-            //onPress={() => navigation.navigate("Assembly")}
+            //onPress={() => navigation.navigate("z_testScreen")}
           ></TouchableOpacity>
                     <TouchableOpacity
             style={styles.invisibleButton}
@@ -449,6 +450,22 @@ function App() {
             },
           }}
         />
+        
+        {/* <Stack.Screen
+          name="z_testScreen"
+          component={z_testScreen}
+          options={{
+            title: "",
+            headerShadowVisible: false,
+            headerStyle: {
+              borderBottomColor: "transparent",
+              shadowColor: "transparent",
+              borderBottomWidth: 0,
+              elevation: 0,
+            },
+          }}
+        /> */}
+
       </Stack.Navigator>
     </NavigationContainer>
   );
