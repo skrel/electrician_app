@@ -19,7 +19,7 @@ import ShopingCart from "./screens/shopingCart.js";
 import shopingCartItem from "./screens/shopingCartItem.js";
 import Box from "./screens/Box.js";
 import Bracket from "./screens/Bracket.js";
-import Info from "./screens/Info.js";
+import Profile from "./screens/Profile.js";
 import Accessories from "./screens/Accessories.js";
 import Device from "./screens/Device.js";
 import addMyOwnItem from "./screens/addMyOwnItem.js";
@@ -30,13 +30,8 @@ import Connector from "./screens/Connector.js";
 import ExtensionRing from "./screens/ExtensionRing.js";
 import Assembly from "./screens/Assembly.js";
 import Configurator from "./screens/Configurator.js";
+import HomeScreen from "./screens/Home.js";
 //import z_testScreen from "./screens/z_testScreen.js";
-
-//expo icons
-import { Feather } from "@expo/vector-icons";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { FontAwesome5 } from "@expo/vector-icons";
-import { MaterialIcons } from "@expo/vector-icons";
 
 function openDatabase() {
   if (Platform.OS === "web") {
@@ -55,7 +50,10 @@ function openDatabase() {
 
 const db = openDatabase();
 
-function HomeScreen({ navigation }) {
+const Stack = createNativeStackNavigator();
+
+function App() {
+
   //create a table
   React.useEffect(() => {
     db.transaction((tx) => {
@@ -65,152 +63,6 @@ function HomeScreen({ navigation }) {
     });
   }, []);
 
-  return (
-    <ScrollView style={{ backgroundColor: "white" }}>
-      <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
-        <Text style={[styles.screenTitle]}>Home</Text>
-        <Text style={{ paddingLeft: 20, fontWeight: "bold", fontSize: 14 }}>
-          Parts
-        </Text>
-        <View
-          style={{
-            borderBottomColor: "black",
-            borderBottomWidth: 1,
-          }}
-        />
-        <View style={styles.flexRow}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigation.navigate("Wire")}
-          >
-            <MaterialCommunityIcons name="cable-data" size={24} color="black" />
-            <Text style={[styles.buttontext]}> Wire </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigation.navigate("Box")}
-          >
-            <Feather name="box" size={24} color="black" />
-            <Text style={[styles.buttontext]}> Box </Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.flexRow}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigation.navigate("Bracket")}
-          >
-            <MaterialCommunityIcons
-              name="code-brackets"
-              size={24}
-              color="black"
-            />
-            <Text style={[styles.buttontext]}> Bracket </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigation.navigate("Device")}
-          >
-            <MaterialIcons name="outlet" size={24} color="black" />
-            <Text style={[styles.buttontext]}> Device </Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.flexRow}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigation.navigate("Connector")}
-          >
-            <MaterialCommunityIcons name="power-plug" size={24} color="black" />
-            <Text style={[styles.buttontext]}> Connector </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigation.navigate("Extension Ring")}
-          >
-            <FontAwesome5 name="ring" size={24} color="black" />
-            <Text style={[styles.buttontext]}> Extension Ring </Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.flexRow}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigation.navigate("Conduit")}
-          >
-            <FontAwesome5 name="grip-lines" size={24} color="black" />
-            <Text style={[styles.buttontext]}> Conduit </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigation.navigate("Accessories")}
-          >
-            <Feather name="more-horizontal" size={24} color="black" />
-            <Text style={[styles.buttontext]}> Accessories </Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.flexRow}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigation.navigate("Panel")}
-          >
-            <FontAwesome5 name="solar-panel" size={24} color="black" />
-            <Text style={[styles.buttontext]}> Panel </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.invisibleButton}
-            //onPress={() => navigation.navigate("Assembly")}
-          ></TouchableOpacity>
-        </View>
-
-        <Text style={{ paddingLeft: 20, fontWeight: "bold", fontSize: 14 }}>
-          Assemblies
-        </Text>
-        <View
-          style={{
-            borderBottomColor: "black",
-            borderBottomWidth: 1,
-          }}
-        />
-
-        <View style={styles.flexRow}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigation.navigate("Assembly")}
-          >
-            <Feather name="inbox" size={24} color="black" />
-            <Text style={[styles.buttontext]}> Assembly </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigation.navigate("Configurator")}
-          >
-            <MaterialIcons name="build" size={24} color="black" />
-            <Text style={[styles.buttontext]}> Configurator </Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.flexRow}>
-        <TouchableOpacity
-            style={styles.invisibleButton}
-            //onPress={() => navigation.navigate("z_testScreen")}
-          ></TouchableOpacity>
-                    <TouchableOpacity
-            style={styles.invisibleButton}
-            //onPress={() => navigation.navigate("Assembly")}
-          ></TouchableOpacity>
-        </View>
-
-
-      </SafeAreaView>
-    </ScrollView>
-  );
-}
-
-const Stack = createNativeStackNavigator();
-
-function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -226,8 +78,8 @@ function App() {
             ),
             headerLeft: () => (
               <Button
-                title="Info"
-                onPress={() => navigation.navigate("Info")}
+                title="Profile"
+                onPress={() => navigation.navigate("Profile")}
               />
             ),
             title: "",
@@ -241,8 +93,8 @@ function App() {
           })}
         />
         <Stack.Screen
-          name="Info"
-          component={Info}
+          name="Profile"
+          component={Profile}
           options={{
             title: "",
             headerShadowVisible: false,
@@ -452,8 +304,8 @@ function App() {
         />
         
         {/* <Stack.Screen
-          name="z_testScreen"
-          component={z_testScreen}
+          name="Home"
+          component={HomeScreen}
           options={{
             title: "",
             headerShadowVisible: false,
