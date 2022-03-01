@@ -124,6 +124,7 @@ const Box = (props) => {
                     <Text style={[styles.titletext]}>{item.name}</Text>
                     <Text>{item.purpose}</Text>
                     <Text>{item.website}</Text>
+                    <Text style={{ backgroundColor: "#438a48", color: "#ffffff", width: 70, textAlign: 'center', fontStyle: 'italic' }}>{item.price}</Text>
                   </View>
                 </View>
               </TouchableOpacity>
