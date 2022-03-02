@@ -121,7 +121,7 @@ const Accessories = (props) => {
                     <Text style={[styles.titletext]}>{item.name}</Text>
                     <Text>{item.purpose}</Text>
                     <Text>{item.website}</Text>
-                    <Text style={{ backgroundColor: "#438a48", color: "#ffffff", width: 70, textAlign: 'center', fontStyle: 'italic' }}>{item.price}</Text>
+                    <Text style={[styles.price]}>{item.price}</Text>
                   </View>
                 </View>
               </TouchableOpacity>
@@ -169,6 +169,16 @@ const styles = StyleSheet.create({
     fontSize: 40,
     fontStyle: 'italic',
     //textDecorationLine: 'underline',
+  },
+  price: {
+    backgroundColor: "#d4c00d",
+    color: "#ffffff",
+    //width: 80,
+    maxWidth:80,
+    textAlign: 'center',
+    fontStyle: 'italic',
+    fontSize: 9,
+    fontWeight: 'bold',
   },
 });
 

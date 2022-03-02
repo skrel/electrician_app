@@ -13,6 +13,11 @@ import * as SQLite from "expo-sqlite";
 
 import { sendEmail } from "../components/sendEmail.js";
 
+import { AntDesign } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
+
 function openDatabase() {
   if (Platform.OS === "web") {
     return {
@@ -107,26 +112,35 @@ const ShopingCart = ({ navigation }) => {
                     <Text style={[styles.titletext]}>{item.name}</Text>
                     <Text numberOfLines={1}>{item.purpose}</Text>
                     <Text style={styles.innerText}>QTY: {item.qty}</Text>
+                    <Text style={[styles.price]}>Sign In For Price</Text>
                   </View>
                 </View>
               </TouchableOpacity>
             )}
           />
+          <Text style={[styles.screenTitle]}>Total: $ XX.XX</Text>
 
           <View style={styles.flexRow}>
-            <TouchableOpacity style={styles.buttonDelete} onPress={clear}>
-              <Text style={styles.buttontext}>Delete All</Text>
+            <TouchableOpacity style={styles.buttonDeck} onPress={clear}>
+            <AntDesign name="delete" size={24} color="black" />
+              <Text style={styles.buttontext}>Empty</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
-              style={styles.buttonadd}
+              style={styles.buttonDeck}
               onPress={() => navigation.navigate("Add My Own Item")}
             >
+              <Entypo name="add-to-list" size={24} color="black" />
               <Text style={styles.buttontext}>Add</Text>
             </TouchableOpacity>
 
+            <TouchableOpacity style={styles.buttonDeck} onPress={() => navigation.navigate("See All")}>
+            <Ionicons name="file-tray-full-outline" size={24} color="black" />
+              <Text style={styles.buttontext}>See All</Text>
+            </TouchableOpacity>
+
             <TouchableOpacity
-              style={styles.buttonsend}
+              style={styles.buttonDeck}
               onPress={() => {
                 sendEmail(
                   "",
@@ -139,6 +153,7 @@ const ShopingCart = ({ navigation }) => {
                 });
               }}
             >
+              <MaterialCommunityIcons name="email-send-outline" size={24} color="black" />
               <Text style={styles.buttontext}>Email</Text>
             </TouchableOpacity>
           </View>
@@ -158,41 +173,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   buttontext: {
-    fontWeight: "bold",
-    fontSize: 14,
-    color: "#ffffff",
-  },
-  buttonsend: {
-    alignItems: "center",
-    backgroundColor: "#002fff",
-    flex: 1,
-    height: 42,
-    margin: 16,
-    padding: 10,
-    borderRadius: 10,
-    shadowColor: "#000000",
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowRadius: 2,
-    shadowOpacity: 0.5,
-  },
-  buttonadd: {
-    alignItems: "center",
-    backgroundColor: "#438a48",
-    flex: 1,
-    height: 42,
-    margin: 16,
-    padding: 10,
-    borderRadius: 10,
-    shadowColor: "#000000",
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowRadius: 2,
-    shadowOpacity: 0.5,
+    //fontWeight: "bold",
+    fontSize: 10,
+    marginTop: 2,
+    color: "#000000",
   },
   innerText: {
     color: "#0000ff",
@@ -202,9 +186,9 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 16,
   },
-  buttonDelete: {
+  buttonDeck: {
     alignItems: "center",
-    backgroundColor: "#ff0000",
+    backgroundColor: "#ffffff",
     flex: 1,
     height: 42,
     margin: 16,
@@ -217,6 +201,22 @@ const styles = StyleSheet.create({
     fontSize: 40,
     fontStyle: "italic",
     //textDecorationLine: 'underline',
+  },
+  price: {
+    backgroundColor: "#d4c00d",
+    color: "#ffffff",
+    //width: 80,
+    maxWidth:80,
+    textAlign: 'center',
+    fontStyle: 'italic',
+    fontSize: 9,
+    fontWeight: 'bold',
+  },
+  totalPrice: {
+    fontWeight: "bold",
+    fontSize: 16,
+    textAlignVertical: 'bottom',
+    marginTop: 10,
   },
 });
 

@@ -31,6 +31,7 @@ import ExtensionRing from "./screens/ExtensionRing.js";
 import Assembly from "./screens/Assembly.js";
 import Configurator from "./screens/Configurator.js";
 import HomeScreen from "./screens/Home.js";
+import SeeAll from "./screens/seeAll.js";
 //import z_testScreen from "./screens/z_testScreen.js";
 
 function openDatabase() {
@@ -303,9 +304,9 @@ function App() {
           }}
         />
         
-        {/* <Stack.Screen
-          name="Home"
-          component={HomeScreen}
+        <Stack.Screen
+          name="See All"
+          component={SeeAll}
           options={{
             title: "",
             headerShadowVisible: false,
@@ -316,7 +317,7 @@ function App() {
               elevation: 0,
             },
           }}
-        /> */}
+        />
 
       </Stack.Navigator>
     </NavigationContainer>
