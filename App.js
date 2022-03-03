@@ -32,6 +32,8 @@ import Assembly from "./screens/Assembly.js";
 import Configurator from "./screens/Configurator.js";
 import HomeScreen from "./screens/Home.js";
 import SeeAll from "./screens/seeAll.js";
+import FireAlarm from "./screens/fireAlarm.js";
+import Other from "./screens/Other.js";
 //import z_testScreen from "./screens/z_testScreen.js";
 
 function openDatabase() {
@@ -307,6 +309,36 @@ function App() {
         <Stack.Screen
           name="See All"
           component={SeeAll}
+          options={{
+            title: "",
+            headerShadowVisible: false,
+            headerStyle: {
+              borderBottomColor: "transparent",
+              shadowColor: "transparent",
+              borderBottomWidth: 0,
+              elevation: 0,
+            },
+          }}
+        />
+
+<Stack.Screen
+          name="Fire Alarm"
+          component={FireAlarm}
+          options={{
+            title: "",
+            headerShadowVisible: false,
+            headerStyle: {
+              borderBottomColor: "transparent",
+              shadowColor: "transparent",
+              borderBottomWidth: 0,
+              elevation: 0,
+            },
+          }}
+        />
+
+<Stack.Screen
+          name="Other"
+          component={Other}
           options={{
             title: "",
             headerShadowVisible: false,

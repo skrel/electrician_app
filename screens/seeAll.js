@@ -67,7 +67,7 @@ const SeeAll = ({ navigation }) => {
               }}
             >
               <Image
-                style={{ width: 100, height: 100 }}
+                style={{ width: 100, height: 100, marginTop: 20 }}
                 source={{ uri: item.image }}
               />
               <View style={{ flex: 1, padding: 10 }}>
@@ -78,17 +78,17 @@ const SeeAll = ({ navigation }) => {
                     fontStyle: "italic",
                   }}
                 >
-                  Spoolsheet OAR-0190
+                  Spoolsheet
                 </Text>
                 <Text style={{ fontWeight: "bold", borderTopWidth: 5 }}>
                   Name:
                 </Text>
                 <Text>{item.name}</Text>
-              
+
                 <Text style={{ fontWeight: "bold", borderTopWidth: 5 }}>
                   Description:
                 </Text>
-                <Text>{item.purpose}</Text>
+                <Text>{item.purpose.replace(/,/g, "\n")}</Text>
                 <Text style={{ fontWeight: "bold", borderTopWidth: 5 }}>
                   Quantity:
                 </Text>
@@ -97,19 +97,19 @@ const SeeAll = ({ navigation }) => {
                 <Text style={{ fontWeight: "bold", borderTopWidth: 5 }}>
                   Total Cost:
                 </Text>
-                <Text>Sign In For Price</Text>
+                <Text style={[styles.price]}>Sign In For Price</Text>
                 <Text style={{ fontWeight: "bold", borderTopWidth: 5 }}>
                   Suppliers:
                 </Text>
-                <Text>Sign In For Supplier</Text>
+                <Text style={[styles.suppliers]}>Sign In For Supplier</Text>
                 <Text style={{ fontWeight: "bold", borderTopWidth: 5 }}>
                   Locations:
                 </Text>
-                <Text>Sign In For Geilocation</Text>
+                <Text style={[styles.location]}>Sign In For Geolocation</Text>
                 <Text style={{ fontWeight: "bold", borderTopWidth: 5 }}>
                   Catalog:
                 </Text>
-                <Text>Sign In For Catalog</Text>
+                <Text style={[styles.catalog]}>Sign In For Catalog</Text>
                 <Text style={{ fontWeight: "bold", borderTopWidth: 5 }}>
                   More:
                 </Text>
@@ -133,6 +133,60 @@ const styles = StyleSheet.create({
     fontSize: 40,
     fontStyle: "italic",
     //textDecorationLine: 'underline',
+  },
+  price: {
+    backgroundColor: "#d4c00d",
+    color: "#ffffff",
+    //width: 80,
+    maxWidth: 80,
+    textAlign: "center",
+    fontStyle: "italic",
+    fontSize: 9,
+    fontWeight: "bold",
+  },
+  suppliers: {
+    backgroundColor: "#7900ad",
+    color: "#ffffff",
+    //width: 80,
+    maxWidth: 100,
+    textAlign: "center",
+    fontStyle: "italic",
+    fontSize: 9,
+    fontWeight: "bold",
+  },
+  location: {
+    backgroundColor: "#0006ad",
+    color: "#ffffff",
+    //width: 80,
+    maxWidth: 100,
+    textAlign: "center",
+    fontStyle: "italic",
+    fontSize: 9,
+    fontWeight: "bold",
+  },
+  catalog: {
+    backgroundColor: "#ad0000",
+    color: "#ffffff",
+    //width: 80,
+    maxWidth: 100,
+    textAlign: "center",
+    fontStyle: "italic",
+    fontSize: 9,
+    fontWeight: "bold",
+  },
+  buttonDeck: {
+    alignItems: "center",
+    backgroundColor: "#438a48",
+    flex: 1,
+    height: 42,
+    margin: 16,
+    padding: 10,
+    borderRadius: 10,
+  },
+  buttontext: {
+    fontWeight: "bold",
+    fontSize: 14,
+    color: "#ffffff",
   },
 });
 

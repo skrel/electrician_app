@@ -15,6 +15,7 @@ import { Feather } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
+import { FontAwesome } from '@expo/vector-icons';
 
 const HomeScreen = ({ navigation }) => {
   return (
@@ -111,9 +112,27 @@ const HomeScreen = ({ navigation }) => {
             <Text style={[styles.buttontext]}> Panel </Text>
           </TouchableOpacity>
           <TouchableOpacity
+            style={styles.button}
+            onPress={() => navigation.navigate("Fire Alarm")}
+          >
+            <FontAwesome name="fire-extinguisher" size={24} color="black" />
+            <Text style={[styles.buttontext]}> Fire Alarm </Text>
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.flexRow}>
+          <TouchableOpacity
+            style={styles.button}
+            //onPress={() => navigation.navigate("Panel")}
+          >
+            <FontAwesome5 name="solar-panel" size={24} color="black" />
+            <Text style={[styles.buttontext]}> Other </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
             style={styles.invisibleButton}
-            //onPress={() => navigation.navigate("Assembly")}
-          ></TouchableOpacity>
+            //onPress={() => navigation.navigate("Fire Alarm")}
+          >
+          </TouchableOpacity>
         </View>
 
         <Text style={{ paddingLeft: 20, fontWeight: "bold", fontSize: 14 }}>
