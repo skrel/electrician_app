@@ -47,7 +47,7 @@ const ShopingCart = ({ navigation }) => {
     const unsubscribe = navigation.addListener("focus", () => {
       db.transaction((tx) => {
         tx.executeSql("select * from cart", [], (tx, results) => {
-          var temp = [];
+          let temp = [];
           for (let i = 0; i < results.rows.length; ++i)
             temp.push(results.rows.item(i));
           setFlatListItems(temp);
