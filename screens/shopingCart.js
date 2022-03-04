@@ -118,7 +118,7 @@ const ShopingCart = ({ navigation }) => {
               </TouchableOpacity>
             )}
           />
-          <Text style={[styles.screenTitle]}>Total: $ XX.XX</Text>
+          <Text style={[styles.totalPrice]}>Total: $ XXXX.XX</Text>
 
           <View style={styles.flexRow}>
             <TouchableOpacity style={styles.buttonDeck} onPress={clear}>

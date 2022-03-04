@@ -91,20 +91,16 @@ function shopingCartItem({ route, navigation }) {
 
   return (
     <ScrollView style={{ flex: 1, backgroundColor: "white" }}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={{ flex: 1 }}
-      >
-        <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
-          <Text style={[styles.screenTitle]}>Cart Item</Text>
+      <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+        <Text style={[styles.screenTitle]}>Cart Item</Text>
 
-          <View style={styles.itemcard}>
-            <View style={styles.flexRow}>
-              <Text style={styles.titletext}>Quantity:</Text>
-              <View style={{flex:1, paddingLeft:20}}>
+        <View style={styles.itemcard}>
+          <View style={styles.flexRow}>
+            <Text style={styles.titletext}>Quantity:</Text>
+            <View style={{ flex: 1, paddingLeft: 20 }}>
               <TextInput
                 style={styles.input}
-                textAlign={'center'}
+                textAlign={"center"}
                 defaultValue={JSON.stringify(qty).replace(/"/g, "")}
                 //placeholder={JSON.stringify(qty)}
                 onChangeText={(text) => setText(text)}
@@ -114,42 +110,36 @@ function shopingCartItem({ route, navigation }) {
                 maxLength={12}
               />
             </View>
-            </View>
-
-            <Text style={styles.titletext}>
-              Item Name: {JSON.stringify(value)}{" "}
-            </Text>
-            <Text style={styles.normaltext}>
-              Description {purposeToDisplay}
-            </Text>
-            <Text style={styles.normaltext}>
-              Residential and comersial construction. Can be used in assemblies
-              with other electrical items
-            </Text>
           </View>
 
-          <View style={styles.container}>
-            <Image
-              style={{ width: 250, height: 250 }}
-              source={{ uri: image }}
-            />
-          </View>
+          <Text style={styles.titletext}>
+            Item Name: {JSON.stringify(value)}{" "}
+          </Text>
+          <Text style={styles.normaltext}>Description {purposeToDisplay}</Text>
+          <Text style={styles.normaltext}>
+            Residential and comersial construction. Can be used in assemblies
+            with other electrical items
+          </Text>
+        </View>
 
-          <View style={styles.flexRow}>
-            <TouchableOpacity style={styles.buttonDelete} onPress={deleteItem}>
-              <Text style={[styles.buttontext]}> Delete Item </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => {
-                addQty(text);
-              }}
-            >
-              <Text style={[styles.buttontext]}> Update Item </Text>
-            </TouchableOpacity>
-          </View>
-        </SafeAreaView>
-      </KeyboardAvoidingView>
+        <View style={styles.container}>
+          <Image style={{ width: 250, height: 250 }} source={{ uri: image }} />
+        </View>
+
+        <View style={styles.flexRow}>
+          <TouchableOpacity style={styles.buttonDelete} onPress={deleteItem}>
+            <Text style={[styles.buttontext]}> Delete Item </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              addQty(text);
+            }}
+          >
+            <Text style={[styles.buttontext]}> Update Item </Text>
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>
     </ScrollView>
   );
 }
@@ -224,7 +214,7 @@ const styles = StyleSheet.create({
     borderTopColor: "white",
     borderLeftColor: "white",
     borderRightColor: "white",
-    alignSelf: 'stretch',
+    alignSelf: "stretch",
     fontSize: 25,
   },
   screenTitle: {

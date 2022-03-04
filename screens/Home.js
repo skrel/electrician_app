@@ -123,9 +123,9 @@ const HomeScreen = ({ navigation }) => {
         <View style={styles.flexRow}>
           <TouchableOpacity
             style={styles.button}
-            //onPress={() => navigation.navigate("Panel")}
+            onPress={() => navigation.navigate("Other")}
           >
-            <FontAwesome5 name="solar-panel" size={24} color="black" />
+            <MaterialIcons name="unfold-more" size={24} color="black" />
             <Text style={[styles.buttontext]}> Other </Text>
           </TouchableOpacity>
           <TouchableOpacity

@@ -80,37 +80,37 @@ const SeeAll = ({ navigation }) => {
                 >
                   Spoolsheet
                 </Text>
-                <Text style={{ fontWeight: "bold", borderTopWidth: 5 }}>
+                <Text style={{ fontWeight: "bold", borderTopWidth: 5, borderTopColor: '#ffffff' }}>
                   Name:
                 </Text>
                 <Text>{item.name}</Text>
 
-                <Text style={{ fontWeight: "bold", borderTopWidth: 5 }}>
+                <Text style={{ fontWeight: "bold", borderTopWidth: 5, borderTopColor: '#ffffff' }}>
                   Description:
                 </Text>
                 <Text>{item.purpose.replace(/,/g, "\n")}</Text>
-                <Text style={{ fontWeight: "bold", borderTopWidth: 5 }}>
+                <Text style={{ fontWeight: "bold", borderTopWidth: 5, borderTopColor: '#ffffff' }}>
                   Quantity:
                 </Text>
-                <Text style={{ borderBottomWidth: 5 }}>{item.qty}</Text>
+                <Text >{item.qty}</Text>
 
-                <Text style={{ fontWeight: "bold", borderTopWidth: 5 }}>
+                <Text style={{ fontWeight: "bold", borderTopWidth: 5, borderTopColor: '#ffffff' }}>
                   Total Cost:
                 </Text>
                 <Text style={[styles.price]}>Sign In For Price</Text>
-                <Text style={{ fontWeight: "bold", borderTopWidth: 5 }}>
+                <Text style={{ fontWeight: "bold", borderTopWidth: 5, borderTopColor: '#ffffff' }}>
                   Suppliers:
                 </Text>
                 <Text style={[styles.suppliers]}>Sign In For Supplier</Text>
-                <Text style={{ fontWeight: "bold", borderTopWidth: 5 }}>
+                <Text style={{ fontWeight: "bold", borderTopWidth: 5, borderTopColor: '#ffffff' }}>
                   Locations:
                 </Text>
                 <Text style={[styles.location]}>Sign In For Geolocation</Text>
-                <Text style={{ fontWeight: "bold", borderTopWidth: 5 }}>
+                <Text style={{ fontWeight: "bold", borderTopWidth: 5, borderTopColor: '#ffffff' }}>
                   Catalog:
                 </Text>
                 <Text style={[styles.catalog]}>Sign In For Catalog</Text>
-                <Text style={{ fontWeight: "bold", borderTopWidth: 5 }}>
+                <Text style={{ fontWeight: "bold", borderTopWidth: 5, borderTopColor: '#ffffff' }}>
                   More:
                 </Text>
                 <Text style={styles.normaltext}>
