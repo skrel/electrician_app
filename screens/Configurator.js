@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import Svg, { Rect, Polygon, Circle } from "react-native-svg";
 import * as SQLite from "expo-sqlite";
+import data from '../components/Constants'
 
 function openDatabase() {
   if (Platform.OS === "web") {
@@ -73,27 +74,15 @@ const Configurator = () => {
   const [trkoIsEnabled, setTrkoIsEnabled] = useState(false);
   const [trkoDescription, setTrkoDescription] = useState("");
 
-  const itemDescription =
-  "box: " +
-  boxDescription +
-  ", bracket: " +
-  bracketDescription +
-  ", ground: " +
-  groundDescription +
-  ", mudring: " +
-  mudringDescription +
-  ", extension ring: " +
-  extensionringDescription +
-  ", cover plate: " +
-  coverplateDescription +
-  ", device: " +
-  deviceDescription +
-  ", top lko: " +
-  tlkoDescription +
-  ", top cko: " +
-  tckoDescription +
-  ", top rko: " +
-  trkoDescription;
+  const [firePadIsEnabled, setFirePadIsEnabled] = useState(false);
+  const [firePadDescription, setFirePadDescription] = useState("");
+
+  const [assemblyTypeDescription, setAssemblyTypeDescription] = useState("");
+
+  const itemDescription =  " assembly type: " +  assemblyTypeDescription +  ", box: " +  boxDescription +  ", bracket: " +  bracketDescription +  ", ground: " +
+  groundDescription +  ", mudring: " +  mudringDescription +  ", fire pad: " +  firePadDescription +  ", extension ring: " +  extensionringDescription +
+  ", cover plate: " +  coverplateDescription +  ", device: " +  deviceDescription +  ", top lko: " +  tlkoDescription +  ", top cko: " +  tckoDescription +
+  ", top rko: " +  trkoDescription;
 
   const add = () => {
     db.transaction(
@@ -111,11 +100,6 @@ const Configurator = () => {
     );
   };
 
-  function useForceUpdate() {
-    const [value, setValue] = useState(0);
-    return [() => setValue(value + 1), value];
-  }
-
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
       <Text style={[styles.screenTitle]}>Configurator</Text>
@@ -124,354 +108,135 @@ const Configurator = () => {
         <ScrollView>
           {/* assembly name view */}
           <View style={styles.flexRow}>
-            <Text
-              style={{ paddingLeft: 20, fontStyle: "italic", fontSize: 22 }}
-            >
-              Name
-            </Text>
-            <TextInput
-              style={styles.inputName}
-              defaultValue="Assembly Name"
-              onChangeText={(text) => setItemName(text)}
-              value={itemName}
-              maxLength={18}
-            />
+            <Text style={{ paddingLeft: 20, fontStyle: "italic", fontSize: 22 }}>Name</Text>
+            <TextInput style={styles.inputName} defaultValue="Assembly Name" onChangeText={(text) => setItemName(text)} value={itemName} maxLength={18}/>
+          </View>
+
+          {/* assembly type view */}
+          <View style={styles.flexRow}>
+            <Text style={{ paddingLeft: 20, fontSize: 14 }}>Assembly Type</Text>
+            <TextInput style={styles.inputName} defaultValue="Assembly Type" onChangeText={(text) => setAssemblyTypeDescription(text)} value={assemblyTypeDescription} maxLength={18}/>
           </View>
 
           {/* box view */}
           <View style={styles.flexRow}>
-            <TouchableOpacity
-              style={styles.buttonForConfig}
-              onPress={() => setBoxIsEnabled(!boxIsEnabled)}
-            >
+            <TouchableOpacity style={styles.buttonForConfig} onPress={() => setBoxIsEnabled(!boxIsEnabled)}>
               <Text style={[styles.buttontext]}> Box? </Text>
             </TouchableOpacity>
-            {boxIsEnabled ? (
-              <TextInput
-                style={styles.input}
-                placeholder="Type Box name here"
-                onChangeText={(text) => setBoxDescription(text)}
-                value={boxDescription}
-                maxLength={18}
-              />
-            ) : null}
+            {boxIsEnabled ? (<TextInput style={styles.input} placeholder="Type Box name here" onChangeText={(text) => setBoxDescription(text)} value={boxDescription} maxLength={18}/>) : null}
           </View>
 
           {/* bracket view */}
           <View style={styles.flexRow}>
-            <TouchableOpacity
-              style={styles.buttonForConfig}
-              onPress={() => setBracketIsEnabled(!bracketIsEnabled)}
-            >
+            <TouchableOpacity style={styles.buttonForConfig} onPress={() => setBracketIsEnabled(!bracketIsEnabled)}>
               <Text style={[styles.buttontext]}> Bracket? </Text>
             </TouchableOpacity>
-            {bracketIsEnabled ? (
-              <TextInput
-                style={styles.input}
-                placeholder="Type Bracket name here"
-                onChangeText={(text) => setBracketDescription(text)}
-                value={bracketDescription}
-                maxLength={18}
-              />
-            ) : null}
+            {bracketIsEnabled ? (<TextInput style={styles.input} placeholder="Type Bracket name here" onChangeText={(text) => setBracketDescription(text)} value={bracketDescription} maxLength={18}/>) : null}
           </View>
 
           {/* ground view */}
           <View style={styles.flexRow}>
-            <TouchableOpacity
-              style={styles.buttonForConfig}
-              onPress={() => setGroundIsEnabled(!groundIsEnabled)}
-            >
+            <TouchableOpacity style={styles.buttonForConfig} onPress={() => setGroundIsEnabled(!groundIsEnabled)}>
               <Text style={[styles.buttontext]}> Add Ground? </Text>
             </TouchableOpacity>
-            {groundIsEnabled ? (
-              <TextInput
-                style={styles.input}
-                placeholder="Type Ground name here"
-                onChangeText={(text) => setGroundDescription(text)}
-                value={groundDescription}
-                maxLength={18}
-              />
-            ) : null}
+            {groundIsEnabled ? (<TextInput style={styles.input} defaultValue="No" onChangeText={(text) => setGroundDescription(text)} value={groundDescription} maxLength={18}/>) : null}
           </View>
 
           {/* mudring view */}
           <View style={styles.flexRow}>
-            <TouchableOpacity
-              style={styles.buttonForConfig}
-              onPress={() => setMudringIsEnabled(!mudringIsEnabled)}
-            >
+            <TouchableOpacity style={styles.buttonForConfig} onPress={() => setMudringIsEnabled(!mudringIsEnabled)}>
               <Text style={[styles.buttontext]}> Mudring? </Text>
             </TouchableOpacity>
-            {mudringIsEnabled ? (
-              <TextInput
-                style={styles.input}
-                placeholder="Type Mudring name here"
-                onChangeText={(text) => setMudringDescription(text)}
-                value={mudringDescription}
-                maxLength={18}
-              />
-            ) : null}
+            {mudringIsEnabled ? (<TextInput style={styles.input} placeholder="Type Mudring name here" onChangeText={(text) => setMudringDescription(text)} value={mudringDescription} maxLength={18}/>) : null}
+          </View>
+
+            {/* fire pad view */}
+            <View style={styles.flexRow}>
+            <TouchableOpacity style={styles.buttonForConfig} onPress={() => setFirePadIsEnabled(!firePadIsEnabled)}>
+              <Text style={[styles.buttontext]}> Fire Pad? </Text>
+            </TouchableOpacity>
+            {firePadIsEnabled ? (<TextInput style={styles.input} defaultValue="No" onChangeText={(text) => setFirePadDescription(text)} value={firePadDescription} maxLength={18}/>) : null}
           </View>
 
           {/* ext ring view */}
           <View style={styles.flexRow}>
-            <TouchableOpacity
-              style={styles.buttonForConfig}
-              onPress={() => setExtensionringIsEnabled(!extensionringIsEnabled)}
-            >
+            <TouchableOpacity style={styles.buttonForConfig} onPress={() => setExtensionringIsEnabled(!extensionringIsEnabled)}>
               <Text style={[styles.buttontext]}> Ext Ring? </Text>
             </TouchableOpacity>
-            {extensionringIsEnabled ? (
-              <TextInput
-                style={styles.input}
-                placeholder="Type Extension ring name here"
-                onChangeText={(text) => setExtensionringDescription(text)}
-                value={extensionringDescription}
-                maxLength={18}
-              />
-            ) : null}
+            {extensionringIsEnabled ? (<TextInput style={styles.input} placeholder="Type Extension ring name here" onChangeText={(text) => setExtensionringDescription(text)} value={extensionringDescription} maxLength={18}/>) : null}
           </View>
 
           {/* cover plate view */}
           <View style={styles.flexRow}>
-            <TouchableOpacity
-              style={styles.buttonForConfig}
-              onPress={() => setCoverplateIsEnabled(!coverplateIsEnabled)}
-            >
+            <TouchableOpacity style={styles.buttonForConfig} onPress={() => setCoverplateIsEnabled(!coverplateIsEnabled)}>
               <Text style={[styles.buttontext]}> Cover Plt? </Text>
             </TouchableOpacity>
-            {coverplateIsEnabled ? (
-              <TextInput
-                style={styles.input}
-                placeholder="Type Cover plate name here"
-                onChangeText={(text) => setCoverplateDescription(text)}
-                value={coverplateDescription}
-                maxLength={18}
-              />
-            ) : null}
+            {coverplateIsEnabled ? (<TextInput style={styles.input} defaultValue="No" onChangeText={(text) => setCoverplateDescription(text)} value={coverplateDescription} maxLength={18}/>) : null}
           </View>
 
           {/* device view */}
           <View style={styles.flexRow}>
-            <TouchableOpacity
-              style={styles.buttonForConfig}
-              onPress={() => setDeviceIsEnabled(!deviceIsEnabled)}
-            >
+            <TouchableOpacity style={styles.buttonForConfig} onPress={() => setDeviceIsEnabled(!deviceIsEnabled)}>
               <Text style={[styles.buttontext]}> Device? </Text>
             </TouchableOpacity>
-            {deviceIsEnabled ? (
-              <TextInput
-                style={styles.input}
-                placeholder="Type Device name here"
-                onChangeText={(text) => setDeviceDescription(text)}
-                value={deviceDescription}
-                maxLength={18}
-              />
-            ) : null}
+            {deviceIsEnabled ? (<TextInput style={styles.input} placeholder="Type Device name here" onChangeText={(text) => setDeviceDescription(text)} value={deviceDescription} maxLength={18}/>) : null}
           </View>
 
           {/* lko view */}
           <View style={styles.flexRow}>
-            <TouchableOpacity
-              style={styles.buttonForConfig}
-              onPress={() => setTlkoIsEnabled(!tlkoIsEnabled)}
-            >
+            <TouchableOpacity style={styles.buttonForConfig} onPress={() => setTlkoIsEnabled(!tlkoIsEnabled)}>
               <Text style={[styles.buttontext]}> LKO? </Text>
             </TouchableOpacity>
-            {tlkoIsEnabled ? (
-              <TextInput
-                style={styles.input}
-                placeholder="Type LKO name here"
-                onChangeText={(text) => setTlkoDescription(text)}
-                value={tlkoDescription}
-                maxLength={18}
-              />
-            ) : null}
+            {tlkoIsEnabled ? (<TextInput style={styles.input} placeholder="Type LKO name here" onChangeText={(text) => setTlkoDescription(text)} value={tlkoDescription} maxLength={18}/>) : null}
           </View>
 
           {/* cko view */}
           <View style={styles.flexRow}>
-            <TouchableOpacity
-              style={styles.buttonForConfig}
-              onPress={() => setTckoIsEnabled(!tckoIsEnabled)}
-            >
+            <TouchableOpacity style={styles.buttonForConfig} onPress={() => setTckoIsEnabled(!tckoIsEnabled)}>
               <Text style={[styles.buttontext]}> CKO? </Text>
             </TouchableOpacity>
-            {tckoIsEnabled ? (
-              <TextInput
-                style={styles.input}
-                placeholder="Type CKO name here"
-                onChangeText={(text) => setTckoDescription(text)}
-                value={tckoDescription}
-                maxLength={18}
-              />
-            ) : null}
+            {tckoIsEnabled ? (<TextInput style={styles.input} placeholder="Type CKO name here" onChangeText={(text) => setTckoDescription(text)} value={tckoDescription} maxLength={18}/>) : null}
           </View>
 
           {/* rko View */}
           <View style={styles.flexRow}>
-            <TouchableOpacity
-              style={styles.buttonForConfig}
-              onPress={() => setTrkoIsEnabled(!trkoIsEnabled)}
-            >
+            <TouchableOpacity style={styles.buttonForConfig} onPress={() => setTrkoIsEnabled(!trkoIsEnabled)}>
               <Text style={[styles.buttontext]}> RKO? </Text>
             </TouchableOpacity>
-            {trkoIsEnabled ? (
-              <TextInput
-                style={styles.input}
-                placeholder="Type RKO name here"
-                onChangeText={(text) => setTrkoDescription(text)}
-                value={trkoDescription}
-                maxLength={18}
-              />
-            ) : null}
+            {trkoIsEnabled ? (<TextInput style={styles.input} placeholder="Type RKO name here" onChangeText={(text) => setTrkoDescription(text)} value={trkoDescription} maxLength={18}/>) : null}
           </View>
 
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => {
-              add(), handleClick1();
-            }}
-          >
+          <TouchableOpacity style={styles.button} onPress={() => {add(), handleClick1()}}>
             <Text style={[styles.buttontext]}> Add Item </Text>
           </TouchableOpacity>
+
         </ScrollView>
       </View>
+
+      {/* svg portion */}
       <View style={{ flex: 1, padding: 10 }}>
         <Svg height="100%" width="100%">
-          <Text>Front View</Text>
-          {boxIsEnabled
-            ? [
-                <Rect
-                  key="box"
-                  x="125"
-                  y="125"
-                  width="100"
-                  height="100"
-                  fill="#949494"
-                />,
-              ]
-            : null}
-          {bracketIsEnabled
-            ? [
-                <Rect
-                  key="bracket"
-                  x="10"
-                  y="170"
-                  width="330"
-                  height="12"
-                  fill="#949494"
-                />,
-              ]
-            : null}
-          {groundIsEnabled
-            ? [
-                <Circle
-                  key="groundCircle"
-                  cx="135"
-                  cy="135"
-                  r="4"
-                  fill="green"
-                />,
-                <Rect
-                  key="groundLine"
-                  x="134"
-                  y="134"
-                  width="2"
-                  height="80"
-                  fill="green"
-                />,
-              ]
-            : null}
-          {mudringIsEnabled
-            ? [
-                <Rect
-                  key="mudringRect"
-                  x="155"
-                  y="140"
-                  width="40"
-                  height="70"
-                  fill="#9dc7fa"
-                  opacity="1"
-                />,
-              ]
-            : null}
-          {extensionringIsEnabled
-            ? [
-                <Rect
-                  key="extringRect"
-                  x="110"
-                  y="110"
-                  width="130"
-                  height="130"
-                  stroke="#0019fc"
-                  strokeWidth="2.5"
-                  stroke-dasharray="5 20"
-                />,
-              ]
-            : null}
-          {coverplateIsEnabled
-            ? [
-                <Rect
-                  key="coverRect"
-                  x="120"
-                  y="120"
-                  width="110"
-                  height="110"
-                  stroke="#fc0022"
-                  strokeWidth="2.5"
-                  stroke-dasharray="5 20"
-                />,
-              ]
-            : null}
-          {deviceIsEnabled
-            ? [
-                <Circle
-                  key="deviceCirc"
-                  cx="175"
-                  cy="175"
-                  r="5"
-                  strokeWidth="2.5"
-                  fill="#000000"
-                />,
-              ]
-            : null}
-          {tlkoIsEnabled
-            ? [
-                <Polygon
-                  key="tlkoPoly"
-                  points="130,70 140,100 150,70"
-                  strokeWidth="2.5"
-                  fill="#ffaa00"
-                />,
-              ]
-            : null}
-          {tckoIsEnabled
-            ? [
-                <Polygon
-                  key="tckoPoly"
-                  points="165,70 175,100 185,70"
-                  strokeWidth="2.5"
-                  fill="#ffaa00"
-                />,
-              ]
-            : null}
-          {trkoIsEnabled
-            ? [
-                <Polygon
-                  key="trkoPoly"
-                  points="200,70 210,100 220,70"
-                  strokeWidth="2.5"
-                  fill="#ffaa00"
-                />,
-              ]
-            : null}
+          {boxIsEnabled ? [<Rect key="box"x="125"y="125"width="100"height="100"fill="#949494"/>] : null}
+          {bracketIsEnabled ? [<Rect key="bracket"x="10"y="170"width="330"height="12"fill="#949494"/>] : null}
+          {groundIsEnabled ? [ <Circle key="groundCircle"cx="135"cy="135"r="4"fill="green"/>,
+                              <Rect key="groundLine"x="134"y="134"width="2"height="80"fill="green"/>]: null}
+          {mudringIsEnabled ? [<Rect key="mudringRect"x="155"y="140"width="40"height="70"fill="#9dc7fa"opacity="1"/>] : null}
+          {extensionringIsEnabled ? [<Rect key="extringRect"x="110"y="110"width="130"height="130"stroke="#0019fc"strokeWidth="2.5"stroke-dasharray="5 20"/>] : null}
+          {coverplateIsEnabled ? [<Rect key="coverRect"x="120"y="120"width="110"height="110"stroke="#fc0022"strokeWidth="2.5"stroke-dasharray="5 20"/>] : null}
+          {deviceIsEnabled ? [<Circle key="deviceCirc"cx="175"cy="175"r="5"strokeWidth="2.5"fill="#000000"/>] : null}
+          {tlkoIsEnabled ? [<Polygon key="tlkoPoly"points="130,70 140,100 150,70"strokeWidth="2.5"fill="#ffaa00"/>]: null}
+          {tckoIsEnabled ? [<Polygon key="tckoPoly"points="165,70 175,100 185,70"strokeWidth="2.5"fill="#ffaa00"/>]: null}
+          {trkoIsEnabled ? [<Polygon key="trkoPoly"points="200,70 210,100 220,70"strokeWidth="2.5"fill="#ffaa00"/>]: null}
         </Svg>
       </View>
     </SafeAreaView>
   );
 };
+
+function useForceUpdate() {
+  const [value, setValue] = useState(0);
+  return [() => setValue(value + 1), value];
+}
 
 const styles = StyleSheet.create({
   flexRow: {
