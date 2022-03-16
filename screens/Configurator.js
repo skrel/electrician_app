@@ -13,6 +13,8 @@ import {
 import Svg, { Rect, Polygon, Circle } from "react-native-svg";
 import * as SQLite from "expo-sqlite";
 import { ASSEMBLY_TYPE_LOCAL, DEFAULT_QTY } from '../components/Constants.js'
+import { FontAwesome } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 
 function openDatabase() {
   if (Platform.OS === "web") {
@@ -41,10 +43,10 @@ const AssemblyType = ({ item, onPress, backgroundColor, textColor }) => (
 const Configurator = () => {
   const [forceUpdate] = useForceUpdate();
   const itemImage = "https://skrel.github.io/jsonapi/image/na.png";
-  const [itemName, setItemName] = React.useState(null);
+  const [itemName, setItemName] = useState("Assembly Name");
   const [selectedAssemblyTypeId, setSelectedAssemblyTypeId] = useState(null);
 
-  //horizontal flatlist items
+  //this is what horizontal flatlist returns
   const renderHorizontalListItem = ({ item }) => {
     const backgroundColor = item.id === selectedAssemblyTypeId ? "#000000" : "#ffffff";
     const color = item.id === selectedAssemblyTypeId ? 'white' : 'black';
@@ -74,7 +76,7 @@ const Configurator = () => {
   const [bracketDescription, setBracketDescription] = useState("");
 
   const [groundIsEnabled, setGroundIsEnabled] = useState(false);
-  const [groundDescription, setGroundDescription] = useState("");
+  let [groundDescription, setGroundDescription] = useState("No");
 
   const [mudringIsEnabled, setMudringIsEnabled] = useState(false);
   const [mudringDescription, setMudringDescription] = useState("");
@@ -83,7 +85,7 @@ const Configurator = () => {
   const [extensionringDescription, setExtensionringDescription] = useState("");
 
   const [coverplateIsEnabled, setCoverplateIsEnabled] = useState(false);
-  const [coverplateDescription, setCoverplateDescription] = useState("");
+  let [coverplateDescription, setCoverplateDescription] = useState("No");
 
   const [deviceIsEnabled, setDeviceIsEnabled] = useState(false);
   const [deviceDescription, setDeviceDescription] = useState("");
@@ -98,9 +100,9 @@ const Configurator = () => {
   const [trkoDescription, setTrkoDescription] = useState("");
 
   const [firePadIsEnabled, setFirePadIsEnabled] = useState(false);
-  const [firePadDescription, setFirePadDescription] = useState("");
+  let [firePadDescription, setFirePadDescription] = useState("No");
 
-  const [assemblyTypeDescription, setAssemblyTypeDescription] = useState("");
+  const [assemblyTypeDescription, setAssemblyTypeDescription] = useState("custom");
 
   const itemDescription =  " assembly type: " +  assemblyTypeDescription +  ", box: " +  boxDescription +  ", bracket: " +  bracketDescription +  ", ground: " +
   groundDescription +  ", mudring: " +  mudringDescription +  ", fire pad: " +  firePadDescription +  ", extension ring: " +  extensionringDescription +
@@ -168,7 +170,7 @@ const Configurator = () => {
             <TouchableOpacity style={styles.buttonForConfig} onPress={() => setGroundIsEnabled(!groundIsEnabled)}>
               <Text style={[styles.buttontext]}> Add Ground? </Text>
             </TouchableOpacity>
-            {groundIsEnabled ? (<TextInput style={styles.input} defaultValue="No" onChangeText={(text) => setGroundDescription(text)} value={groundDescription} maxLength={18}/>) : null}
+            {groundIsEnabled ? groundDescription === 'Yes' : groundDescription === 'No'}
           </View>
 
           {/* mudring view */}
@@ -184,7 +186,7 @@ const Configurator = () => {
             <TouchableOpacity style={styles.buttonForConfig} onPress={() => setFirePadIsEnabled(!firePadIsEnabled)}>
               <Text style={[styles.buttontext]}> Fire Pad? </Text>
             </TouchableOpacity>
-            {firePadIsEnabled ? (<TextInput style={styles.input} defaultValue="No" onChangeText={(text) => setFirePadDescription(text)} value={firePadDescription} maxLength={18}/>) : null}
+            {firePadIsEnabled ? firePadDescription === 'Yes': firePadDescription === 'No'}
           </View>
 
           {/* ext ring view */}
@@ -200,7 +202,7 @@ const Configurator = () => {
             <TouchableOpacity style={styles.buttonForConfig} onPress={() => setCoverplateIsEnabled(!coverplateIsEnabled)}>
               <Text style={[styles.buttontext]}> Cover Plt? </Text>
             </TouchableOpacity>
-            {coverplateIsEnabled ? (<TextInput style={styles.input} defaultValue="No" onChangeText={(text) => setCoverplateDescription(text)} value={coverplateDescription} maxLength={18}/>) : null}
+            {coverplateIsEnabled ? coverplateDescription === 'Yes': coverplateDescription === 'No'}
           </View>
 
           {/* device view */}
@@ -235,9 +237,20 @@ const Configurator = () => {
             {trkoIsEnabled ? (<TextInput style={styles.input} placeholder="Type RKO name here" onChangeText={(text) => setTrkoDescription(text)} value={trkoDescription} maxLength={18}/>) : null}
           </View>
 
-          <TouchableOpacity style={styles.button} onPress={() => {add(), handleClick1()}}>
-            <Text style={[styles.buttontext]}> Add Item </Text>
-          </TouchableOpacity>
+          
+          <View style={styles.flexRow}>
+            
+            <TouchableOpacity style={styles.buttonDeck} onPress={() => {add(), handleClick1()}}>
+              <Ionicons name="add" size={24} color="black" />
+              <Text style={[styles.buttontext]}> Add Item </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.buttonDeck}>
+              <FontAwesome name="eraser" size={24} color="black" />
+              <Text style={[styles.buttontext]}> Erase </Text>
+            </TouchableOpacity>
+
+          </View>
 
         </ScrollView>
       </View>
@@ -272,6 +285,15 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     padding: 3,
   },
+  buttonDeck: {
+    alignItems: "center",
+    backgroundColor: "#ffffff",
+    flex: 1,
+    height: 42,
+    margin: 16,
+    padding: 10,
+    borderRadius: 10,
+  },
   titletext: {
     fontWeight: "bold",
     fontSize: 16,
@@ -302,9 +324,10 @@ const styles = StyleSheet.create({
     //textDecorationLine: 'underline',
   },
   buttontext: {
-    fontWeight: "bold",
-    fontSize: 12,
-    color: "#ffffff",
+    //fontWeight: "bold",
+    fontSize: 10,
+    marginTop: 2,
+    color: "#000000",
   },
   button: {
     alignItems: "center",

@@ -190,8 +190,8 @@ const styles = StyleSheet.create({
   screenTitle: {
     margin: 2,
     padding: 10,
-    fontSize: 40,
-    fontStyle: "italic",
+    fontSize: 30,
+    //fontStyle: "italic",
     //textDecorationLine: 'underline',
   },
 });

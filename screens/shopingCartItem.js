@@ -15,7 +15,10 @@ import {
   Dimensions,
 } from "react-native";
 import * as SQLite from "expo-sqlite";
-import { borderTopColor } from "react-native/Libraries/Components/View/ReactNativeStyleAttributes";
+//import { borderTopColor } from "react-native/Libraries/Components/View/ReactNativeStyleAttributes";
+import { AntDesign } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 
 function openDatabase() {
   if (Platform.OS === "web") {
@@ -127,17 +130,27 @@ function shopingCartItem({ route, navigation }) {
         </View>
 
         <View style={styles.flexRow}>
-          <TouchableOpacity style={styles.buttonDelete} onPress={deleteItem}>
+          
+          <TouchableOpacity style={styles.buttonDeck} onPress={deleteItem}>
+            <AntDesign name="delete" size={24} color="black" />
             <Text style={[styles.buttontext]}> Delete Item </Text>
           </TouchableOpacity>
+
           <TouchableOpacity
-            style={styles.button}
+            style={styles.buttonDeck}
             onPress={() => {
               addQty(text);
             }}
           >
+            <MaterialCommunityIcons name="update" size={24} color="black" />
             <Text style={[styles.buttontext]}> Update Item </Text>
           </TouchableOpacity>
+
+          <TouchableOpacity style={styles.buttonDeck}>
+            <Ionicons name="duplicate-outline" size={24} color="black" />
+            <Text style={[styles.buttontext]}> Duplicate Item </Text>
+          </TouchableOpacity>
+
         </View>
       </SafeAreaView>
     </ScrollView>
@@ -157,10 +170,6 @@ const styles = StyleSheet.create({
     padding: 24,
     flex: 1,
     justifyContent: "space-around",
-  },
-  buttontext: {
-    fontWeight: "bold",
-    fontSize: 14,
   },
   buttonDelete: {
     alignItems: "center",
@@ -220,12 +229,27 @@ const styles = StyleSheet.create({
   screenTitle: {
     margin: 2,
     padding: 10,
-    fontSize: 40,
-    fontStyle: "italic",
+    fontSize: 30,
+    //fontStyle: "italic",
     //textDecorationLine: 'underline',
   },
   keyboardContainer: {
     flex: 1,
+  },
+  buttonDeck: {
+    alignItems: "center",
+    backgroundColor: "#ffffff",
+    flex: 1,
+    height: 42,
+    margin: 16,
+    padding: 10,
+    borderRadius: 10,
+  },
+  buttontext: {
+    //fontWeight: "bold",
+    fontSize: 10,
+    marginTop: 2,
+    color: "#000000",
   },
 });
 
