@@ -10,6 +10,7 @@ import {
   TextInput,
 } from "react-native";
 import * as SQLite from "expo-sqlite";
+import { BRACKET } from "../components/Constants.js";
 
 function openDatabase() {
     if (Platform.OS === "web") {
@@ -47,7 +48,7 @@ const Bracket = (props) => {
 
   useEffect(() => {
     setLoading(true);
-    fetch('https://skrel.github.io/jsonapi/bracket.json') //change link
+    fetch(BRACKET) //change link
       .then((response) => response.json())
       .then((responseJson) => {
         setFilteredDataSource(responseJson);

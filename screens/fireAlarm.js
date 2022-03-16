@@ -10,6 +10,7 @@ import {
   TextInput,
 } from "react-native";
 import * as SQLite from "expo-sqlite";
+import { FIRE_ALARM } from "../components/Constants.js";
 
 function openDatabase() {
   if (Platform.OS === "web") {
@@ -46,7 +47,7 @@ const FireAlarm = (props) => {
 
   useEffect(() => {
     setLoading(true);
-    fetch("https://skrel.github.io/jsonapi/fire_alarm.json") //change link
+    fetch(FIRE_ALARM) //change link
       .then((response) => response.json())
       .then((responseJson) => {
         setFilteredDataSource(responseJson);

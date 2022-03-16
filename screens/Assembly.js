@@ -10,6 +10,7 @@ import {
   TextInput,
 } from "react-native";
 import * as SQLite from "expo-sqlite";
+import { ASSEMBLY } from "../components/Constants.js";
 
 function openDatabase() {
     if (Platform.OS === "web") {
@@ -47,7 +48,7 @@ const Assembly = (props) => {
 
   useEffect(() => {
     setLoading(true);
-    fetch('https://skrel.github.io/jsonapi/assembly.json') //change link
+    fetch(ASSEMBLY) //change link
       .then((response) => response.json())
       .then((responseJson) => {
         setFilteredDataSource(responseJson);

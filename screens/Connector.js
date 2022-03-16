@@ -10,6 +10,7 @@ import {
   TextInput,
 } from "react-native";
 import * as SQLite from "expo-sqlite";
+import { CONNECTOR } from "../components/Constants.js";
 
 function openDatabase() {
     if (Platform.OS === "web") {
@@ -47,7 +48,7 @@ const Connector = (props) => {
 
   useEffect(() => {
     setLoading(true);
-    fetch('https://skrel.github.io/jsonapi/connector.json') //change link
+    fetch(CONNECTOR) //change link
       .then((response) => response.json())
       .then((responseJson) => {
         setFilteredDataSource(responseJson);

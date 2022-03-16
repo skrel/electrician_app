@@ -7,10 +7,12 @@ import {
   StyleSheet,
   TextInput,
   ScrollView,
+  FlatList,
+  Image,
 } from "react-native";
 import Svg, { Rect, Polygon, Circle } from "react-native-svg";
 import * as SQLite from "expo-sqlite";
-import data from '../components/Constants'
+import { ASSEMBLY_TYPE_LOCAL, DEFAULT_QTY } from '../components/Constants.js'
 
 function openDatabase() {
   if (Platform.OS === "web") {
@@ -29,15 +31,36 @@ function openDatabase() {
 
 const db = openDatabase();
 
+//scroll horizontal
+const AssemblyType = ({ item, onPress, backgroundColor, textColor }) => (
+  <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
+    <Text style={[styles.title, textColor]}>{item.title}</Text>
+  </TouchableOpacity>
+);
+
 const Configurator = () => {
   const [forceUpdate] = useForceUpdate();
   const itemImage = "https://skrel.github.io/jsonapi/image/na.png";
-  const itemQty = "add quantity";
   const [itemName, setItemName] = React.useState(null);
+  const [selectedAssemblyTypeId, setSelectedAssemblyTypeId] = useState(null);
+
+  //horizontal flatlist items
+  const renderHorizontalListItem = ({ item }) => {
+    const backgroundColor = item.id === selectedAssemblyTypeId ? "#000000" : "#ffffff";
+    const color = item.id === selectedAssemblyTypeId ? 'white' : 'black';
+
+    return (
+      <AssemblyType
+        item={item}
+        onPress={() => setSelectedAssemblyTypeId(item.id)}
+        backgroundColor={{ backgroundColor }}
+        textColor={{ color }}
+      />
+    );
+  };
 
   //counter
   const [counter, setCounter] = useState(0);
-
   const handleClick1 = () => {
     // Counter state is incremented
     setCounter(counter + 1);
@@ -89,7 +112,7 @@ const Configurator = () => {
       (tx) => {
         tx.executeSql(
           "insert into cart (image, name, purpose, qty) values (?, ?, ?, ?)",
-          [itemImage, itemName, itemDescription, itemQty]
+          [itemImage, itemName, itemDescription, DEFAULT_QTY]
         );
         tx.executeSql("select * from cart", [], (_, { rows }) =>
           console.log(JSON.stringify(rows))
@@ -108,14 +131,20 @@ const Configurator = () => {
         <ScrollView>
           {/* assembly name view */}
           <View style={styles.flexRow}>
-            <Text style={{ paddingLeft: 20, fontStyle: "italic", fontSize: 22 }}>Name</Text>
+            <Text style={{ paddingLeft: 20, fontSize: 20 }}>Name:</Text>
             <TextInput style={styles.inputName} defaultValue="Assembly Name" onChangeText={(text) => setItemName(text)} value={itemName} maxLength={18}/>
           </View>
 
           {/* assembly type view */}
           <View style={styles.flexRow}>
-            <Text style={{ paddingLeft: 20, fontSize: 14 }}>Assembly Type</Text>
-            <TextInput style={styles.inputName} defaultValue="Assembly Type" onChangeText={(text) => setAssemblyTypeDescription(text)} value={assemblyTypeDescription} maxLength={18}/>
+            {/* <Text style={{ paddingLeft: 20, fontSize: 14 }}>Assembly Type</Text> */}
+            <FlatList
+              horizontal={true}
+              data={ASSEMBLY_TYPE_LOCAL}
+              renderItem={renderHorizontalListItem}
+              keyExtractor={(item) => item.id}
+              extraData={selectedAssemblyTypeId}
+            />
           </View>
 
           {/* box view */}
@@ -268,13 +297,13 @@ const styles = StyleSheet.create({
   screenTitle: {
     margin: 2,
     padding: 10,
-    fontSize: 40,
-    fontStyle: "italic",
+    fontSize: 30,
+    //fontStyle: "italic",
     //textDecorationLine: 'underline',
   },
   buttontext: {
     fontWeight: "bold",
-    fontSize: 14,
+    fontSize: 12,
     color: "#ffffff",
   },
   button: {
@@ -344,7 +373,18 @@ const styles = StyleSheet.create({
     borderLeftColor: "white",
     borderRightColor: "white",
     alignSelf: "stretch",
-    fontSize: 25,
+    fontSize: 20,
+    fontStyle: 'italic'
+  },
+  item: {
+    padding: 4,
+    marginVertical: 5,
+    marginHorizontal: 8,
+    borderWidth: 1,
+    borderRadius: 10,
+  },
+  title: {
+    fontSize: 10,
   },
 });
 

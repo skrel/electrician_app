@@ -18,29 +18,45 @@ export const EXTENSION_RING = 'https://skrel.github.io/jsonapi/extension_ring.js
 export const DEVICE = 'https://skrel.github.io/jsonapi/device.json';
 export const CONNECTOR = 'https://skrel.github.io/jsonapi/connector.json';
 export const ACCESSORIES = 'https://skrel.github.io/jsonapi/accessories.json';
-export const ASSEMBLIES = 'https://skrel.github.io/jsonapi/assembly.json';
+export const ASSEMBLY = 'https://skrel.github.io/jsonapi/assembly.json';
 
 //other
-export const DEFAULT_QTY = '';
-
-//horizontal scrolls
-export const data = [
+export const DEFAULT_QTY = 'add quantity';
+export const ASSEMBLY_TYPE = 'https://skrel.github.io/jsonapi/public/json/assembly_type.json';
+export const ASSEMBLY_TYPE_LOCAL = [
     {
-        img:'https://skrel.github.io/jsonapi/image/config_duplex_rec.png'
+        id: "1",
+        img:"https://skrel.github.io/jsonapi/image/config_duplex_rec.png",
+        title: "duplex receptacle"
     },
     {
-        img:'https://skrel.github.io/jsonapi/image/config_duplex_rec_gfi.png'
+        id: "2",
+        img:"https://skrel.github.io/jsonapi/image/config_duplex_rec_gfi.png",
+        title: "duplex receptacle gfi"
     },
     {
-        img:'https://skrel.github.io/jsonapi/image/config_duplex_rec_split_wire.png'
+        id: "3",
+        img:"https://skrel.github.io/jsonapi/image/config_duplex_rec_split_wire.png",
+        title: "duplex receptacle split wire"
     },
     {
-        img:'https://skrel.github.io/jsonapi/image/config_single_pole_switch.png'
+        id: "4",
+        img:"https://skrel.github.io/jsonapi/image/config_single_pole_switch.png",
+        title: "single pole switch"
     },
     {
-        img:'https://skrel.github.io/jsonapi/image/config_double_pole_switch.png'
+        id: "5",
+        img:"https://skrel.github.io/jsonapi/image/config_double_pole_switch.png",
+        title: "double pole switch"
     },
     {
-        img:'https://skrel.github.io/jsonapi/image/config_three_way_switch.png'
+        id: "6",
+        img:"https://skrel.github.io/jsonapi/image/config_three_way_switch.png",
+        title: "three way switch"
+    },
+    {
+        id: "7",
+        img:"https://skrel.github.io/jsonapi/image/config_three_way_switch.png",
+        title: "other"
     }
 ];
