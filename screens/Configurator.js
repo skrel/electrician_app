@@ -76,7 +76,7 @@ const Configurator = () => {
   const [bracketDescription, setBracketDescription] = useState("");
 
   const [groundIsEnabled, setGroundIsEnabled] = useState(false);
-  let [groundDescription, setGroundDescription] = useState("No");
+  const [groundDescription, setGroundDescription] = useState(false);
 
   const [mudringIsEnabled, setMudringIsEnabled] = useState(false);
   const [mudringDescription, setMudringDescription] = useState("");
@@ -85,7 +85,7 @@ const Configurator = () => {
   const [extensionringDescription, setExtensionringDescription] = useState("");
 
   const [coverplateIsEnabled, setCoverplateIsEnabled] = useState(false);
-  let [coverplateDescription, setCoverplateDescription] = useState("No");
+  const [coverplateDescription, setCoverplateDescription] = useState(false);
 
   const [deviceIsEnabled, setDeviceIsEnabled] = useState(false);
   const [deviceDescription, setDeviceDescription] = useState("");
@@ -100,14 +100,14 @@ const Configurator = () => {
   const [trkoDescription, setTrkoDescription] = useState("");
 
   const [firePadIsEnabled, setFirePadIsEnabled] = useState(false);
-  let [firePadDescription, setFirePadDescription] = useState("No");
+  const [firePadDescription, setFirePadDescription] = useState(false);
 
   const [assemblyTypeDescription, setAssemblyTypeDescription] = useState("custom");
 
-  const itemDescription =  " assembly type: " +  assemblyTypeDescription +  ", box: " +  boxDescription +  ", bracket: " +  bracketDescription +  ", ground: " +
+  const itemDescription =  "assembly type: " +  assemblyTypeDescription +  ", box: " +  boxDescription +  ", bracket: " +  bracketDescription +  ", ground: " +
   groundDescription +  ", mudring: " +  mudringDescription +  ", fire pad: " +  firePadDescription +  ", extension ring: " +  extensionringDescription +
   ", cover plate: " +  coverplateDescription +  ", device: " +  deviceDescription +  ", top lko: " +  tlkoDescription +  ", top cko: " +  tckoDescription +
-  ", top rko: " +  trkoDescription;
+  ", top rko:" +  trkoDescription;
 
   const add = () => {
     db.transaction(
@@ -167,10 +167,9 @@ const Configurator = () => {
 
           {/* ground view */}
           <View style={styles.flexRow}>
-            <TouchableOpacity style={styles.buttonForConfig} onPress={() => setGroundIsEnabled(!groundIsEnabled)}>
+            <TouchableOpacity style={styles.buttonForConfig} onPress={() => {setGroundIsEnabled(!groundIsEnabled), setGroundDescription(!groundDescription)}}>
               <Text style={[styles.buttontext]}> Add Ground? </Text>
             </TouchableOpacity>
-            {groundIsEnabled ? groundDescription === 'Yes' : groundDescription === 'No'}
           </View>
 
           {/* mudring view */}
@@ -183,10 +182,9 @@ const Configurator = () => {
 
             {/* fire pad view */}
             <View style={styles.flexRow}>
-            <TouchableOpacity style={styles.buttonForConfig} onPress={() => setFirePadIsEnabled(!firePadIsEnabled)}>
+            <TouchableOpacity style={styles.buttonForConfig} onPress={() => {setFirePadIsEnabled(!firePadIsEnabled), setFirePadDescription(!firePadDescription)}}>
               <Text style={[styles.buttontext]}> Fire Pad? </Text>
             </TouchableOpacity>
-            {firePadIsEnabled ? firePadDescription === 'Yes': firePadDescription === 'No'}
           </View>
 
           {/* ext ring view */}
@@ -199,10 +197,9 @@ const Configurator = () => {
 
           {/* cover plate view */}
           <View style={styles.flexRow}>
-            <TouchableOpacity style={styles.buttonForConfig} onPress={() => setCoverplateIsEnabled(!coverplateIsEnabled)}>
+            <TouchableOpacity style={styles.buttonForConfig} onPress={() => {setCoverplateIsEnabled(!coverplateIsEnabled), setCoverplateDescription(!coverplateDescription)}}>
               <Text style={[styles.buttontext]}> Cover Plt? </Text>
             </TouchableOpacity>
-            {coverplateIsEnabled ? coverplateDescription === 'Yes': coverplateDescription === 'No'}
           </View>
 
           {/* device view */}

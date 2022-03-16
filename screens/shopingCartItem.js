@@ -99,7 +99,7 @@ function shopingCartItem({ route, navigation }) {
 
         <View style={styles.itemcard}>
           <View style={styles.flexRow}>
-            <Text style={styles.titletext}>Quantity:</Text>
+            <Text style={{ paddingLeft: 20, fontSize: 20 }}>Quantity:</Text>
             <View style={{ flex: 1, paddingLeft: 20 }}>
               <TextInput
                 style={styles.input}
@@ -115,10 +115,10 @@ function shopingCartItem({ route, navigation }) {
             </View>
           </View>
 
-          <Text style={styles.titletext}>
+          <Text style={{ paddingLeft: 20, fontSize: 20, paddingBottom: 20 }}>
             Item Name: {JSON.stringify(value)}{" "}
           </Text>
-          <Text style={styles.normaltext}>Description {purposeToDisplay}</Text>
+          <Text style={styles.normaltext}>Description {purposeToDisplay.replace(/"/g, "\n")}</Text>
           <Text style={styles.normaltext}>
             Residential and comersial construction. Can be used in assemblies
             with other electrical items
