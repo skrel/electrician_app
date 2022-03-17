@@ -42,9 +42,11 @@ const AssemblyType = ({ item, onPress, backgroundColor, textColor }) => (
 
 const Configurator = () => {
   const [forceUpdate] = useForceUpdate();
-  const itemImage = "https://skrel.github.io/jsonapi/image/na.png";
+  //const itemImage = "https://skrel.github.io/jsonapi/image/na.png";
   const [itemName, setItemName] = useState("Assembly Name");
   const [selectedAssemblyTypeId, setSelectedAssemblyTypeId] = useState(null);
+  const [assemblyTypeDescription, setAssemblyTypeDescription] = useState("custom");
+  const [image, setImage] = useState("https://skrel.github.io/jsonapi/image/na.png");
 
   //this is what horizontal flatlist returns
   const renderHorizontalListItem = ({ item }) => {
@@ -54,7 +56,7 @@ const Configurator = () => {
     return (
       <AssemblyType
         item={item}
-        onPress={() => setSelectedAssemblyTypeId(item.id)}
+        onPress={() => {setSelectedAssemblyTypeId(item.id), setAssemblyTypeDescription(item.title), setImage(item.img)}}
         backgroundColor={{ backgroundColor }}
         textColor={{ color }}
       />
@@ -102,8 +104,6 @@ const Configurator = () => {
   const [firePadIsEnabled, setFirePadIsEnabled] = useState(false);
   const [firePadDescription, setFirePadDescription] = useState(false);
 
-  const [assemblyTypeDescription, setAssemblyTypeDescription] = useState("custom");
-
   const itemDescription =  "assembly type: " +  assemblyTypeDescription +  ", box: " +  boxDescription +  ", bracket: " +  bracketDescription +  ", ground: " +
   groundDescription +  ", mudring: " +  mudringDescription +  ", fire pad: " +  firePadDescription +  ", extension ring: " +  extensionringDescription +
   ", cover plate: " +  coverplateDescription +  ", device: " +  deviceDescription +  ", top lko: " +  tlkoDescription +  ", top cko: " +  tckoDescription +
@@ -114,7 +114,7 @@ const Configurator = () => {
       (tx) => {
         tx.executeSql(
           "insert into cart (image, name, purpose, qty) values (?, ?, ?, ?)",
-          [itemImage, itemName, itemDescription, DEFAULT_QTY]
+          [image, itemName, itemDescription, DEFAULT_QTY]
         );
         tx.executeSql("select * from cart", [], (_, { rows }) =>
           console.log(JSON.stringify(rows))
@@ -133,7 +133,7 @@ const Configurator = () => {
         <ScrollView>
           {/* assembly name view */}
           <View style={styles.flexRow}>
-            <Text style={{ paddingLeft: 20, fontSize: 20 }}>Name:</Text>
+            <Text style={{ paddingLeft: 10, fontSize: 20 }}>Name:</Text>
             <TextInput style={styles.inputName} defaultValue="Assembly Name" onChangeText={(text) => setItemName(text)} value={itemName} maxLength={18}/>
           </View>
 
@@ -152,7 +152,7 @@ const Configurator = () => {
           {/* box view */}
           <View style={styles.flexRow}>
             <TouchableOpacity style={styles.buttonForConfig} onPress={() => setBoxIsEnabled(!boxIsEnabled)}>
-              <Text style={[styles.buttontext]}> Box? </Text>
+              <Text style={[styles.buttontext]}> { boxIsEnabled ? "Box Info" : "Box?"} </Text>
             </TouchableOpacity>
             {boxIsEnabled ? (<TextInput style={styles.input} placeholder="Type Box name here" onChangeText={(text) => setBoxDescription(text)} value={boxDescription} maxLength={18}/>) : null}
           </View>
@@ -160,7 +160,7 @@ const Configurator = () => {
           {/* bracket view */}
           <View style={styles.flexRow}>
             <TouchableOpacity style={styles.buttonForConfig} onPress={() => setBracketIsEnabled(!bracketIsEnabled)}>
-              <Text style={[styles.buttontext]}> Bracket? </Text>
+              <Text style={[styles.buttontext]}> { bracketIsEnabled ? "Bracket Info" : "Bracket?"} </Text>
             </TouchableOpacity>
             {bracketIsEnabled ? (<TextInput style={styles.input} placeholder="Type Bracket name here" onChangeText={(text) => setBracketDescription(text)} value={bracketDescription} maxLength={18}/>) : null}
           </View>
@@ -168,14 +168,14 @@ const Configurator = () => {
           {/* ground view */}
           <View style={styles.flexRow}>
             <TouchableOpacity style={styles.buttonForConfig} onPress={() => {setGroundIsEnabled(!groundIsEnabled), setGroundDescription(!groundDescription)}}>
-              <Text style={[styles.buttontext]}> Add Ground? </Text>
+              <Text style={[styles.buttontext]}> { groundIsEnabled ? "Ground Added" : "Ground?"} </Text>
             </TouchableOpacity>
           </View>
 
           {/* mudring view */}
           <View style={styles.flexRow}>
             <TouchableOpacity style={styles.buttonForConfig} onPress={() => setMudringIsEnabled(!mudringIsEnabled)}>
-              <Text style={[styles.buttontext]}> Mudring? </Text>
+              <Text style={[styles.buttontext]}> { mudringIsEnabled ? "Mudring Info" : "Mudring?"} </Text>
             </TouchableOpacity>
             {mudringIsEnabled ? (<TextInput style={styles.input} placeholder="Type Mudring name here" onChangeText={(text) => setMudringDescription(text)} value={mudringDescription} maxLength={18}/>) : null}
           </View>
@@ -183,14 +183,14 @@ const Configurator = () => {
             {/* fire pad view */}
             <View style={styles.flexRow}>
             <TouchableOpacity style={styles.buttonForConfig} onPress={() => {setFirePadIsEnabled(!firePadIsEnabled), setFirePadDescription(!firePadDescription)}}>
-              <Text style={[styles.buttontext]}> Fire Pad? </Text>
+              <Text style={[styles.buttontext]}> { firePadIsEnabled ? "Fire Pad Added" : "Fire Pad?"} </Text>
             </TouchableOpacity>
           </View>
 
           {/* ext ring view */}
           <View style={styles.flexRow}>
             <TouchableOpacity style={styles.buttonForConfig} onPress={() => setExtensionringIsEnabled(!extensionringIsEnabled)}>
-              <Text style={[styles.buttontext]}> Ext Ring? </Text>
+              <Text style={[styles.buttontext]}> { extensionringIsEnabled ? "Extension Info" : "Extension?"} </Text>
             </TouchableOpacity>
             {extensionringIsEnabled ? (<TextInput style={styles.input} placeholder="Type Extension ring name here" onChangeText={(text) => setExtensionringDescription(text)} value={extensionringDescription} maxLength={18}/>) : null}
           </View>
@@ -198,14 +198,14 @@ const Configurator = () => {
           {/* cover plate view */}
           <View style={styles.flexRow}>
             <TouchableOpacity style={styles.buttonForConfig} onPress={() => {setCoverplateIsEnabled(!coverplateIsEnabled), setCoverplateDescription(!coverplateDescription)}}>
-              <Text style={[styles.buttontext]}> Cover Plt? </Text>
+              <Text style={[styles.buttontext]}> { coverplateIsEnabled ? "Cover Added" : "Cover Plate?"} </Text>
             </TouchableOpacity>
           </View>
 
           {/* device view */}
           <View style={styles.flexRow}>
             <TouchableOpacity style={styles.buttonForConfig} onPress={() => setDeviceIsEnabled(!deviceIsEnabled)}>
-              <Text style={[styles.buttontext]}> Device? </Text>
+              <Text style={[styles.buttontext]}> { deviceIsEnabled ? "Device Info" : "Device?"} </Text>
             </TouchableOpacity>
             {deviceIsEnabled ? (<TextInput style={styles.input} placeholder="Type Device name here" onChangeText={(text) => setDeviceDescription(text)} value={deviceDescription} maxLength={18}/>) : null}
           </View>
@@ -213,7 +213,7 @@ const Configurator = () => {
           {/* lko view */}
           <View style={styles.flexRow}>
             <TouchableOpacity style={styles.buttonForConfig} onPress={() => setTlkoIsEnabled(!tlkoIsEnabled)}>
-              <Text style={[styles.buttontext]}> LKO? </Text>
+              <Text style={[styles.buttontext]}> { tlkoIsEnabled ? "LKO Info" : "LKO?"} </Text>
             </TouchableOpacity>
             {tlkoIsEnabled ? (<TextInput style={styles.input} placeholder="Type LKO name here" onChangeText={(text) => setTlkoDescription(text)} value={tlkoDescription} maxLength={18}/>) : null}
           </View>
@@ -221,7 +221,7 @@ const Configurator = () => {
           {/* cko view */}
           <View style={styles.flexRow}>
             <TouchableOpacity style={styles.buttonForConfig} onPress={() => setTckoIsEnabled(!tckoIsEnabled)}>
-              <Text style={[styles.buttontext]}> CKO? </Text>
+              <Text style={[styles.buttontext]}> { tckoIsEnabled ? "CKO Info" : "CKO?"} </Text>
             </TouchableOpacity>
             {tckoIsEnabled ? (<TextInput style={styles.input} placeholder="Type CKO name here" onChangeText={(text) => setTckoDescription(text)} value={tckoDescription} maxLength={18}/>) : null}
           </View>
@@ -229,7 +229,7 @@ const Configurator = () => {
           {/* rko View */}
           <View style={styles.flexRow}>
             <TouchableOpacity style={styles.buttonForConfig} onPress={() => setTrkoIsEnabled(!trkoIsEnabled)}>
-              <Text style={[styles.buttontext]}> RKO? </Text>
+              <Text style={[styles.buttontext]}> { trkoIsEnabled ? "RKO Info" : "RKO?"} </Text>
             </TouchableOpacity>
             {trkoIsEnabled ? (<TextInput style={styles.input} placeholder="Type RKO name here" onChangeText={(text) => setTrkoDescription(text)} value={trkoDescription} maxLength={18}/>) : null}
           </View>
@@ -239,12 +239,12 @@ const Configurator = () => {
             
             <TouchableOpacity style={styles.buttonDeck} onPress={() => {add(), handleClick1()}}>
               <Ionicons name="add" size={24} color="black" />
-              <Text style={[styles.buttontext]}> Add Item </Text>
+              <Text style={[styles.deckbuttontext]}> Add Item </Text>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.buttonDeck}>
               <FontAwesome name="eraser" size={24} color="black" />
-              <Text style={[styles.buttontext]}> Erase </Text>
+              <Text style={[styles.deckbuttontext]}> Erase </Text>
             </TouchableOpacity>
 
           </View>
@@ -321,7 +321,13 @@ const styles = StyleSheet.create({
     //textDecorationLine: 'underline',
   },
   buttontext: {
-    //fontWeight: "bold",
+    fontWeight: "bold",
+    fontSize: 10,
+    marginTop: 2,
+    color: "#ffffff",
+  },
+  deckbuttontext: {
+    fontWeight: "bold",
     fontSize: 10,
     marginTop: 2,
     color: "#000000",
@@ -375,13 +381,6 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     padding: 6,
     borderRadius: 10,
-    shadowColor: "#000000",
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowRadius: 2,
-    shadowOpacity: 0.5,
   },
   inputName: {
     height: 25,
