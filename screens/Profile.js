@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+//import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -10,60 +12,65 @@ import {
   TouchableOpacity,
   Linking,
 } from "react-native";
-
-import { AntDesign } from "@expo/vector-icons";
+import { auth } from "../firebase";
 
 const Profile = () => {
-  const [signIn, setSignInEnabled] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        navigation.navigate("myProfile");
+      }
+    });
+    return unsubscribe;
+  }, []);
+
+  const register = () => {
+    auth
+      .createUserWithEmailAndPassword(email, password)
+      .then((userCredentials) => {
+        const user = userCredentials.user;
+        console.log("Register user.email = " + user.email);
+      })
+      .catch((error) => alert(error.message));
+  };
+
+  const signIn = () => {
+    auth
+      .signInWithEmailAndPassword(email, password)
+      .then((userCredentials) => {
+        const user = userCredentials.user;
+        console.log("Sign In user.email = " + user.email);
+      })
+      .catch((error) => alert(error.message));
+  };
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
-      <View style={styles.container}>
-        {signIn ? (
-          <Text
-            style={{
-              textAlign: "center",
-              backgroundColor: "red",
-              color: "white",
-              opacity: 1,
-            }}
-          >
-            This account doesn't exist. Reach out to us via
-            appforconstruction@gmail.com to create your account
-          </Text>
-        ) : (
-          <Text
-            style={{
-              textAlign: "center",
-              backgroundColor: "red",
-              color: "white",
-              opacity: 0,
-            }}
-          >
-            This account doesn't exist. Reach out to us via
-            appforconstruction@gmail.com to create your account
-          </Text>
-        )}
-      </View>
       <TextInput
         style={styles.input}
         placeholder="login"
-        //onChangeText={(text) => setItemDescription(text)}
-        //value={itemDescription}
+        onChangeText={(text) => setEmail(text)}
+        value={email}
       />
 
       <TextInput
         style={styles.input}
         placeholder="password"
-        //onChangeText={(text) => setItemDescription(text)}
-        //value={itemDescription}
+        onChangeText={(text) => setPassword(text)}
+        value={password}
       />
 
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => setSignInEnabled(!signIn)}
-      >
-        <Text style={[styles.buttontext]}> Sign In </Text>
+      <TouchableOpacity style={styles.buttonSignIn} onPress={signIn}>
+        <Text style={[styles.buttontextSignIn]}> Sign In </Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.buttonRegister} onPress={register}>
+        <Text style={[styles.buttontextRegister]}> Register </Text>
       </TouchableOpacity>
 
       <View style={{ flex: 1, justifyContent: "center", margin: 10 }}>
@@ -97,37 +104,48 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 10,
+    alignContent: "center",
   },
   screenTitle: {
     margin: 2,
     padding: 10,
     fontSize: 40,
     fontStyle: "italic",
-    //textDecorationLine: 'underline',
   },
   input: {
     height: 40,
     margin: 6,
     borderWidth: 1,
+    borderColor: "#f7f7f7",
     borderRadius: 10,
     padding: 10,
+    width: "70%",
+    justifyContent: "center",
+    alignSelf: "center",
+    backgroundColor: "#f7f7f7",
   },
   flexRow: {
     flexDirection: "row",
   },
-  buttontext: {
+  buttontextSignIn: {
     fontWeight: "bold",
     fontSize: 14,
     color: "#ffffff",
   },
-  button: {
+  buttontextRegister: {
+    fontWeight: "bold",
+    fontSize: 14,
+    color: "#000000",
+  },
+  buttonSignIn: {
     alignItems: "center",
     backgroundColor: "#000000",
-    //flex: 1,
     height: 40,
     margin: 16,
     padding: 10,
     borderRadius: 10,
+    width: "50%",
+    alignSelf: "center",
     shadowColor: "#000000",
     shadowOffset: {
       width: 0,
@@ -136,7 +154,17 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     shadowOpacity: 0.5,
   },
-  errorBlock: {},
+  buttonRegister: {
+    alignItems: "center",
+    backgroundColor: "#ffffff",
+    height: 40,
+    //margin: 16,
+    padding: 10,
+    borderRadius: 10,
+    width: "50%",
+    alignSelf: "center",
+    borderWidth: 2,
+  },
 });
 
 export default Profile;

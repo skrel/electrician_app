@@ -75,19 +75,17 @@ function addMyOwnItem() {
         <View style={{ flex: 1, backgroundColor: "white", padding: 10 }}>
           <Text style={[styles.screenTitle]}>Add Item</Text>
           <Text style={[styles.textSmall]}>{counter} items added</Text>
-          <Text style={styles.titletext}>Name</Text>
           <TextInput
             style={styles.input}
-            placeholder="Type here"
+            placeholder="Enter name"
             onChangeText={(text) => setItemName(text)}
             value={itemName}
             maxLength={18}
           />
 
-          <Text style={styles.titletext}>Description</Text>
           <TextInput
             style={styles.input}
-            placeholder="Type here"
+            placeholder="Enter description"
             onChangeText={(text) => setItemDescription(text)}
             value={itemDescription}
             maxLength={35}
@@ -135,7 +133,7 @@ const styles = StyleSheet.create({
   },
   button: {
     alignItems: "center",
-    backgroundColor: "#438a48",
+    backgroundColor: "#000000",
     flex: 1,
     height: 40,
     margin: 16,
@@ -179,8 +177,13 @@ const styles = StyleSheet.create({
     height: 40,
     margin: 6,
     borderWidth: 1,
-    borderRadius: 20,
+    borderColor: "#f7f7f7",
+    borderRadius: 10,
     padding: 10,
+    width: "70%",
+    justifyContent: "center",
+    alignSelf: "center",
+    backgroundColor: "#f7f7f7",
   },
   textSmall: {
     //fontWeight: "bold",

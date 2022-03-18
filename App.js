@@ -34,6 +34,7 @@ import HomeScreen from "./screens/Home.js";
 import SeeAll from "./screens/seeAll.js";
 import FireAlarm from "./screens/fireAlarm.js";
 import Other from "./screens/Other.js";
+import myProfile from "./screens/myProfile";
 //import z_testScreen from "./screens/z_testScreen.js";
 
 function openDatabase() {
@@ -56,7 +57,6 @@ const db = openDatabase();
 const Stack = createNativeStackNavigator();
 
 function App() {
-
   //create a table
   React.useEffect(() => {
     db.transaction((tx) => {
@@ -291,7 +291,7 @@ function App() {
             },
           }}
         />
-          <Stack.Screen
+        <Stack.Screen
           name="Configurator"
           component={Configurator}
           options={{
@@ -305,7 +305,7 @@ function App() {
             },
           }}
         />
-        
+
         <Stack.Screen
           name="See All"
           component={SeeAll}
@@ -321,7 +321,7 @@ function App() {
           }}
         />
 
-<Stack.Screen
+        <Stack.Screen
           name="Fire Alarm"
           component={FireAlarm}
           options={{
@@ -336,7 +336,7 @@ function App() {
           }}
         />
 
-<Stack.Screen
+        <Stack.Screen
           name="Other"
           component={Other}
           options={{
@@ -351,6 +351,20 @@ function App() {
           }}
         />
 
+        <Stack.Screen
+          name="myProfile"
+          component={myProfile}
+          options={{
+            title: "",
+            headerShadowVisible: false,
+            headerStyle: {
+              borderBottomColor: "transparent",
+              shadowColor: "transparent",
+              borderBottomWidth: 0,
+              elevation: 0,
+            },
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
