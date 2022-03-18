@@ -255,14 +255,15 @@ const Configurator = () => {
       {/* svg portion */}
       <View style={{ flex: 1, padding: 10 }}>
         <Svg height="100%" width="100%">
-          {boxIsEnabled ? [<Rect key="box"x="125"y="125"width="100"height="100"fill="#949494"/>] : null}
+          {boxIsEnabled ? [<Image key="box" source={require("../assets/box.png")} style={styles.imgBox}/>] : null}
           {bracketIsEnabled ? [<Rect key="bracket"x="10"y="170"width="330"height="12"fill="#949494"/>] : null}
-          {groundIsEnabled ? [ <Circle key="groundCircle"cx="135"cy="135"r="4"fill="green"/>,
-                              <Rect key="groundLine"x="134"y="134"width="2"height="80"fill="green"/>]: null}
-          {mudringIsEnabled ? [<Rect key="mudringRect"x="155"y="140"width="40"height="70"fill="#9dc7fa"opacity="1"/>] : null}
+          {groundIsEnabled ? [ <Circle key="groundCircle"cx="101"cy="80"r="4"fill="green"/>,
+                              <Rect key="groundLine"x="100"y="80"width="2"height="80"fill="green"/>]: null}
+          {mudringIsEnabled ? [<Image key="firePad" source={require("../assets/mudring.png")} style={styles.imgMudring}/>] : null}
+          {firePadIsEnabled ? [<Image key="firePad" source={require("../assets/fire_pad.png")} style={styles.imgFire}/>] : null}
           {extensionringIsEnabled ? [<Rect key="extringRect"x="110"y="110"width="130"height="130"stroke="#0019fc"strokeWidth="2.5"stroke-dasharray="5 20"/>] : null}
           {coverplateIsEnabled ? [<Rect key="coverRect"x="120"y="120"width="110"height="110"stroke="#fc0022"strokeWidth="2.5"stroke-dasharray="5 20"/>] : null}
-          {deviceIsEnabled ? [<Circle key="deviceCirc"cx="175"cy="175"r="5"strokeWidth="2.5"fill="#000000"/>] : null}
+          {deviceIsEnabled ? [<Image key="firePad" source={require("../assets/device.png")} style={styles.imgDevice}/>] : null}
           {tlkoIsEnabled ? [<Polygon key="tlkoPoly"points="130,70 140,100 150,70"strokeWidth="2.5"fill="#ffaa00"/>]: null}
           {tckoIsEnabled ? [<Polygon key="tckoPoly"points="165,70 175,100 185,70"strokeWidth="2.5"fill="#ffaa00"/>]: null}
           {trkoIsEnabled ? [<Polygon key="trkoPoly"points="200,70 210,100 220,70"strokeWidth="2.5"fill="#ffaa00"/>]: null}
@@ -281,6 +282,34 @@ const styles = StyleSheet.create({
   flexRow: {
     flexDirection: "row",
     padding: 3,
+  },
+  imgBox: {
+    height: 100,
+    width: 100,
+    top: 125,
+    left: 125,
+    position: 'absolute'
+  },
+  imgFire: {
+    height: 30,
+    width: 30,
+    top: 100,
+    left: 240,
+    position: 'absolute'
+  },
+  imgMudring: {
+    height: 100,
+    width: 100,
+    top: 125,
+    left: 125,
+    position: 'absolute'
+  },
+  imgDevice: {
+    height: 80,
+    width: 30,
+    top: 135,
+    left: 160,
+    position: 'absolute'
   },
   buttonDeck: {
     alignItems: "center",

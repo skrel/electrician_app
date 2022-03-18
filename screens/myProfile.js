@@ -12,6 +12,8 @@ import {
   Linking,
   TouchableHighlight,
   Alert,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 import { auth } from "../firebase";
 
@@ -47,20 +49,21 @@ const myProfile = () => {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} 
+                                accessible={false}>
       <View style={{ flex: 1, padding: 10 }}>
         <Text style={[styles.screenTitle]}>My Profile</Text>
         <Image
           source={require("../assets/Header-Icon-User.png")}
           style={styles.profileImg}
         />
+        <Text style={{fontStyle: 'italic', alignSelf: 'flex-end', margin: 10}}>{auth.currentUser?.email}</Text>
         <Text style={{ padding: 10 }}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum.
+          If you want to be able to see prices and locations, calculate total
+          amount, generate and export files for BIM models, connect with
+          CRM/ERP, see the most usable items and assemblies, share items with
+          your co-workers, request quotes, then please subscribe to your group's
+          environment by entering your company name below.
         </Text>
         <TextInput
           style={styles.input}
@@ -71,7 +74,21 @@ const myProfile = () => {
         <TouchableOpacity style={styles.buttonSubmit} onPress={SibmitCompany}>
           <Text style={[styles.buttontextSubmit]}> Submit </Text>
         </TouchableOpacity>
+
+        <Text
+          style={{
+            fontStyle: "italic",
+            alignSelf: "center",
+            margin: 30,
+            color: "#365eff",
+          }}
+          onPress={() => navigation.navigate("Home")}
+        >
+          {" "}
+          Back to Home screen...{" "}
+        </Text>
       </View>
+      </TouchableWithoutFeedback>
 
       <View style={styles.flexRow}>
         <TouchableOpacity style={styles.buttonDeck}>
@@ -105,8 +122,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   profileImg: {
-    height: 80,
-    width: 80,
+    height: 40,
+    width: 40,
     borderRadius: 40,
     //justifyContent: 'space-evenly'
     //alignContent: 'center'

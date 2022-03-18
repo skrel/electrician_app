@@ -180,11 +180,21 @@ const HomeScreen = ({ navigation }) => {
               Linking.openURL("https://github.com/skrel/Electrician/wiki")
             }
           >
-            Click here for more info
+            Click Here For More Info
           </Text>
           <Text style={{ textAlign: "center" }}>
             Reach out via appforconstruction@gmail.com
           </Text>
+
+          <Text
+          style={{ textAlign: "center", color: "blue" }}
+          onPress={() =>
+            Linking.openURL("https://www.linkedin.com/company/app-for-electrician/?viewAsMember=true")
+          }
+        >
+          Find Us On LinkedIn
+        </Text>
+
         </View>
       </SafeAreaView>
     </ScrollView>

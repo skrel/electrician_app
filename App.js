@@ -354,8 +354,9 @@ function App() {
         <Stack.Screen
           name="myProfile"
           component={myProfile}
-          options={{
+          options={{ 
             title: "",
+            headerBackVisible:false,
             headerShadowVisible: false,
             headerStyle: {
               borderBottomColor: "transparent",

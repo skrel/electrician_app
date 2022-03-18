@@ -11,8 +11,12 @@ import {
   TextInput,
   TouchableOpacity,
   Linking,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 import { auth } from "../firebase";
+
+import { AntDesign } from '@expo/vector-icons';
 
 const Profile = () => {
   const [email, setEmail] = useState("");
@@ -51,6 +55,7 @@ const Profile = () => {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+
       <TextInput
         style={styles.input}
         placeholder="login"
@@ -74,18 +79,35 @@ const Profile = () => {
       </TouchableOpacity>
 
       <View style={{ flex: 1, justifyContent: "center", margin: 10 }}>
+        
+      <AntDesign name="copyright" size={12} color="black" style={{ alignSelf: "center" }} />
+        <Text style={{ textAlign: "center", paddingBottom: 20 }}>
+          Electrician App
+        </Text>
+        
         <Text
           style={{ textAlign: "center", color: "blue" }}
           onPress={() =>
             Linking.openURL("https://github.com/skrel/Electrician/wiki")
           }
         >
-          Click here for more info
+          Click Here For More Info
         </Text>
         <Text style={{ textAlign: "center" }}>
           Reach out via appforconstruction@gmail.com
         </Text>
+
+        <Text
+          style={{ textAlign: "center", color: "blue" }}
+          onPress={() =>
+            Linking.openURL("https://www.linkedin.com/company/app-for-electrician/?viewAsMember=true")
+          }
+        >
+          Find Us On LinkedIn
+        </Text>
+
       </View>
+      
     </SafeAreaView>
   );
 };
