@@ -35,7 +35,7 @@ const myProfile = () => {
 
   const SibmitCompany = () => {
     Alert.alert(
-      "Error",
+      "Ups, something went wrong...",
       "This company is not registered in the system. Reach out via appforconstruction@gmail.com",
       [
         {

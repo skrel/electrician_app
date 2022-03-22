@@ -73,6 +73,20 @@ function shopingCartItem({ route, navigation }) {
     );
   };
 
+  const Dublicate = () => {
+    Alert.alert(
+      "Ups, something went wrong...",
+      "Please register your company with us to enable this feature.",
+      [
+        {
+          text: "Ok",
+          //onPress: () => navigation.navigate("Home"),
+        },
+      ],
+      { cancelable: false }
+    );
+  };
+
   const addQty = (text) => {
     if (text === null || text === "") {
       return false;
@@ -146,7 +160,7 @@ function shopingCartItem({ route, navigation }) {
             <Text style={[styles.buttontext]}> Update Item </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.buttonDeck}>
+          <TouchableOpacity style={styles.buttonDeck} onPress={Dublicate}>
             <Ionicons name="duplicate-outline" size={24} color="black" />
             <Text style={[styles.buttontext]}> Duplicate Item </Text>
           </TouchableOpacity>

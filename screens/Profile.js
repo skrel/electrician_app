@@ -65,6 +65,7 @@ const Profile = () => {
 
       <TextInput
         style={styles.input}
+        secureTextEntry={true}
         placeholder="password"
         onChangeText={(text) => setPassword(text)}
         value={password}
