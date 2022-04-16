@@ -1,3 +1,6 @@
+import React, { useState, useEffect, ScrollView } from "react";
+
+
 //images
 export const CONFIG_DUPLEX_REC = 'https://skrel.github.io/jsonapi/public/image/config_duplex_rec.png';
 export const CONFIG_DUPLEX_REC_GFI = 'https://skrel.github.io/jsonapi/public/image/config_duplex_rec_gfi.png';
@@ -9,6 +12,7 @@ export const IMAGE_NA = 'https://skrel.github.io/jsonapi/public/image/na.png';
 
 //json locations
 export const BOX = 'https://skrel.github.io/jsonapi/public/json/box.json';
+
 export const BRACKET = 'https://skrel.github.io/jsonapi/public/json/bracket.json';
 export const PANEL = 'https://skrel.github.io/jsonapi/public/json/panel.json';
 export const WIRE = 'https://skrel.github.io/jsonapi/public/json/wire.json';

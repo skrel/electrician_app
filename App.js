@@ -35,7 +35,7 @@ import SeeAll from "./screens/seeAll.js";
 import FireAlarm from "./screens/fireAlarm.js";
 import Other from "./screens/Other.js";
 import myProfile from "./screens/myProfile";
-//import z_testScreen from "./screens/z_testScreen.js";
+import dataConnect from "./screens/dataConnect.js";
 
 function openDatabase() {
   if (Platform.OS === "web") {
@@ -354,9 +354,25 @@ function App() {
         <Stack.Screen
           name="myProfile"
           component={myProfile}
-          options={{ 
+          options={{
             title: "",
-            headerBackVisible:false,
+            headerBackVisible: false,
+            headerShadowVisible: false,
+            headerStyle: {
+              borderBottomColor: "transparent",
+              shadowColor: "transparent",
+              borderBottomWidth: 0,
+              elevation: 0,
+            },
+          }}
+        />
+
+        <Stack.Screen
+          name="dataConnect"
+          component={dataConnect}
+          options={{
+            title: "",
+            headerBackVisible: true,
             headerShadowVisible: false,
             headerStyle: {
               borderBottomColor: "transparent",

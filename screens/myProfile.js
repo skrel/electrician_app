@@ -1,4 +1,4 @@
-import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import {
   View,
@@ -6,11 +6,8 @@ import {
   SafeAreaView,
   Image,
   StyleSheet,
-  ScrollView,
   TextInput,
   TouchableOpacity,
-  Linking,
-  TouchableHighlight,
   Alert,
   TouchableWithoutFeedback,
   Keyboard,
@@ -23,6 +20,10 @@ import { FontAwesome } from "@expo/vector-icons";
 
 const myProfile = () => {
   const navigation = useNavigation();
+  const [company, setCompany] = useState("");
+
+  //get urls
+
 
   const signOut = () => {
     auth
@@ -68,11 +69,15 @@ const myProfile = () => {
         <TextInput
           style={styles.input}
           placeholder="company name"
-          //onChangeText={(text) => setPassword(text)}
-          //value={password}
+          onChangeText={(text) => setCompany(text)}
+          value={company}
         />
         <TouchableOpacity style={styles.buttonSubmit} onPress={SibmitCompany}>
           <Text style={[styles.buttontextSubmit]}> Submit </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.buttonSubmit} onPress={() => navigation.navigate("dataConnect")}>
+          <Text style={[styles.buttontextSubmit]}> TEMP Data Connect </Text>
         </TouchableOpacity>
 
         <Text
