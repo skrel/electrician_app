@@ -1,6 +1,5 @@
 import React, { useState, useEffect, ScrollView } from "react";
 
-
 //images
 export const CONFIG_DUPLEX_REC = 'https://skrel.github.io/jsonapi/public/image/config_duplex_rec.png';
 export const CONFIG_DUPLEX_REC_GFI = 'https://skrel.github.io/jsonapi/public/image/config_duplex_rec_gfi.png';

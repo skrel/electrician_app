@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -20,10 +20,7 @@ import { FontAwesome } from "@expo/vector-icons";
 
 const myProfile = () => {
   const navigation = useNavigation();
-  const [company, setCompany] = useState("");
-
-  //get urls
-
+  const [notApproved, setNotApproved] = useState(true);
 
   const signOut = () => {
     auth
@@ -48,37 +45,37 @@ const myProfile = () => {
     );
   };
 
+  let title = "title undefind";
+  if (auth.currentUser?.email === "krel.svyatoslav@gmail.com") {
+    title = "Admin";
+    useEffect(() => {
+      setNotApproved(false);
+    }, []);
+  }
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss} 
-                                accessible={false}>
       <View style={{ flex: 1, padding: 10 }}>
         <Text style={[styles.screenTitle]}>My Profile</Text>
         <Image
           source={require("../assets/Header-Icon-User.png")}
           style={styles.profileImg}
         />
-        <Text style={{fontStyle: 'italic', alignSelf: 'flex-end', margin: 10}}>{auth.currentUser?.email}</Text>
-        <Text style={{ padding: 10 }}>
-          If you want to be able to see prices and locations, calculate total
-          amount, generate and export files for BIM models, connect with
-          CRM/ERP, see the most usable items and assemblies, share items with
-          your co-workers, request quotes, then please subscribe to your group's
-          environment by entering your company name below.
+        <Text
+          style={{ fontStyle: "italic", alignSelf: "flex-end", margin: 10 }}
+        >
+          {auth.currentUser?.email}, {title}
         </Text>
-        <TextInput
-          style={styles.input}
-          placeholder="company name"
-          onChangeText={(text) => setCompany(text)}
-          value={company}
-        />
-        <TouchableOpacity style={styles.buttonSubmit} onPress={SibmitCompany}>
-          <Text style={[styles.buttontextSubmit]}> Submit </Text>
-        </TouchableOpacity>
 
-        <TouchableOpacity style={styles.buttonSubmit} onPress={() => navigation.navigate("dataConnect")}>
-          <Text style={[styles.buttontextSubmit]}> TEMP Data Connect </Text>
-        </TouchableOpacity>
+        {notApproved ? (
+          <Text style={{ padding: 10 }}>
+            Your company is not registered in the system. Reach out via
+            appforconstruction@gmail.com if you want to be able to see prices,
+            locations, calculate total amount, generate and export files for BIM
+            models, connect with CRM/ERP, see the most usable items and
+            assemblies, share items with your co-workers, request quotes.
+          </Text>
+        ) : null}
 
         <Text
           style={{
@@ -93,24 +90,70 @@ const myProfile = () => {
           Back to Home screen...{" "}
         </Text>
       </View>
-      </TouchableWithoutFeedback>
+
+      <View style={{ flex: 1, padding: 10 }}>
+        <Text style={{ paddingLeft: 20, fontWeight: "bold", fontSize: 18 }}>
+          Activity
+        </Text>
+      </View>
 
       <View style={styles.flexRow}>
-        <TouchableOpacity style={styles.buttonDeck}>
-          <MaterialCommunityIcons name="salesforce" size={24} color="#9c9c9c" />
-          <Text style={[styles.buttontextdisabled]}> Connect to </Text>
-          <Text style={[styles.buttontextdisabled]}> CRM </Text>
-        </TouchableOpacity>
+        {notApproved ? (
+          <TouchableOpacity style={styles.buttonDeck}>
+            <MaterialCommunityIcons
+              name="salesforce"
+              size={24}
+              color="#9c9c9c"
+            />
+            <Text style={[styles.buttontextdisabled]}> CRM </Text>
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity style={styles.buttonDeck}>
+            <MaterialCommunityIcons
+              name="salesforce"
+              size={24}
+              color="#000000"
+            />
+            <Text style={[styles.buttontext]}> CRM </Text>
+          </TouchableOpacity>
+        )}
 
-        <TouchableOpacity style={styles.buttonDeck}>
-          <MaterialCommunityIcons name="rotate-3d" size={22} color="#9c9c9c" />
-          <Text style={[styles.buttontextdisabled]}> To BIM </Text>
-        </TouchableOpacity>
+        {notApproved ? (
+          <TouchableOpacity style={styles.buttonDeck}>
+            <MaterialCommunityIcons
+              name="rotate-3d"
+              size={22}
+              color="#9c9c9c"
+            />
+            <Text style={[styles.buttontextdisabled]}> BIM </Text>
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity style={styles.buttonDeck}>
+            <MaterialCommunityIcons
+              name="rotate-3d"
+              size={22}
+              color="#000000"
+            />
+            <Text style={[styles.buttontext]}> BIM </Text>
+          </TouchableOpacity>
+        )}
 
-        <TouchableOpacity style={styles.buttonDeck}>
-          <Feather name="pie-chart" size={22} color="#9c9c9c" />
-          <Text style={[styles.buttontextdisabled]}> Charts </Text>
-        </TouchableOpacity>
+        {notApproved ? (
+          <TouchableOpacity
+            style={styles.buttonDeck}
+          >
+            <Feather name="database" size={24} color="#9c9c9c" />
+            <Text style={[styles.buttontextdisabled]}> Data </Text>
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            style={styles.buttonDeck}
+            onPress={() => navigation.navigate("dataConnect")}
+          >
+            <Feather name="database" size={24} color="black" />
+            <Text style={[styles.buttontext]}> Data </Text>
+          </TouchableOpacity>
+        )}
 
         <TouchableOpacity style={styles.buttonDeck} onPress={signOut}>
           <FontAwesome name="sign-out" size={24} color="black" />
