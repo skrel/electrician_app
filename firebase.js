@@ -1,10 +1,7 @@
-// Import the functions you need from the SDKs you need
-import * as firebase from "firebase";
-import 'firebase/firestore';
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+// v9 compat packages are API compatible with v8 code
+import { initializeApp } from 'firebase/app';
+import { getAuth } from "@firebase/auth";
 
-// Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyDJqnTgM6I9vc5h45x_8CxkfKK085_wG1E",
   authDomain: "electrician-app-70e32.firebaseapp.com",
@@ -14,16 +11,5 @@ const firebaseConfig = {
   appId: "1:424462050984:web:127e92812741f7c78b449d"
 };
 
-// Initialize Firebase
-
-let app;
-if (firebase.apps.length === 0) {
-    app = firebase.initializeApp(firebaseConfig);
-} else {
-    app = firebase.app()
-}
-
-const auth = firebase.auth();
-const db = app.firestore();
-
-export {auth, db};
+const app = initializeApp(firebaseConfig);
+export const auth = getAuth(app);

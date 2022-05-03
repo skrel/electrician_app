@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import * as SQLite from "expo-sqlite";
 
-import { sendEmail } from "../components/sendEmail.js";
+import { sendEmail } from "../components/SendEmail.js";
 
 import { AntDesign } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';

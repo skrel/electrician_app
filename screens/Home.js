@@ -158,15 +158,18 @@ const HomeScreen = ({ navigation }) => {
             onPress={() => navigation.navigate("Configurator")}
           >
             <MaterialIcons name="build" size={24} color="black" />
-            <Text style={[styles.buttontext]}> Configurator </Text>
+            <Text style={[styles.buttontext]}> Box Configurator </Text>
           </TouchableOpacity>
         </View>
 
         <View style={styles.flexRow}>
-          <TouchableOpacity
-            style={styles.invisibleButton}
-            //onPress={() => navigation.navigate("z_testScreen")}
-          ></TouchableOpacity>
+        <TouchableOpacity
+            style={styles.button}
+            //onPress={() => navigation.navigate("Configurator")}
+          >
+            <MaterialIcons name="build" size={24} color="black" />
+            <Text style={[styles.buttontext]}> Panel Configurator </Text>
+          </TouchableOpacity>
           <TouchableOpacity
             style={styles.invisibleButton}
             //onPress={() => navigation.navigate("Assembly")}

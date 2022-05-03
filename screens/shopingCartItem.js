@@ -39,7 +39,7 @@ const db = openDatabase();
 
 const { height } = Dimensions.get("window");
 
-function shopingCartItem({ route, navigation }) {
+function ShopingCartItem({ route, navigation }) {
   const { itemId } = route.params;
   const { value } = route.params;
   const { image } = route.params;
@@ -267,4 +267,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default shopingCartItem;
+export default ShopingCartItem;

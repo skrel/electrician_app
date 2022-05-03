@@ -13,41 +13,46 @@ import {
   Keyboard,
 } from "react-native";
 import { auth } from "../firebase";
+import { signOut } from "firebase/auth";
+import * as SQLite from "expo-sqlite";
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 
-const myProfile = () => {
+function openDatabase() {
+  if (Platform.OS === "web") {
+    return {
+      transaction: () => {
+        return {
+          executeSql: () => {},
+        };
+      },
+    };
+  }
+
+  const db = SQLite.openDatabase("db.db");
+  return db;
+}
+
+const db = openDatabase();
+
+const MyProfile = () => {
   const navigation = useNavigation();
   const [notApproved, setNotApproved] = useState(true);
 
-  const signOut = () => {
-    auth
-      .signOut()
+  const signOutUser = () => {
+    signOut(auth)
       .then(() => {
         navigation.replace("Home");
       })
       .catch((error) => alert(error.message));
   };
 
-  const SibmitCompany = () => {
-    Alert.alert(
-      "Ups, something went wrong...",
-      "This company is not registered in the system. Reach out via appforconstruction@gmail.com",
-      [
-        {
-          text: "Ok",
-          //onPress: () => navigation.navigate("Home"),
-        },
-      ],
-      { cancelable: false }
-    );
-  };
-
   let title = "title undefind";
   if (auth.currentUser?.email === "krel.svyatoslav@gmail.com") {
     title = "Admin";
+    //TODO: delete this part
     useEffect(() => {
       setNotApproved(false);
     }, []);
@@ -91,9 +96,16 @@ const myProfile = () => {
         </Text>
       </View>
 
-      <View style={{ flex: 1, padding: 10 }}>
+      <View style={{ flex: 1 }}>
         <Text style={{ paddingLeft: 20, fontWeight: "bold", fontSize: 18 }}>
-          Activity
+          Your Activity
+        </Text>
+
+        <TouchableOpacity style={styles.itemsInCart}>
+          <Text style={[styles.textItemsInCart]}> QTY </Text>
+        </TouchableOpacity>
+        <Text style={{ paddingTop: 10, fontSize: 14, alignSelf: "center" }}>
+          Items In Cart
         </Text>
       </View>
 
@@ -138,24 +150,7 @@ const myProfile = () => {
           </TouchableOpacity>
         )}
 
-        {notApproved ? (
-          <TouchableOpacity
-            style={styles.buttonDeck}
-          >
-            <Feather name="database" size={24} color="#9c9c9c" />
-            <Text style={[styles.buttontextdisabled]}> Data </Text>
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity
-            style={styles.buttonDeck}
-            onPress={() => navigation.navigate("dataConnect")}
-          >
-            <Feather name="database" size={24} color="black" />
-            <Text style={[styles.buttontext]}> Data </Text>
-          </TouchableOpacity>
-        )}
-
-        <TouchableOpacity style={styles.buttonDeck} onPress={signOut}>
+        <TouchableOpacity style={styles.buttonDeck} onPress={signOutUser}>
           <FontAwesome name="sign-out" size={24} color="black" />
           <Text style={[styles.buttontext]}> Sing </Text>
           <Text style={[styles.buttontext]}> Out </Text>
@@ -240,22 +235,31 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     backgroundColor: "#f7f7f7",
   },
-  buttontextSubmit: {
-    fontWeight: "bold",
-    fontSize: 14,
-    color: "#000000",
-  },
-  buttonSubmit: {
+  itemsInCart: {
     alignItems: "center",
-    backgroundColor: "#ffffff",
-    height: 40,
+    backgroundColor: "#146aff",
+    height: 100,
     //margin: 16,
-    padding: 10,
-    borderRadius: 10,
-    width: "50%",
+    //padding: 10,
+    borderRadius: 50,
+    width: 100,
     alignSelf: "center",
-    borderWidth: 2,
+    justifyContent: "center",
+  },
+  textItemsInCart: {
+    fontSize: 22,
+    color: "#ffffff",
+    alignItems: "center",
+    alignSelf: "center",
+    justifyContent: "center",
+    shadowColor: "#000000",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowRadius: 2,
+    shadowOpacity: 0.5,
   },
 });
 
-export default myProfile;
+export default MyProfile;

@@ -15,8 +15,9 @@ import {
   Keyboard,
 } from "react-native";
 import { auth } from "../firebase";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
 
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign } from "@expo/vector-icons";
 
 const Profile = () => {
   const [email, setEmail] = useState("");
@@ -28,34 +29,38 @@ const Profile = () => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
         navigation.navigate("myProfile");
+        console.log('User metadata: ', user.metadata);
       }
     });
     return unsubscribe;
   }, []);
 
-  const register = () => {
-    auth
-      .createUserWithEmailAndPassword(email, password)
-      .then((userCredentials) => {
-        const user = userCredentials.user;
-        console.log("Register user.email = " + user.email);
-      })
-      .catch((error) => alert(error.message));
+  //v9 Sign up new users
+  const register = async () => {
+  createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      const user = userCredential.user;
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+    });
   };
 
-  const signIn = () => {
-    auth
-      .signInWithEmailAndPassword(email, password)
-      .then((userCredentials) => {
-        const user = userCredentials.user;
-        console.log("Sign In user.email = " + user.email);
+  //v9 Sign in existing users
+  const signIn = async () => {
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
       })
-      .catch((error) => alert(error.message));
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+      });
   };
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
-
       <TextInput
         style={styles.input}
         placeholder="login"
@@ -80,12 +85,16 @@ const Profile = () => {
       </TouchableOpacity>
 
       <View style={{ flex: 1, justifyContent: "center", margin: 10 }}>
-        
-      <AntDesign name="copyright" size={12} color="black" style={{ alignSelf: "center" }} />
+        <AntDesign
+          name="copyright"
+          size={12}
+          color="black"
+          style={{ alignSelf: "center" }}
+        />
         <Text style={{ textAlign: "center", paddingBottom: 20 }}>
           Electrician App
         </Text>
-        
+
         <Text
           style={{ textAlign: "center", color: "blue" }}
           onPress={() =>
@@ -101,14 +110,14 @@ const Profile = () => {
         <Text
           style={{ textAlign: "center", color: "blue" }}
           onPress={() =>
-            Linking.openURL("https://www.linkedin.com/company/app-for-electrician/?viewAsMember=true")
+            Linking.openURL(
+              "https://www.linkedin.com/company/app-for-electrician/?viewAsMember=true"
+            )
           }
         >
           Find Us On LinkedIn
         </Text>
-
       </View>
-      
     </SafeAreaView>
   );
 };

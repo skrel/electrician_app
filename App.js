@@ -15,14 +15,14 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as SQLite from "expo-sqlite";
 
 //screens
-import ShopingCart from "./screens/shopingCart.js";
-import shopingCartItem from "./screens/shopingCartItem.js";
+import ShopingCart from "./screens/ShopingCart.js";
+import ShopingCartItem from "./screens/ShopingCartItem.js";
 import Box from "./screens/Box.js";
 import Bracket from "./screens/Bracket.js";
 import Profile from "./screens/Profile.js";
 import Accessories from "./screens/Accessories.js";
 import Device from "./screens/Device.js";
-import addMyOwnItem from "./screens/addMyOwnItem.js";
+import AddMyOwnItem from "./screens/AddMyOwnItem.js";
 import Panel from "./screens/Panel.js";
 import Wire from "./screens/Wire.js";
 import Conduit from "./screens/Conduit.js";
@@ -31,11 +31,10 @@ import ExtensionRing from "./screens/ExtensionRing.js";
 import Assembly from "./screens/Assembly.js";
 import Configurator from "./screens/Configurator.js";
 import HomeScreen from "./screens/Home.js";
-import SeeAll from "./screens/seeAll.js";
-import FireAlarm from "./screens/fireAlarm.js";
+import SeeAll from "./screens/SeeAll.js";
+import FireAlarm from "./screens/FireAlarm.js";
 import Other from "./screens/Other.js";
-import myProfile from "./screens/myProfile";
-import dataConnect from "./screens/dataConnect.js";
+import MyProfile from "./screens/MyProfile";
 
 function openDatabase() {
   if (Platform.OS === "web") {
@@ -125,7 +124,7 @@ function App() {
         />
         <Stack.Screen
           name="Shopping Cart Item"
-          component={shopingCartItem}
+          component={ShopingCartItem}
           options={{
             title: "",
             headerShadowVisible: false,
@@ -195,7 +194,7 @@ function App() {
         />
         <Stack.Screen
           name="Add My Own Item"
-          component={addMyOwnItem}
+          component={AddMyOwnItem}
           options={{
             title: "",
             headerShadowVisible: false,
@@ -353,26 +352,10 @@ function App() {
 
         <Stack.Screen
           name="myProfile"
-          component={myProfile}
+          component={MyProfile}
           options={{
             title: "",
             headerBackVisible: false,
-            headerShadowVisible: false,
-            headerStyle: {
-              borderBottomColor: "transparent",
-              shadowColor: "transparent",
-              borderBottomWidth: 0,
-              elevation: 0,
-            },
-          }}
-        />
-
-        <Stack.Screen
-          name="dataConnect"
-          component={dataConnect}
-          options={{
-            title: "",
-            headerBackVisible: true,
             headerShadowVisible: false,
             headerStyle: {
               borderBottomColor: "transparent",

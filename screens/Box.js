@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import * as SQLite from "expo-sqlite";
 import { BOX } from "../components/Constants.js";
+import { auth } from "../firebase";
 
 function openDatabase() {
   if (Platform.OS === "web") {
@@ -36,6 +37,12 @@ const Box = (props) => {
   const [selectedId, setSelectedId] = useState(null);
   const [isLoading, setLoading] = useState(false);
   const [forceUpdate] = useForceUpdate();
+
+  // Check for user status
+  let BOX = "https://skrel.github.io/jsonapi/public/json/box.json";
+  if (auth.currentUser?.email === "krel.svyatoslav@gmail.com") {
+    BOX = "https://skrel.github.io/jsonapi/admin/json/box.json";
+  }
 
   //counter
   const [counter, setCounter] = useState(0);
@@ -178,11 +185,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#d4c00d",
     color: "#ffffff",
     //width: 80,
-    maxWidth:80,
-    textAlign: 'center',
-    fontStyle: 'italic',
+    maxWidth: 80,
+    textAlign: "center",
+    fontStyle: "italic",
     fontSize: 9,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
 });
 

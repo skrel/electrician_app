@@ -35,7 +35,7 @@ function openDatabase() {
 
 const db = openDatabase();
 
-function addMyOwnItem() {
+function AddMyOwnItem() {
   const [forceUpdate] = useForceUpdate();
   let itemImage = "https://skrel.github.io/jsonapi/image/na.png";
   const [itemName, setItemName] = React.useState(null);
@@ -199,4 +199,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default addMyOwnItem;
+export default AddMyOwnItem;

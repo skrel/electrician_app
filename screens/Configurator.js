@@ -9,6 +9,7 @@ import {
   ScrollView,
   FlatList,
   Image,
+  Alert,
 } from "react-native";
 import Svg, { Rect, Polygon, Circle } from "react-native-svg";
 import * as SQLite from "expo-sqlite";
@@ -40,7 +41,7 @@ const AssemblyType = ({ item, onPress, backgroundColor, textColor }) => (
   </TouchableOpacity>
 );
 
-const Configurator = () => {
+const Configurator = ({ navigation }) => {
   const [forceUpdate] = useForceUpdate();
   //const itemImage = "https://skrel.github.io/jsonapi/image/na.png";
   const [itemName, setItemName] = useState("Assembly Name");
@@ -122,6 +123,23 @@ const Configurator = () => {
       },
       null,
       forceUpdate
+    );
+  };
+
+  const Erase = () => {
+    Alert.alert(
+      "Are you sure?",
+      "Do you want to erase your progress?",
+      [
+        {
+          text: "Ok",
+          onPress: () => navigation.navigate("Home"),
+        },
+        {
+          text: "Cancel",
+          onPress: () => console.log('Cancel Pressed'),
+        },
+      ],
     );
   };
 
@@ -242,7 +260,7 @@ const Configurator = () => {
               <Text style={[styles.deckbuttontext]}> Add Item </Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.buttonDeck}>
+            <TouchableOpacity style={styles.buttonDeck} onPress={() => Erase()}>
               <FontAwesome name="eraser" size={24} color="black" />
               <Text style={[styles.deckbuttontext]}> Erase </Text>
             </TouchableOpacity>
