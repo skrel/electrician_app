@@ -29,12 +29,15 @@ import Conduit from "./screens/Conduit.js";
 import Connector from "./screens/Connector.js";
 import ExtensionRing from "./screens/ExtensionRing.js";
 import Assembly from "./screens/Assembly.js";
-import Configurator from "./screens/Configurator.js";
 import HomeScreen from "./screens/Home.js";
 import SeeAll from "./screens/SeeAll.js";
 import FireAlarm from "./screens/FireAlarm.js";
 import Other from "./screens/Other.js";
 import MyProfile from "./screens/MyProfile";
+import Configurators from "./screens/Configurators";
+import BoxConfigurator from "./screens/BoxConfigurator.js";
+import PanelConfigurator from "./screens/PanelConfigurator";
+import LightConfigurator from "./screens/LightConfigurator";
 
 function openDatabase() {
   if (Platform.OS === "web") {
@@ -291,8 +294,8 @@ function App() {
           }}
         />
         <Stack.Screen
-          name="Configurator"
-          component={Configurator}
+          name="BoxConfigurator"
+          component={BoxConfigurator}
           options={{
             title: "",
             headerShadowVisible: false,
@@ -356,6 +359,51 @@ function App() {
           options={{
             title: "",
             headerBackVisible: false,
+            headerShadowVisible: false,
+            headerStyle: {
+              borderBottomColor: "transparent",
+              shadowColor: "transparent",
+              borderBottomWidth: 0,
+              elevation: 0,
+            },
+          }}
+        />
+
+        <Stack.Screen
+          name="Configurators"
+          component={Configurators}
+          options={{
+            title: "",
+            headerShadowVisible: false,
+            headerStyle: {
+              borderBottomColor: "transparent",
+              shadowColor: "transparent",
+              borderBottomWidth: 0,
+              elevation: 0,
+            },
+          }}
+        />
+
+        <Stack.Screen
+          name="PanelConfigurator"
+          component={PanelConfigurator}
+          options={{
+            title: "",
+            headerShadowVisible: false,
+            headerStyle: {
+              borderBottomColor: "transparent",
+              shadowColor: "transparent",
+              borderBottomWidth: 0,
+              elevation: 0,
+            },
+          }}
+        />
+
+        <Stack.Screen
+          name="LightConfigurator"
+          component={LightConfigurator}
+          options={{
+            title: "",
             headerShadowVisible: false,
             headerStyle: {
               borderBottomColor: "transparent",

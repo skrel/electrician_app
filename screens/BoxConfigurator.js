@@ -41,7 +41,7 @@ const AssemblyType = ({ item, onPress, backgroundColor, textColor }) => (
   </TouchableOpacity>
 );
 
-const Configurator = ({ navigation }) => {
+const BoxConfigurator = ({ navigation }) => {
   const [forceUpdate] = useForceUpdate();
   //const itemImage = "https://skrel.github.io/jsonapi/image/na.png";
   const [itemName, setItemName] = useState("Assembly Name");
@@ -145,7 +145,7 @@ const Configurator = ({ navigation }) => {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
-      <Text style={[styles.screenTitle]}>Configurator</Text>
+      <Text style={[styles.screenTitle]}>Box Configurator</Text>
       <Text style={[styles.textSmall]}>{counter} items added</Text>
       <View style={{ flex: 1, padding: 10 }}>
         <ScrollView>
@@ -454,4 +454,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Configurator;
+export default BoxConfigurator;
