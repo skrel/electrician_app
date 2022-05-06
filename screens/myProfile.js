@@ -39,6 +39,7 @@ const db = openDatabase();
 
 const MyProfile = () => {
   const navigation = useNavigation();
+  const [itemsDB, setItemsDB] = useState(0);
   const [notApproved, setNotApproved] = useState(true);
 
   const signOutUser = () => {
@@ -58,6 +59,23 @@ const MyProfile = () => {
     }, []);
   }
 
+  let sql = 'select * from cart';
+  let params = [];
+  db.transaction((txn) => {
+    txn.executeSql(sql, params, (trans, results) => {
+        console.log("count = " + results.rows.length);
+        setItemsDB(results.rows.length);
+        //console.log("execute success transaction: " + JSON.stringify(trans))
+        //resolve(results);
+        //resolve(trans);
+        //return results;
+    },
+        (error) => {
+        console.log("execute error: " + JSON.stringify(error))
+        return(error);
+    });
+});
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
       <View style={{ flex: 1, padding: 10 }}>
@@ -73,12 +91,9 @@ const MyProfile = () => {
         </Text>
 
         {notApproved ? (
-          <Text style={{ padding: 10 }}>
-            Your company is not registered in the system. Reach out via
-            appforconstruction@gmail.com if you want to be able to see prices,
-            locations, calculate total amount, generate and export files for BIM
-            models, connect with CRM/ERP, see the most usable items and
-            assemblies, share items with your co-workers, request quotes.
+          <Text style={{ padding: 10, alignSelf: 'center' }}>
+            Ups... Your company is not registered in the system. Reach out to us via
+            appforconstruction@gmail.com.
           </Text>
         ) : null}
 
@@ -96,17 +111,24 @@ const MyProfile = () => {
         </Text>
       </View>
 
-      <View style={{ flex: 1 }}>
+      
         <Text style={{ paddingLeft: 20, fontWeight: "bold", fontSize: 18 }}>
           Your Activity
         </Text>
 
+        <View style={{ flex: 1 }}>
         <TouchableOpacity style={styles.itemsInCart}>
-          <Text style={[styles.textItemsInCart]}> QTY </Text>
-        </TouchableOpacity>
-        <Text style={{ paddingTop: 10, fontSize: 14, alignSelf: "center" }}>
+          <Text style={[styles.textItemsInCart]}> {itemsDB} </Text>
+          <Text style={{ paddingTop: 2, fontSize: 12, alignSelf: "center", color: '#ffffff' }}>
           Items In Cart
         </Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.totalCost}>
+          <Text style={[styles.textItemsInCart]}> ? </Text>
+          <Text style={{ paddingTop: 2, fontSize: 12, alignSelf: "center", color: '#ffffff' }}>
+          Total Cost
+        </Text>
+        </TouchableOpacity>
       </View>
 
       <View style={styles.flexRow}>
@@ -239,15 +261,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#146aff",
     height: 100,
-    //margin: 16,
-    //padding: 10,
+    margin: 16,
+    padding: 10,
     borderRadius: 50,
     width: 100,
     alignSelf: "center",
     justifyContent: "center",
   },
   textItemsInCart: {
-    fontSize: 22,
+    fontSize: 36,
     color: "#ffffff",
     alignItems: "center",
     alignSelf: "center",
@@ -260,6 +282,17 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     shadowOpacity: 0.5,
   },
+  totalCost: {
+    alignItems: "center",
+    backgroundColor: "#0ca620",
+    height: 100,
+    //margin: 16,
+    //padding: 10,
+    borderRadius: 50,
+    width: 100,
+    alignSelf: "center",
+    justifyContent: "center",
+  }
 });
 
 export default MyProfile;
