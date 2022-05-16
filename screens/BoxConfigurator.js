@@ -105,10 +105,13 @@ const BoxConfigurator = ({ navigation }) => {
   const [firePadIsEnabled, setFirePadIsEnabled] = useState(false);
   const [firePadDescription, setFirePadDescription] = useState(false);
 
+  const [whipIsEnabled, setWhipIsEnabled] = useState(false);
+  const [whipDescription, setWhipDescription] = useState(false);
+
   const itemDescription =  "assembly type: " +  assemblyTypeDescription +  ", box: " +  boxDescription +  ", bracket: " +  bracketDescription +  ", ground: " +
   groundDescription +  ", mudring: " +  mudringDescription +  ", fire pad: " +  firePadDescription +  ", extension ring: " +  extensionringDescription +
   ", cover plate: " +  coverplateDescription +  ", device: " +  deviceDescription +  ", top lko: " +  tlkoDescription +  ", top cko: " +  tckoDescription +
-  ", top rko:" +  trkoDescription;
+  ", top rko:" +  trkoDescription + ", whip: " + whipDescription;
 
   const add = () => {
     db.transaction(
@@ -250,6 +253,14 @@ const BoxConfigurator = ({ navigation }) => {
               <Text style={[styles.buttontext]}> { trkoIsEnabled ? "RKO Info" : "RKO?"} </Text>
             </TouchableOpacity>
             {trkoIsEnabled ? (<TextInput style={styles.input} placeholder="Type RKO name here" onChangeText={(text) => setTrkoDescription(text)} value={trkoDescription} maxLength={18}/>) : null}
+          </View>
+
+          {/* whip View */}
+          <View style={styles.flexRow}>
+            <TouchableOpacity style={styles.buttonForConfig} onPress={() => setWhipIsEnabled(!whipIsEnabled)}>
+              <Text style={[styles.buttontext]}> { whipIsEnabled ? "Whip Info" : "Whip?"} </Text>
+            </TouchableOpacity>
+            {whipIsEnabled ? (<TextInput style={styles.input} placeholder="Type Whip name here" onChangeText={(text) => setWhipDescription(text)} value={whipDescription} maxLength={32}/>) : null}
           </View>
 
           

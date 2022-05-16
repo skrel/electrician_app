@@ -15,13 +15,13 @@ import { Feather } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
-import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesome } from "@expo/vector-icons";
 
 const HomeScreen = ({ navigation }) => {
   return (
-    <ScrollView style={{ backgroundColor: "white" }}>
-      <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
-        <Text style={[styles.screenTitle]}>Home</Text>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+      <Text style={[styles.screenTitle]}>Home</Text>
+      <ScrollView style={{ backgroundColor: "white" }}>
         <Text style={{ paddingLeft: 20, fontWeight: "bold", fontSize: 14 }}>
           Parts
         </Text>
@@ -131,8 +131,7 @@ const HomeScreen = ({ navigation }) => {
           <TouchableOpacity
             style={styles.invisibleButton}
             //onPress={() => navigation.navigate("Fire Alarm")}
-          >
-          </TouchableOpacity>
+          ></TouchableOpacity>
         </View>
 
         <Text style={{ paddingLeft: 20, fontWeight: "bold", fontSize: 14 }}>
@@ -163,7 +162,7 @@ const HomeScreen = ({ navigation }) => {
         </View>
 
         <View style={styles.flexRow}>
-        <TouchableOpacity
+          <TouchableOpacity
             style={styles.invisibleButton}
             //onPress={() => navigation.navigate("Assembly")}
           ></TouchableOpacity>
@@ -187,17 +186,18 @@ const HomeScreen = ({ navigation }) => {
           </Text>
 
           <Text
-          style={{ textAlign: "center", color: "blue" }}
-          onPress={() =>
-            Linking.openURL("https://www.linkedin.com/company/app-for-electrician/?viewAsMember=true")
-          }
-        >
-          Find Us On LinkedIn
-        </Text>
-
+            style={{ textAlign: "center", color: "blue" }}
+            onPress={() =>
+              Linking.openURL(
+                "https://www.linkedin.com/company/app-for-electrician/?viewAsMember=true"
+              )
+            }
+          >
+            Find Us On LinkedIn
+          </Text>
         </View>
-      </SafeAreaView>
-    </ScrollView>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
@@ -221,10 +221,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "black",
     flex: 1,
-    height: 80,
-    margin: 16,
+    height: 50,
+    margin: 8,
     padding: 10,
-    borderRadius: 10,
+    borderRadius: 5,
     shadowColor: "#000000",
     shadowOffset: {
       width: 0,
@@ -254,8 +254,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "white",
     flex: 1,
-    height: 80,
-    margin: 16,
+    height: 50,
+    margin: 8,
     padding: 10,
     borderRadius: 10,
   },

@@ -37,7 +37,18 @@ const Configurators = ({ navigation }) => {
         {/* Light Configurator */}
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate("LightConfigurator")}
+          onPress={() => 
+            Alert.alert(
+              "Register your company",
+              "Your company is not registered in the system. Reach out to us via appforconstruction@gmail.com",
+              [
+                {
+                  text: "Ok",
+                  onPress: () => console.log('Ok Pressed'),
+                }
+              ],
+            )
+          }
         >
           <Text style={[styles.buttontext]}> Light Configurator </Text>
         </TouchableOpacity>

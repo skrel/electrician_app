@@ -8,17 +8,17 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
-  Alert,
-  TouchableWithoutFeedback,
-  Keyboard,
+  ScrollView,
 } from "react-native";
 import { auth } from "../firebase";
 import { signOut } from "firebase/auth";
 import * as SQLite from "expo-sqlite";
+//import ConvertingDateToString from '../components/Functions.js';
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
+//import { ScrollView } from "react-native-web";
 
 function openDatabase() {
   if (Platform.OS === "web") {
@@ -37,10 +37,22 @@ function openDatabase() {
 
 const db = openDatabase();
 
-const MyProfile = () => {
+let ConvertingDateToString = require("../components/Functions.js");
+
+const MyProfile = ({ route }) => {
   const navigation = useNavigation();
   const [itemsDB, setItemsDB] = useState(0);
   const [notApproved, setNotApproved] = useState(true);
+
+  //last login data from firebase
+  const { lastLogin } = route.params;
+  const { createdAt } = route.params;
+  let sDate_lastLogin =
+    ConvertingDateToString.ConvertingDateToString(lastLogin);
+  let lastLoginTrimmed = sDate_lastLogin.slice(4, 15);
+  let sDate_createdAt =
+    ConvertingDateToString.ConvertingDateToString(createdAt);
+  let createdAtTrimmed = sDate_createdAt.slice(0, 15);
 
   const signOutUser = () => {
     signOut(auth)
@@ -59,125 +71,181 @@ const MyProfile = () => {
     }, []);
   }
 
-  let sql = 'select * from cart';
+  let sql = "select * from cart";
   let params = [];
   db.transaction((txn) => {
-    txn.executeSql(sql, params, (trans, results) => {
+    txn.executeSql(
+      sql,
+      params,
+      (trans, results) => {
         console.log("count = " + results.rows.length);
         setItemsDB(results.rows.length);
         //console.log("execute success transaction: " + JSON.stringify(trans))
         //resolve(results);
         //resolve(trans);
         //return results;
-    },
-        (error) => {
-        console.log("execute error: " + JSON.stringify(error))
-        return(error);
-    });
-});
+      },
+      (error) => {
+        console.log("execute error: " + JSON.stringify(error));
+        return error;
+      }
+    );
+  });
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
-      <View style={{ flex: 1, padding: 10 }}>
-        <Text style={[styles.screenTitle]}>My Profile</Text>
-        <Image
-          source={require("../assets/Header-Icon-User.png")}
-          style={styles.profileImg}
-        />
-        <Text
-          style={{ fontStyle: "italic", alignSelf: "flex-end", margin: 10 }}
-        >
-          {auth.currentUser?.email}, {title}
-        </Text>
-
-        {notApproved ? (
-          <Text style={{ padding: 10, alignSelf: 'center' }}>
-            Ups... Your company is not registered in the system. Reach out to us via
-            appforconstruction@gmail.com.
+      <ScrollView>
+        <View style={{ flex: 1, padding: 10 }}>
+          <Text style={[styles.screenTitle]}>My Profile</Text>
+          <Image
+            source={require("../assets/Header-Icon-User.png")}
+            style={styles.profileImg}
+          />
+          <Text
+            style={{ fontStyle: "italic", alignSelf: "flex-end", margin: 10 }}
+          >
+            {auth.currentUser?.email}, {title}
           </Text>
-        ) : null}
+          <Text
+            style={{
+              fontStyle: "italic",
+              alignSelf: "flex-end",
+              marginRight: 10,
+            }}
+          >
+            Created: {createdAtTrimmed}
+          </Text>
 
-        <Text
-          style={{
-            fontStyle: "italic",
-            alignSelf: "center",
-            margin: 30,
-            color: "#365eff",
-          }}
-          onPress={() => navigation.navigate("Home")}
-        >
-          {" "}
-          Back to Home screen...{" "}
-        </Text>
-      </View>
+          {notApproved ? (
+            <Text style={{ padding: 10, alignSelf: "center" }}>
+              Ups... Your company is not registered in the system. Reach out to
+              us via appforconstruction@gmail.com.
+            </Text>
+          ) : null}
 
-      
+          <Text
+            style={{
+              fontStyle: "italic",
+              alignSelf: "center",
+              margin: 30,
+              color: "#365eff",
+            }}
+            onPress={() => navigation.navigate("Home")}
+          >
+            {" "}
+            Back to Home screen...{" "}
+          </Text>
+        </View>
+
         <Text style={{ paddingLeft: 20, fontWeight: "bold", fontSize: 18 }}>
           Your Activity
         </Text>
 
-        <View style={{ flex: 1 }}>
-        <TouchableOpacity style={styles.itemsInCart}>
-          <Text style={[styles.textItemsInCart]}> {itemsDB} </Text>
-          <Text style={{ paddingTop: 2, fontSize: 12, alignSelf: "center", color: '#ffffff' }}>
-          Items In Cart
-        </Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.totalCost}>
-          <Text style={[styles.textItemsInCart]}> ? </Text>
-          <Text style={{ paddingTop: 2, fontSize: 12, alignSelf: "center", color: '#ffffff' }}>
-          Total Cost
-        </Text>
-        </TouchableOpacity>
-      </View>
+        <View style={{ flexDirection: "row" }}>
+          <TouchableOpacity style={styles.itemsInCart}>
+            <Text style={[styles.textItemsInCart]}> {itemsDB} </Text>
+            <Text
+              style={{
+                paddingTop: 2,
+                fontSize: 12,
+                alignSelf: "center",
+                color: "#ffffff",
+              }}
+            >
+              Items In Cart
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.totalCost}>
+            <Text
+              adjustsFontSizeToFit
+              numberOfLines={1}
+              style={[styles.textItemsInCart]}
+            >
+              {" "}
+              $2,350{" "}
+            </Text>
+            <Text
+              style={{
+                paddingTop: 2,
+                fontSize: 12,
+                alignSelf: "center",
+                color: "#ffffff",
+              }}
+            >
+              Total Cost
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.lastLogin}>
+            <Text
+              adjustsFontSizeToFit
+              numberOfLines={1}
+              style={[styles.textItemsInCart]}
+            >
+              {" "}
+              {lastLoginTrimmed}{" "}
+            </Text>
+            <Text
+              style={{
+                paddingTop: 2,
+                fontSize: 12,
+                alignSelf: "center",
+                color: "#ffffff",
+              }}
+            >
+              Last Login
+            </Text>
+          </TouchableOpacity>
+        </View>
 
+       
+      </ScrollView>
       <View style={styles.flexRow}>
-        {notApproved ? (
-          <TouchableOpacity style={styles.buttonDeck}>
-            <MaterialCommunityIcons
-              name="salesforce"
-              size={24}
-              color="#9c9c9c"
-            />
-            <Text style={[styles.buttontextdisabled]}> CRM </Text>
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity style={styles.buttonDeck}>
-            <MaterialCommunityIcons
-              name="salesforce"
-              size={24}
-              color="#000000"
-            />
-            <Text style={[styles.buttontext]}> CRM </Text>
-          </TouchableOpacity>
-        )}
+          {notApproved ? (
+            <TouchableOpacity style={styles.buttonDeck}>
+              <MaterialCommunityIcons
+                name="salesforce"
+                size={24}
+                color="#9c9c9c"
+              />
+              <Text style={[styles.buttontextdisabled]}> CRM </Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity style={styles.buttonDeck}>
+              <MaterialCommunityIcons
+                name="salesforce"
+                size={24}
+                color="#000000"
+              />
+              <Text style={[styles.buttontext]}> CRM </Text>
+            </TouchableOpacity>
+          )}
 
-        {notApproved ? (
-          <TouchableOpacity style={styles.buttonDeck}>
-            <MaterialCommunityIcons
-              name="rotate-3d"
-              size={22}
-              color="#9c9c9c"
-            />
-            <Text style={[styles.buttontextdisabled]}> BIM </Text>
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity style={styles.buttonDeck}>
-            <MaterialCommunityIcons
-              name="rotate-3d"
-              size={22}
-              color="#000000"
-            />
-            <Text style={[styles.buttontext]}> BIM </Text>
-          </TouchableOpacity>
-        )}
+          {notApproved ? (
+            <TouchableOpacity style={styles.buttonDeck}>
+              <MaterialCommunityIcons
+                name="rotate-3d"
+                size={22}
+                color="#9c9c9c"
+              />
+              <Text style={[styles.buttontextdisabled]}> BIM </Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity style={styles.buttonDeck}>
+              <MaterialCommunityIcons
+                name="rotate-3d"
+                size={22}
+                color="#000000"
+              />
+              <Text style={[styles.buttontext]}> BIM </Text>
+            </TouchableOpacity>
+          )}
 
-        <TouchableOpacity style={styles.buttonDeck} onPress={signOutUser}>
-          <FontAwesome name="sign-out" size={24} color="black" />
-          <Text style={[styles.buttontext]}> Sing </Text>
-          <Text style={[styles.buttontext]}> Out </Text>
-        </TouchableOpacity>
-      </View>
+          <TouchableOpacity style={styles.buttonDeck} onPress={signOutUser}>
+            <FontAwesome name="sign-out" size={24} color="black" />
+            <Text style={[styles.buttontext]}> Sing </Text>
+            <Text style={[styles.buttontext]}> Out </Text>
+          </TouchableOpacity>
+        </View>
     </SafeAreaView>
   );
 };
@@ -286,13 +354,24 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#0ca620",
     height: 100,
+    marginRight: 16,
+    //padding: 10,
+    borderRadius: 50,
+    width: 100,
+    alignSelf: "center",
+    justifyContent: "center",
+  },
+  lastLogin: {
+    alignItems: "center",
+    backgroundColor: "#ada810",
+    height: 100,
     //margin: 16,
     //padding: 10,
     borderRadius: 50,
     width: 100,
     alignSelf: "center",
     justifyContent: "center",
-  }
+  },
 });
 
 export default MyProfile;

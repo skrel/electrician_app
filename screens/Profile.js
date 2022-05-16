@@ -28,7 +28,10 @@ const Profile = () => {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
-        navigation.navigate("myProfile");
+        navigation.navigate("myProfile", {
+          lastLogin: user.metadata.lastLoginAt,
+          createdAt: user.metadata.createdAt,
+        });
         console.log('User metadata: ', user.metadata);
       }
     });
