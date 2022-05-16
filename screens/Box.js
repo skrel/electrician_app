@@ -85,8 +85,8 @@ const Box = (props) => {
     db.transaction(
       (tx) => {
         tx.executeSql(
-          "insert into cart (image, name, purpose, qty) values (?, ?, ?, ?)",
-          [item.image, item.name, item.purpose, item.qty]
+          "insert into cart (image, name, purpose, qty, price) values (?, ?, ?, ?, ?)",
+          [item.image, item.name, item.purpose, item.qty, item.price]
         );
         tx.executeSql("select * from cart", [], (_, { rows }) =>
           console.log(JSON.stringify(rows))

@@ -40,9 +40,10 @@ function AddMyOwnItem() {
   let itemImage = "https://skrel.github.io/jsonapi/image/na.png";
   const [itemName, setItemName] = React.useState(null);
   const [itemDescription, setItemDescription] = useState("");
+  const [price, setPrice] = useState("");
   //const [itemQuantity, setItemQuantity] = useState("");
 
-  let itemQuantity = 'add quantity';
+  let itemQuantity = "add quantity";
 
   //counter
   const [counter, setCounter] = useState(0);
@@ -56,8 +57,8 @@ function AddMyOwnItem() {
     db.transaction(
       function (tx) {
         tx.executeSql(
-          "insert into cart (image, name, purpose, qty) values (?,?,?,?)",
-          [itemImage, itemName, itemDescription, itemQuantity]
+          "insert into cart (image, name, purpose, qty, price) values (?,?,?,?,?)",
+          [itemImage, itemName, itemDescription, itemQuantity, price]
         );
         tx.executeSql("select * from cart", [], (_, { rows }) =>
           console.log(JSON.stringify(rows))
@@ -70,8 +71,7 @@ function AddMyOwnItem() {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss} 
-                                accessible={false}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <View style={{ flex: 1, backgroundColor: "white", padding: 10 }}>
           <Text style={[styles.screenTitle]}>Add Item</Text>
           <Text style={[styles.textSmall]}>{counter} items added</Text>
@@ -91,8 +91,16 @@ function AddMyOwnItem() {
             maxLength={35}
           />
 
+          <TextInput
+            style={styles.input}
+            keyboardType='numeric'
+            placeholder="Enter price"
+            onChangeText={(text) => setPrice(text)}
+            value={price}
+            maxLength={35}
+          />
         </View>
-        </TouchableWithoutFeedback>
+      </TouchableWithoutFeedback>
 
       <View style={styles.flexRow}>
         <TouchableOpacity

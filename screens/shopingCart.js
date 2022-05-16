@@ -98,6 +98,7 @@ const ShopingCart = ({ navigation }) => {
                     image: item.image,
                     purpose: item.purpose,
                     qty: item.qty,
+                    price: item.price,
                   })
                 }
               >
@@ -112,7 +113,7 @@ const ShopingCart = ({ navigation }) => {
                     <Text style={[styles.titletext]}>{item.name}</Text>
                     <Text numberOfLines={1}>{item.purpose}</Text>
                     <Text style={styles.innerText}>QTY: {item.qty}</Text>
-                    <Text style={[styles.price]}>Sign In For Price</Text>
+                    <Text style={[styles.price]}>$ {item.price}</Text>
                   </View>
                 </View>
               </TouchableOpacity>

@@ -65,6 +65,7 @@ function App() {
       tx.executeSql(
         "create table if not exists cart (id integer primary key not null, image text, name text, purpose text, qty text);"
       );
+      tx.executeSql('ALTER TABLE cart ADD COLUMN price text', []); // add new column to my sqlite
     });
   }, []);
 

@@ -16,9 +16,9 @@ import {
 } from "react-native";
 import * as SQLite from "expo-sqlite";
 //import { borderTopColor } from "react-native/Libraries/Components/View/ReactNativeStyleAttributes";
-import { AntDesign } from '@expo/vector-icons';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Ionicons } from '@expo/vector-icons';
+import { AntDesign } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 
 function openDatabase() {
   if (Platform.OS === "web") {
@@ -45,9 +45,11 @@ function ShopingCartItem({ route, navigation }) {
   const { image } = route.params;
   const { purpose } = route.params;
   const { qty } = route.params;
+  const { price } = route.params;
 
   const [forceUpdate] = useForceUpdate();
   const [text, setText] = React.useState(null);
+  const [priceValue, setPriceValue] = useState();
 
   const deleteItem = () => {
     db.transaction(
@@ -103,12 +105,28 @@ function ShopingCartItem({ route, navigation }) {
     );
   };
 
+  const addPrice = (text) => {
+    if (text === null || text === "") {
+      return false;
+    }
+    db.transaction(
+      (tx) => {
+        tx.executeSql("update cart set price=? where id=?", [text, itemId]);
+        tx.executeSql("select * from cart", [], (_, { rows }) =>
+          console.log(JSON.stringify(rows))
+        );
+      },
+      null,
+      forceUpdate
+    );
+  };
+
   let purposeString = JSON.stringify(purpose);
   let purposeToDisplay = purposeString.replace(/,/g, "\n");
 
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: "white" }}>
-      <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+      <ScrollView style={{ flex: 1, backgroundColor: "white" }}>
         <Text style={[styles.screenTitle]}>Cart Item</Text>
 
         <View style={styles.itemcard}>
@@ -119,7 +137,6 @@ function ShopingCartItem({ route, navigation }) {
                 style={styles.input}
                 textAlign={"center"}
                 defaultValue={JSON.stringify(qty).replace(/"/g, "")}
-                //placeholder={JSON.stringify(qty)}
                 onChangeText={(text) => setText(text)}
                 onSubmitEditing={() => {
                   addQty(text);
@@ -129,10 +146,29 @@ function ShopingCartItem({ route, navigation }) {
             </View>
           </View>
 
+          <View style={styles.flexRow}>
+            <Text style={{ paddingLeft: 20, fontSize: 20 }}>Price, $:</Text>
+            <View style={{ flex: 1, paddingLeft: 20 }}>
+              <TextInput
+                style={styles.input}
+                keyboardType='numeric'
+                textAlign={"center"}
+                defaultValue={JSON.stringify(price).replace(/"/g, "")}
+                onChangeText={(text) => setPriceValue(text)}
+                onSubmitEditing={() => {
+                  addPrice(priceValue);
+                }}
+                maxLength={12}
+              />
+            </View>
+          </View>
+
           <Text style={{ paddingLeft: 20, fontSize: 20, paddingBottom: 20 }}>
             Item Name: {JSON.stringify(value)}{" "}
           </Text>
-          <Text style={styles.normaltext}>Description {purposeToDisplay.replace(/"/g, "\n")}</Text>
+          <Text style={styles.normaltext}>
+            Description {purposeToDisplay.replace(/"/g, "\n")}
+          </Text>
           <Text style={styles.normaltext}>
             Residential and comersial construction. Can be used in assemblies
             with other electrical items
@@ -142,32 +178,30 @@ function ShopingCartItem({ route, navigation }) {
         <View style={styles.container}>
           <Image style={{ width: 250, height: 250 }} source={{ uri: image }} />
         </View>
+      </ScrollView>
+      <View style={styles.flexRow}>
+        <TouchableOpacity style={styles.buttonDeck} onPress={deleteItem}>
+          <AntDesign name="delete" size={24} color="black" />
+          <Text style={[styles.buttontext]}> Delete Item </Text>
+        </TouchableOpacity>
 
-        <View style={styles.flexRow}>
-          
-          <TouchableOpacity style={styles.buttonDeck} onPress={deleteItem}>
-            <AntDesign name="delete" size={24} color="black" />
-            <Text style={[styles.buttontext]}> Delete Item </Text>
-          </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.buttonDeck}
+          onPress={() => {
+            addQty(text);
+            addPrice(priceValue);
+          }}
+        >
+          <MaterialCommunityIcons name="update" size={24} color="black" />
+          <Text style={[styles.buttontext]}> Update Item </Text>
+        </TouchableOpacity>
 
-          <TouchableOpacity
-            style={styles.buttonDeck}
-            onPress={() => {
-              addQty(text);
-            }}
-          >
-            <MaterialCommunityIcons name="update" size={24} color="black" />
-            <Text style={[styles.buttontext]}> Update Item </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.buttonDeck} onPress={Dublicate}>
-            <Ionicons name="duplicate-outline" size={24} color="black" />
-            <Text style={[styles.buttontext]}> Duplicate Item </Text>
-          </TouchableOpacity>
-
-        </View>
-      </SafeAreaView>
-    </ScrollView>
+        <TouchableOpacity style={styles.buttonDeck} onPress={Dublicate}>
+          <Ionicons name="duplicate-outline" size={24} color="black" />
+          <Text style={[styles.buttontext]}> Duplicate Item </Text>
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
   );
 }
 

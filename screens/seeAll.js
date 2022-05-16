@@ -95,9 +95,9 @@ const SeeAll = ({ navigation }) => {
                 <Text >{item.qty}</Text>
 
                 <Text style={{ fontWeight: "bold", borderTopWidth: 5, borderTopColor: '#ffffff' }}>
-                  Total Cost:
+                  Total Cost, $:
                 </Text>
-                <Text style={[styles.price]}>Sign In For Price</Text>
+                <Text style={[styles.price]}>{item.price}</Text>
                 <Text style={{ fontWeight: "bold", borderTopWidth: 5, borderTopColor: '#ffffff' }}>
                   Suppliers:
                 </Text>

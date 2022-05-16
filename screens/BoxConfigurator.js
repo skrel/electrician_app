@@ -48,6 +48,7 @@ const BoxConfigurator = ({ navigation }) => {
   const [selectedAssemblyTypeId, setSelectedAssemblyTypeId] = useState(null);
   const [assemblyTypeDescription, setAssemblyTypeDescription] = useState("custom");
   const [image, setImage] = useState("https://skrel.github.io/jsonapi/image/na.png");
+  let DEFAULT_PRICE = 'add price';
 
   //this is what horizontal flatlist returns
   const renderHorizontalListItem = ({ item }) => {
@@ -117,8 +118,8 @@ const BoxConfigurator = ({ navigation }) => {
     db.transaction(
       (tx) => {
         tx.executeSql(
-          "insert into cart (image, name, purpose, qty) values (?, ?, ?, ?)",
-          [image, itemName, itemDescription, DEFAULT_QTY]
+          "insert into cart (image, name, purpose, qty, price) values (?, ?, ?, ?, ?)",
+          [image, itemName, itemDescription, DEFAULT_QTY, DEFAULT_PRICE]
         );
         tx.executeSql("select * from cart", [], (_, { rows }) =>
           console.log(JSON.stringify(rows))
