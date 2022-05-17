@@ -49,7 +49,7 @@ function ShopingCartItem({ route, navigation }) {
 
   const [forceUpdate] = useForceUpdate();
   const [text, setText] = React.useState(null);
-  const [priceValue, setPriceValue] = useState();
+  const [priceValue, setPriceValue] = React.useState(null);
 
   const deleteItem = () => {
     db.transaction(

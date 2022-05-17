@@ -43,6 +43,7 @@ const MyProfile = ({ route }) => {
   const navigation = useNavigation();
   const [itemsDB, setItemsDB] = useState(0);
   const [notApproved, setNotApproved] = useState(true);
+  const [totalPrice, setTotalPrice] = useState(0);
 
   //last login data from firebase
   const { lastLogin } = route.params;
@@ -71,7 +72,9 @@ const MyProfile = ({ route }) => {
     }, []);
   }
 
+  //query amount of items in sqlite
   let sql = "select * from cart";
+  let sqlPrice = "select qty, price from cart";
   let params = [];
   db.transaction((txn) => {
     txn.executeSql(
@@ -80,16 +83,32 @@ const MyProfile = ({ route }) => {
       (trans, results) => {
         console.log("count = " + results.rows.length);
         setItemsDB(results.rows.length);
-        //console.log("execute success transaction: " + JSON.stringify(trans))
-        //resolve(results);
-        //resolve(trans);
-        //return results;
       },
       (error) => {
         console.log("execute error: " + JSON.stringify(error));
         return error;
       }
     );
+  });
+
+  //query price from sqlite
+  //let x = 0;
+  db.transaction((txn) => {
+    txn.executeSql(sqlPrice, params, (trans, results) => {
+      let listVar = [];
+      for (let i = 0; i < results.rows.length; ++i) {
+        let row = results.rows.item(i);
+        let rowPrice = row.price;
+        let rowQty = row.qty;
+        let totalPricePerRow = rowPrice * rowQty;
+        listVar.push(totalPricePerRow);
+      }
+
+      let sum = listVar.reduce(function (a, b) {
+        return a + b;
+      }, 0);
+      setTotalPrice(sum);
+    });
   });
 
   return (
@@ -161,8 +180,7 @@ const MyProfile = ({ route }) => {
               numberOfLines={1}
               style={[styles.textItemsInCart]}
             >
-              {" "}
-              $2,350{" "}
+              {totalPrice}
             </Text>
             <Text
               style={{
@@ -196,56 +214,54 @@ const MyProfile = ({ route }) => {
             </Text>
           </TouchableOpacity>
         </View>
-
-       
       </ScrollView>
       <View style={styles.flexRow}>
-          {notApproved ? (
-            <TouchableOpacity style={styles.buttonDeck}>
-              <MaterialCommunityIcons
-                name="salesforce"
-                size={24}
-                color="#9c9c9c"
-              />
-              <Text style={[styles.buttontextdisabled]}> CRM </Text>
-            </TouchableOpacity>
-          ) : (
-            <TouchableOpacity style={styles.buttonDeck}>
-              <MaterialCommunityIcons
-                name="salesforce"
-                size={24}
-                color="#000000"
-              />
-              <Text style={[styles.buttontext]}> CRM </Text>
-            </TouchableOpacity>
-          )}
-
-          {notApproved ? (
-            <TouchableOpacity style={styles.buttonDeck}>
-              <MaterialCommunityIcons
-                name="rotate-3d"
-                size={22}
-                color="#9c9c9c"
-              />
-              <Text style={[styles.buttontextdisabled]}> BIM </Text>
-            </TouchableOpacity>
-          ) : (
-            <TouchableOpacity style={styles.buttonDeck}>
-              <MaterialCommunityIcons
-                name="rotate-3d"
-                size={22}
-                color="#000000"
-              />
-              <Text style={[styles.buttontext]}> BIM </Text>
-            </TouchableOpacity>
-          )}
-
-          <TouchableOpacity style={styles.buttonDeck} onPress={signOutUser}>
-            <FontAwesome name="sign-out" size={24} color="black" />
-            <Text style={[styles.buttontext]}> Sing </Text>
-            <Text style={[styles.buttontext]}> Out </Text>
+        {notApproved ? (
+          <TouchableOpacity style={styles.buttonDeck}>
+            <MaterialCommunityIcons
+              name="salesforce"
+              size={24}
+              color="#9c9c9c"
+            />
+            <Text style={[styles.buttontextdisabled]}> CRM </Text>
           </TouchableOpacity>
-        </View>
+        ) : (
+          <TouchableOpacity style={styles.buttonDeck}>
+            <MaterialCommunityIcons
+              name="salesforce"
+              size={24}
+              color="#000000"
+            />
+            <Text style={[styles.buttontext]}> CRM </Text>
+          </TouchableOpacity>
+        )}
+
+        {notApproved ? (
+          <TouchableOpacity style={styles.buttonDeck}>
+            <MaterialCommunityIcons
+              name="rotate-3d"
+              size={22}
+              color="#9c9c9c"
+            />
+            <Text style={[styles.buttontextdisabled]}> CSV </Text>
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity style={styles.buttonDeck}>
+            <MaterialCommunityIcons
+              name="rotate-3d"
+              size={22}
+              color="#000000"
+            />
+            <Text style={[styles.buttontext]}> CSV </Text>
+          </TouchableOpacity>
+        )}
+
+        <TouchableOpacity style={styles.buttonDeck} onPress={signOutUser}>
+          <FontAwesome name="sign-out" size={24} color="black" />
+          <Text style={[styles.buttontext]}> Sing </Text>
+          <Text style={[styles.buttontext]}> Out </Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 };
