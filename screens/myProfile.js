@@ -92,7 +92,6 @@ const MyProfile = ({ route }) => {
   });
 
   //query price from sqlite
-  //let x = 0;
   db.transaction((txn) => {
     txn.executeSql(sqlPrice, params, (trans, results) => {
       let listVar = [];
@@ -107,7 +106,8 @@ const MyProfile = ({ route }) => {
       let sum = listVar.reduce(function (a, b) {
         return a + b;
       }, 0);
-      setTotalPrice(sum);
+      let finish = Number(sum.toFixed(0));
+      setTotalPrice(finish);
     });
   });
 
@@ -180,7 +180,7 @@ const MyProfile = ({ route }) => {
               numberOfLines={1}
               style={[styles.textItemsInCart]}
             >
-              {totalPrice}
+              ${totalPrice}+
             </Text>
             <Text
               style={{

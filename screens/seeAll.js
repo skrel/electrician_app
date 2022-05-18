@@ -95,7 +95,7 @@ const SeeAll = ({ navigation }) => {
                 <Text >{item.qty}</Text>
 
                 <Text style={{ fontWeight: "bold", borderTopWidth: 5, borderTopColor: '#ffffff' }}>
-                  Total Cost, $:
+                  Cost, $:
                 </Text>
                 <Text style={[styles.price]}>{item.price}</Text>
                 <Text style={{ fontWeight: "bold", borderTopWidth: 5, borderTopColor: '#ffffff' }}>
@@ -110,13 +110,8 @@ const SeeAll = ({ navigation }) => {
                   Catalog:
                 </Text>
                 <Text style={[styles.catalog]}>Sign In For Catalog</Text>
-                <Text style={{ fontWeight: "bold", borderTopWidth: 5, borderTopColor: '#ffffff' }}>
-                  More:
-                </Text>
-                <Text style={styles.normaltext}>
-                  Residential and comersial construction. Can be used in
-                  assemblies with other electrical items
-                </Text>
+                
+                
               </View>
             </View>
           )}

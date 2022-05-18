@@ -132,7 +132,7 @@ const Box = (props) => {
                     <Text style={[styles.titletext]}>{item.name}</Text>
                     <Text>{item.purpose}</Text>
                     <Text>{item.website}</Text>
-                    <Text style={[styles.price]}>{item.price}</Text>
+                    <Text style={[styles.price]}>${item.price}</Text>
                   </View>
                 </View>
               </TouchableOpacity>

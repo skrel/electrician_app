@@ -135,6 +135,7 @@ function ShopingCartItem({ route, navigation }) {
             <View style={{ flex: 1, paddingLeft: 20 }}>
               <TextInput
                 style={styles.input}
+                keyboardType='numeric'
                 textAlign={"center"}
                 defaultValue={JSON.stringify(qty).replace(/"/g, "")}
                 onChangeText={(text) => setText(text)}

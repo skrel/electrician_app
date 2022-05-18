@@ -15,6 +15,7 @@ import {
 } from "react-native";
 
 const Configurators = ({ navigation }) => {
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
         <Text style={[styles.screenTitle]}>Configurators</Text>
@@ -28,15 +29,25 @@ const Configurators = ({ navigation }) => {
 
         {/* Panel Configurator */}
         <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate("PanelConfigurator")}
+          style={styles.buttonDisabled}
+          onPress={() => Alert.alert(
+            "Register your company",
+            "Your company is not registered in the system. Reach out to us via appforconstruction@gmail.com",
+            [
+              {
+                text: "Ok",
+                onPress: () => console.log('Ok Pressed'),
+              }
+            ],
+          )
+        }
         >
           <Text style={[styles.buttontext]}> Panel Configurator </Text>
         </TouchableOpacity>
 
         {/* Light Configurator */}
         <TouchableOpacity
-          style={styles.button}
+          style={styles.buttonDisabled}
           onPress={() => 
             Alert.alert(
               "Register your company",
@@ -77,6 +88,22 @@ const styles = StyleSheet.create({
   button: {
     alignItems: "center",
     backgroundColor: "#000000",
+    //flex: 1,
+    height: 40,
+    margin: 16,
+    padding: 10,
+    borderRadius: 10,
+    shadowColor: "#000000",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowRadius: 2,
+    shadowOpacity: 0.5,
+  },
+  buttonDisabled: {
+    alignItems: "center",
+    backgroundColor: "#9c9c9c",
     //flex: 1,
     height: 40,
     margin: 16,

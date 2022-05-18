@@ -48,7 +48,7 @@ const BoxConfigurator = ({ navigation }) => {
   const [selectedAssemblyTypeId, setSelectedAssemblyTypeId] = useState(null);
   const [assemblyTypeDescription, setAssemblyTypeDescription] = useState("custom");
   const [image, setImage] = useState("https://skrel.github.io/jsonapi/image/na.png");
-  let DEFAULT_PRICE = 'add price';
+  let DEFAULT_PRICE = '0.01';
 
   //this is what horizontal flatlist returns
   const renderHorizontalListItem = ({ item }) => {

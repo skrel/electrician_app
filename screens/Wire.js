@@ -119,7 +119,7 @@ const Wire = (props) => {
                 >
                   <Image style={{ width: 100, height: 100 }} source={{ uri: item.image}} />
                   <View style={{ flex: 1, padding: 10 }}>
-                    <Text style={[styles.titletext]}>{item.name}</Text>
+                    <Text style={[styles.titletext]}>${item.name}</Text>
                     <Text>{item.purpose}</Text>
                     <Text>{item.website}</Text>
                     <Text style={[styles.price]}>{item.price}</Text>

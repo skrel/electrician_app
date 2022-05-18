@@ -16,11 +16,12 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
+import { AntDesign } from '@expo/vector-icons';
 
 const HomeScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
-      <Text style={[styles.screenTitle]}>Home</Text>
+      <AntDesign name="home" size={42} color="black" style={{ alignSelf: "center" }}/>
       <ScrollView style={{ backgroundColor: "white" }}>
         <Text style={{ paddingLeft: 20, fontWeight: "bold", fontSize: 14 }}>
           Parts
