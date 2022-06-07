@@ -39,8 +39,17 @@ const ShopingCart = ({ navigation }) => {
   let [flatListItems, setFlatListItems] = useState([]);
   const [forceUpdate] = useForceUpdate();
 
-  let emailString = JSON.stringify(flatListItems, ["name", "purpose", "qty"]);
-  let newEmailtring = emailString.replace(/"/g, "");
+  //output only name purpose and qty
+  let rawEmailString = JSON.stringify(flatListItems, ["name", "purpose", "qty"]);
+  //delete all quotes
+  let emailStringWithNoQuots = rawEmailString.replace(/"/g, "");
+  //replace comas with line breaks 
+  let emailStringWithNoComas = emailStringWithNoQuots.replace(/,/g, "\n");
+  //replace front and back brackets
+  let emailStringWithNoBrackets = emailStringWithNoComas.slice(2,-2);
+  //remove curly brackets
+  let emailStringWithNoFrontCrlBrackets = emailStringWithNoBrackets.replace(/{/g, "\n");
+  let emailStringWithNoBackCrlBrackets = emailStringWithNoFrontCrlBrackets.replace(/}/g, "");
 
 
   React.useEffect(() => {
@@ -145,8 +154,8 @@ const ShopingCart = ({ navigation }) => {
                 sendEmail(
                   "",
                   "",
-                  "This was sent from electrician-app -- " +
-                  newEmailtring.replace(/,/g, "\n"),
+                  "BOM from electrician-app -- \n \n" +
+                  emailStringWithNoBackCrlBrackets,
                   { cc: "" }
                 ).then(() => {
                   console.log("Your message was successfully sent!");

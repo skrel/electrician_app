@@ -35,11 +35,14 @@ function openDatabase() {
 const db = openDatabase();
 
 //scroll horizontal
+//TODO: add pictures
 const AssemblyType = ({ item, onPress, backgroundColor, textColor }) => (
   <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
     <Text style={[styles.title, textColor]}>{item.title}</Text>
   </TouchableOpacity>
 );
+
+//TODO: add scrol views for others
 
 const BoxConfigurator = ({ navigation }) => {
   const [forceUpdate] = useForceUpdate();
