@@ -98,7 +98,8 @@ const SeeAll = ({ navigation }) => {
                   Cost, $:
                 </Text>
                 <Text style={[styles.price]}>{item.price}</Text>
-                <Text style={{ fontWeight: "bold", borderTopWidth: 5, borderTopColor: '#ffffff' }}>
+
+                {/* <Text style={{ fontWeight: "bold", borderTopWidth: 5, borderTopColor: '#ffffff' }}>
                   Suppliers:
                 </Text>
                 <Text style={[styles.suppliers]}>Sign In For Supplier</Text>
@@ -109,7 +110,7 @@ const SeeAll = ({ navigation }) => {
                 <Text style={{ fontWeight: "bold", borderTopWidth: 5, borderTopColor: '#ffffff' }}>
                   Catalog:
                 </Text>
-                <Text style={[styles.catalog]}>Sign In For Catalog</Text>
+                <Text style={[styles.catalog]}>Sign In For Catalog</Text> */}
                 
                 
               </View>

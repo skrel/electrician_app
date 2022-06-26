@@ -13,6 +13,8 @@ import * as SQLite from "expo-sqlite";
 import { BOX } from "../components/Constants.js";
 import { auth } from "../firebase";
 
+import { AntDesign } from '@expo/vector-icons'; 
+
 function openDatabase() {
   if (Platform.OS === "web") {
     return {
@@ -103,7 +105,7 @@ const Box = (props) => {
         <Text style={[styles.screenTitle]}>Box</Text>
         <Text style={[styles.textSmall]}>{counter} items added</Text>
         <TextInput
-          style={styles.textInputStyle}
+          style={styles.input}
           onChangeText={(text) => searchFilterFunction(text)}
           value={search}
           underlineColorAndroid="transparent"
@@ -133,6 +135,13 @@ const Box = (props) => {
                     <Text>{item.purpose}</Text>
                     <Text>{item.website}</Text>
                     <Text style={[styles.price]}>${item.price}</Text>
+                    <Text style={{ alignSelf:'flex-end' }}>
+                      <AntDesign name="star" size={12} color="#c9c904" />
+                      <AntDesign name="star" size={12} color="#c9c904" />
+                      <AntDesign name="star" size={12} color="#c9c904" />
+                      <AntDesign name="star" size={12} color="#c9c904" />
+                      <AntDesign name="star" size={12} color="#c9c904" />
+                    </Text>
                   </View>
                 </View>
               </TouchableOpacity>
@@ -160,14 +169,17 @@ const styles = StyleSheet.create({
   normaltext: {
     fontSize: 14,
   },
-  textInputStyle: {
+  input: {
     height: 40,
+    margin: 6,
     borderWidth: 1,
-    paddingLeft: 20,
-    margin: 5,
-    borderColor: "#009688",
-    backgroundColor: "#FFFFFF",
-    borderRadius: 20,
+    borderColor: "#f7f7f7",
+    borderRadius: 10,
+    padding: 10,
+    width: "90%",
+    justifyContent: "center",
+    alignSelf: "center",
+    backgroundColor: "#f7f7f7",
   },
   textSmall: {
     //fontWeight: "bold",
@@ -182,7 +194,7 @@ const styles = StyleSheet.create({
     //textDecorationLine: 'underline',
   },
   price: {
-    backgroundColor: "#d4c00d",
+    backgroundColor: "#03a80e",
     color: "#ffffff",
     //width: 80,
     maxWidth: 80,

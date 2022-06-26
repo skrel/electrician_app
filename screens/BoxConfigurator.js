@@ -38,7 +38,13 @@ const db = openDatabase();
 //TODO: add pictures
 const AssemblyType = ({ item, onPress, backgroundColor, textColor }) => (
   <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
-    <Text style={[styles.title, textColor]}>{item.title}</Text>
+    <View style={{flexDirection:"row"}}>
+    <Image
+      style={{ width: 15, height: 15 }}
+      source={{ uri: item.img }}
+    />
+    <Text style={[styles.title, textColor]}> {item.title}</Text>
+    </View>
   </TouchableOpacity>
 );
 
