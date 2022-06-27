@@ -38,6 +38,7 @@ import Configurators from "./screens/Configurators";
 import BoxConfigurator from "./screens/BoxConfigurator.js";
 import PanelConfigurator from "./screens/PanelConfigurator";
 import LightConfigurator from "./screens/LightConfigurator";
+import Send from "./screens/Send.js";
 
 function openDatabase() {
   if (Platform.OS === "web") {
@@ -403,6 +404,21 @@ function App() {
         <Stack.Screen
           name="LightConfigurator"
           component={LightConfigurator}
+          options={{
+            title: "",
+            headerShadowVisible: false,
+            headerStyle: {
+              borderBottomColor: "transparent",
+              shadowColor: "transparent",
+              borderBottomWidth: 0,
+              elevation: 0,
+            },
+          }}
+        />
+
+        <Stack.Screen
+          name="Send"
+          component={Send}
           options={{
             title: "",
             headerShadowVisible: false,

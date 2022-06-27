@@ -148,22 +148,11 @@ const ShopingCart = ({ navigation }) => {
               <Text style={styles.buttontext}>See All</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity
-              style={styles.buttonDeck}
-              onPress={() => {
-                sendEmail(
-                  "",
-                  "",
-                  "BOM from electrician-app -- \n \n" +
-                  emailStringWithNoBackCrlBrackets,
-                  { cc: "" }
-                ).then(() => {
-                  console.log("Your message was successfully sent!");
-                });
-              }}
-            >
-              <MaterialCommunityIcons name="email-send-outline" size={24} color="black" />
-              <Text style={styles.buttontext}>Email</Text>
+            
+
+            <TouchableOpacity style={styles.buttonDeck} onPress={() => navigation.navigate("Send", {cartContent: rawEmailString})}>
+            <MaterialCommunityIcons name="email-send-outline" size={24} color="black" />
+              <Text style={styles.buttontext}>Send</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -212,7 +201,7 @@ const styles = StyleSheet.create({
     //textDecorationLine: 'underline',
   },
   price: {
-    backgroundColor: "#d4c00d",
+    backgroundColor: "#03a80e",
     color: "#ffffff",
     //width: 80,
     maxWidth:80,
