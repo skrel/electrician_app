@@ -191,6 +191,17 @@ function ShopingCartItem({ route, navigation }) {
           onPress={() => {
             addQty(text);
             addPrice(priceValue);
+            Alert.alert(
+              "Success",
+              "This item was updated",
+              [
+                {
+                  text: "Ok",
+                  //onPress: () => navigation.navigate("Home"),
+                },
+              ],
+              { cancelable: false }
+            );
           }}
         >
           <MaterialCommunityIcons name="update" size={24} color="black" />

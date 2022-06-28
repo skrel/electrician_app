@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import * as SQLite from "expo-sqlite";
 import { ASSEMBLY } from "../components/Constants.js";
+import { AntDesign } from '@expo/vector-icons'; 
 
 function openDatabase() {
   if (Platform.OS === "web") {

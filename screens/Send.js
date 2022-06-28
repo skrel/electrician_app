@@ -13,8 +13,9 @@ import {
   Keyboard,
 } from "react-native";
 import * as SQLite from "expo-sqlite";
-
 import { sendEmail } from "../components/SendEmail.js";
+
+//import * as Clipboard from 'expo-clipboard';
 
 function openDatabase() {
   if (Platform.OS === "web") {
@@ -36,6 +37,8 @@ const db = openDatabase();
 const Send = ({ route, navigation }) => {
 
     const { cartContent } = route.params;
+    const [copiedText, setCopiedText] = React.useState('');
+    //const [textToSend, setTextToSend] = useState('');
 
     let rawText = JSON.stringify(cartContent);
     let textWithNoQuotes = rawText.replace(/"/g, "");
@@ -45,28 +48,37 @@ const Send = ({ route, navigation }) => {
     let textStringWithNoFrontAndBackBrackets = textStringWithNoBackCrlBrackets.slice(1,-1);
     let textStringWithNoSlashes = textStringWithNoFrontAndBackBrackets.replaceAll("\\", "");
 
+    // const copyToClipboard = async () => {
+    //   await Clipboard.setStringAsync('some text');
+    // };
+
+    function MultilineTextInput(props) {
+      return (
+        <TextInput
+        {...props}
+        editable/>
+      )
+    }
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+            
             <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
                 <View style={{ flex: 1, backgroundColor: "white", padding: 10 }}>
                     <Text style={[styles.screenTitle]}>Send</Text>
-                        <TextInput
+                          <MultilineTextInput
                             style={styles.input}
-                            multiline='true'
-                            //onChangeText={(text) => searchFilterFunction(text)}
+                            placeholder='Cart is empty'
+                            multiline
+                            onChangeText={text => onChangeText(text)}
                             value={textStringWithNoSlashes}
-                            underlineColorAndroid="transparent"
-                            placeholder="Items to send"/>
+                          />
                 </View>
             </TouchableWithoutFeedback>
+            <Text style={[styles.textSmall]}>*Copy to Clipboard if you have issues with sending</Text>
 
             <View style={styles.flexRow}>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => {}}
-        >
-          <Text style={[styles.buttontext]}> Copy Content </Text>
-        </TouchableOpacity>
+        
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
@@ -129,6 +141,11 @@ const styles = StyleSheet.create({
         },
         shadowRadius: 2,
         shadowOpacity: 0.5,
+      },
+      textSmall: {
+        //fontWeight: "bold",
+        fontSize: 8,
+        textAlign: "center",
       },
   });
   
