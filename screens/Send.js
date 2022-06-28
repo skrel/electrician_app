@@ -46,7 +46,7 @@ const Send = ({ route, navigation }) => {
     let textStringWithNoFrontCrlBrackets = textStringWithNoComas.replace(/{/g, "\n");
     let textStringWithNoBackCrlBrackets = textStringWithNoFrontCrlBrackets.replace(/}/g, "");
     let textStringWithNoFrontAndBackBrackets = textStringWithNoBackCrlBrackets.slice(1,-1);
-    let textStringWithNoSlashes = textStringWithNoFrontAndBackBrackets.replaceAll("\\", "");
+    //let textStringWithNoSlashes = textStringWithNoFrontAndBackBrackets.replace("\\", "");
 
     // const copyToClipboard = async () => {
     //   await Clipboard.setStringAsync('some text');
@@ -56,7 +56,8 @@ const Send = ({ route, navigation }) => {
       return (
         <TextInput
         {...props}
-        editable/>
+        //editable = {false}
+        showSoftInputOnFocus={false}/>
       )
     }
 
@@ -70,8 +71,8 @@ const Send = ({ route, navigation }) => {
                             style={styles.input}
                             placeholder='Cart is empty'
                             multiline
-                            onChangeText={text => onChangeText(text)}
-                            value={textStringWithNoSlashes}
+                            //onChangeText={text => onChangeText(text)}
+                            value={textStringWithNoFrontAndBackBrackets}
                           />
                 </View>
             </TouchableWithoutFeedback>
@@ -86,7 +87,7 @@ const Send = ({ route, navigation }) => {
               "",
               "",
               "BOM from electrician-app -- \n \n" +
-              textStringWithNoSlashes,
+              textStringWithNoFrontAndBackBrackets,
               { cc: "" }
             ).then(() => {
               console.log("Your message was successfully sent!");
@@ -105,7 +106,7 @@ const styles = StyleSheet.create({
       flexDirection: "row",
     },
     input: {
-        height: '75%',
+        height: '80%',
         margin: 6,
         borderWidth: 1,
         borderColor: "#f7f7f7",

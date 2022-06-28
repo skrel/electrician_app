@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
     //textDecorationLine: 'underline',
   },
   price: {
-    backgroundColor: "#d4c00d",
+    backgroundColor: "#03a80e",
     color: "#ffffff",
     //width: 80,
     maxWidth: 80,

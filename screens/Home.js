@@ -173,30 +173,31 @@ const HomeScreen = ({ navigation }) => {
           ></TouchableOpacity>
         </View>
 
-        <View style={{ flex: 1, justifyContent: "center", margin: 10 }}>
-          <Text
-            style={{ textAlign: "center", color: "blue" }}
-            onPress={() =>
+        <View style={{ flexDirection: "row", justifyContent: "center", margin: 10 }}>
+          
+          <AntDesign name="linkedin-square" size={24} color="blue" onPress={() =>
+              Linking.openURL("https://www.linkedin.com/company/app-for-electrician/?viewAsMember=true")
+            }/>
+          <Text>    </Text>
+          <MaterialCommunityIcons name="web" size={24} color="black" onPress={() =>
+              Linking.openURL("https://skrel.github.io/electrician_website/")
+            }/>
+          <Text>    </Text>
+          <AntDesign name="infocirlceo" size={24} color="red" onPress={() =>
               Linking.openURL("https://github.com/skrel/Electrician/wiki")
-            }
-          >
-            Click Here For More Info
-          </Text>
-          <Text style={{ textAlign: "center" }}>
-            Reach out via appforconstruction@gmail.com
-          </Text>
+            }/>
 
-          <Text
-            style={{ textAlign: "center", color: "blue" }}
-            onPress={() =>
-              Linking.openURL(
-                "https://www.linkedin.com/company/app-for-electrician/?viewAsMember=true"
-              )
-            }
-          >
-            Find Us On LinkedIn
-          </Text>
+          <Text>    </Text>
+          <AntDesign name="medium-monogram" size={24} color="black" onPress={() =>
+              Linking.openURL("https://medium.com/@krel-svyatoslav/electrician-app-2c2ef6a40125")
+            }/>
+
         </View>
+
+        <Text style={{ textAlign: "center" }}>
+        © Electrician, 2022
+        </Text>
+
       </ScrollView>
     </SafeAreaView>
   );
