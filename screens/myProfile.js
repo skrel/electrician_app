@@ -9,6 +9,8 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  Modal,
+  Dimensions
 } from "react-native";
 import { auth } from "../firebase";
 import { signOut } from "firebase/auth";
@@ -19,6 +21,8 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 //import { ScrollView } from "react-native-web";
+import { MaterialIcons } from '@expo/vector-icons';
+import database from '../firebase'
 
 function openDatabase() {
   if (Platform.OS === "web") {
@@ -44,7 +48,8 @@ const MyProfile = ({ route }) => {
   const [itemsDB, setItemsDB] = useState(0);
   const [notApproved, setNotApproved] = useState(true);
   const [totalPrice, setTotalPrice] = useState(0);
-
+  const [modalVisible, setModalVisible] = useState(false);
+  const [projectName, setProjectName] = useState('')
   //last login data from firebase
   const { lastLogin } = route.params;
   const { createdAt } = route.params;
@@ -71,6 +76,8 @@ const MyProfile = ({ route }) => {
       setNotApproved(false);
     }, []);
   }
+
+  
 
   //query amount of items in sqlite
   let sql = "select * from cart";
@@ -111,7 +118,20 @@ const MyProfile = ({ route }) => {
     });
   });
 
+  const addNewProject = async () => {
+    if(projectName) {
+      const data = {
+        userId: auth.currentUser.uid,
+        name: projectName,
+        projects: []
+      }
+      await database.collection('users').add(data);
+      setModalVisible(false)
+    }
+  }
+
   return (
+    <>
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
       <ScrollView>
         <View style={{ flex: 1, padding: 10 }}>
@@ -236,6 +256,11 @@ const MyProfile = ({ route }) => {
           </TouchableOpacity>
         )}
 
+        <TouchableOpacity style={styles.buttonDeck} onPress={() => navigation.navigate('ListMyProject')}>
+          <MaterialCommunityIcons name="format-list-bulleted" size={24} color="black" />
+          <Text style={[styles.buttontext]}> Projects </Text>
+        </TouchableOpacity>
+
         {notApproved ? (
           <TouchableOpacity style={styles.buttonDeck}>
             <MaterialCommunityIcons
@@ -256,6 +281,10 @@ const MyProfile = ({ route }) => {
           </TouchableOpacity>
         )}
 
+        <TouchableOpacity style={styles.buttonDeck} onPress={() => setModalVisible(true)}>
+          <MaterialIcons name="add" size={24} color="black" />
+          <Text style={[styles.buttontext]}> Add </Text>
+        </TouchableOpacity>
         <TouchableOpacity style={styles.buttonDeck} onPress={signOutUser}>
           <FontAwesome name="sign-out" size={24} color="black" />
           <Text style={[styles.buttontext]}> Sing </Text>
@@ -263,6 +292,27 @@ const MyProfile = ({ route }) => {
         </TouchableOpacity>
       </View>
     </SafeAreaView>
+    <Modal animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        presentationStyle="overFullScreen"
+        >
+        <View style={styles.popupView}>
+          <View style={styles.modalContentView}>
+            <Text style={[styles.titlePopuptext]}>Enter Project Name</Text> 
+            <TextInput style={styles.inputView} placeholder="Name project..." onChangeText={(text) => setProjectName(text)}/>
+            <View style={[styles.flexRow, styles.backgroundButtonModal]}>
+              <TouchableOpacity style={styles.buttonView} onPress={() => setModalVisible(false)}>
+                <Text>Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.buttonView} onPress={addNewProject}>
+                <Text>Ok</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+    </>
   );
 };
 
@@ -314,8 +364,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
     flex: 1,
     height: 42,
-    margin: 16,
-    padding: 10,
+    margin: 0,
+    padding: 3,
     borderRadius: 10,
   },
   buttontext: {
@@ -388,6 +438,55 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     justifyContent: "center",
   },
+  popupView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 10000,
+    // width: Dimensions.get('screen').width,
+    // height: Dimensions.get('window').height,
+  },
+  modalContentView: {
+    margin: 20,
+    width: Dimensions.get('screen').width - 40,
+    height: 230,
+    backgroundColor: '#FFF',
+    borderRadius: 20,
+    padding: 20,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    paddingTop: 40,
+    // alignItems: "center",
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  backgroundButtonModal: {
+    justifyContent: 'space-between',
+  },
+  titlePopuptext: {
+    textAlign: 'center',
+    fontSize: 16,
+    color: 'red'
+  },
+  inputView: {
+    padding: 15, 
+    borderWidth: 1,
+    borderColor: 'red',
+    borderRadius: 20,
+    marginVertical: 20
+  },
+  buttonView: {
+    borderWidth: 1,
+    width: 100,
+    alignItems: "center",
+    borderRadius: 20,
+    paddingVertical: 10,
+    borderColor: 'red'
+  }
 });
 
 export default MyProfile;

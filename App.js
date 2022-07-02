@@ -15,14 +15,14 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as SQLite from "expo-sqlite";
 
 //screens
-import ShopingCart from "./screens/ShopingCart.js";
-import ShopingCartItem from "./screens/ShopingCartItem.js";
+import ShopingCart from "./screens/shopingCart.js";
+import ShopingCartItem from "./screens/shopingCartItem.js";
 import Box from "./screens/Box.js";
 import Bracket from "./screens/Bracket.js";
 import Profile from "./screens/Profile.js";
 import Accessories from "./screens/Accessories.js";
 import Device from "./screens/Device.js";
-import AddMyOwnItem from "./screens/AddMyOwnItem.js";
+import AddMyOwnItem from "./screens/addMyOwnItem.js";
 import Panel from "./screens/Panel.js";
 import Wire from "./screens/Wire.js";
 import Conduit from "./screens/Conduit.js";
@@ -30,15 +30,16 @@ import Connector from "./screens/Connector.js";
 import ExtensionRing from "./screens/ExtensionRing.js";
 import Assembly from "./screens/Assembly.js";
 import HomeScreen from "./screens/Home.js";
-import SeeAll from "./screens/SeeAll.js";
-import FireAlarm from "./screens/FireAlarm.js";
+import SeeAll from "./screens/seeAll.js";
+import FireAlarm from "./screens/fireAlarm.js";
 import Other from "./screens/Other.js";
-import MyProfile from "./screens/MyProfile";
+import MyProfile from "./screens/myProfile";
 import Configurators from "./screens/Configurators";
 import BoxConfigurator from "./screens/BoxConfigurator.js";
 import PanelConfigurator from "./screens/PanelConfigurator";
 import LightConfigurator from "./screens/LightConfigurator";
 import Send from "./screens/Send.js";
+import ListMyProject from "./screens/ListMyProject"
 
 function openDatabase() {
   if (Platform.OS === "web") {
@@ -419,6 +420,20 @@ function App() {
         <Stack.Screen
           name="Send"
           component={Send}
+          options={{
+            title: "",
+            headerShadowVisible: false,
+            headerStyle: {
+              borderBottomColor: "transparent",
+              shadowColor: "transparent",
+              borderBottomWidth: 0,
+              elevation: 0,
+            },
+          }}
+        />
+        <Stack.Screen
+          name="ListMyProject"
+          component={ListMyProject}
           options={{
             title: "",
             headerShadowVisible: false,
