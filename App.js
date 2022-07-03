@@ -39,7 +39,8 @@ import BoxConfigurator from "./screens/BoxConfigurator.js";
 import PanelConfigurator from "./screens/PanelConfigurator";
 import LightConfigurator from "./screens/LightConfigurator";
 import Send from "./screens/Send.js";
-import ListMyProject from "./screens/ListMyProject"
+import ListMyProject from "./screens/ListMyProject";
+import DetailProject from "./screens/detailProject";
 
 function openDatabase() {
   if (Platform.OS === "web") {
@@ -434,6 +435,20 @@ function App() {
         <Stack.Screen
           name="ListMyProject"
           component={ListMyProject}
+          options={{
+            title: "",
+            headerShadowVisible: false,
+            headerStyle: {
+              borderBottomColor: "transparent",
+              shadowColor: "transparent",
+              borderBottomWidth: 0,
+              elevation: 0,
+            },
+          }}
+        />
+        <Stack.Screen
+          name="DetailProject"
+          component={DetailProject}
           options={{
             title: "",
             headerShadowVisible: false,

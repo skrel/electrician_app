@@ -1,11 +1,13 @@
-import { StyleSheet, Text, View, TouchableOpacity, FlatList, Modal, Dimensions, TextInput } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, FlatList, Modal, Dimensions, TextInput, DeviceEventEmitter } from 'react-native'
 import React, {useEffect, useState} from 'react'
 import { MaterialIcons } from '@expo/vector-icons';
 import database from '../firebase'
 import { auth } from "../firebase";
+import { useNavigation } from "@react-navigation/native";
 
 export default function ListMyProject() {
 
+  const navigation = useNavigation();
   const [listProject, setListProject] = useState([])
   const [modalVisible, setModalVisible] = useState(false);
   const [projectName, setProjectName] = useState('')
@@ -13,6 +15,17 @@ export default function ListMyProject() {
   useEffect(() => {
     getListProject()
   }, [modalVisible])
+
+  useEffect(() => {
+    const subscription = DeviceEventEmitter.addListener(
+      'reloadItems',
+      () => {
+        console.log('hihi')
+        getListProject()
+      }
+    )
+    return () => subscription.remove()
+  }, [])
 
   const getListProject = async () => {
     database.collection('users').where('userId', '==', auth.currentUser.uid ).get().then( async(snapshot) => {
@@ -41,9 +54,9 @@ export default function ListMyProject() {
   }
 
   const renderItem = ({item, index}) => (
-    <View key={index} style={styles.itemView}>
+    <TouchableOpacity key={index} style={styles.itemView} onPress={() => navigation.navigate('DetailProject', item)}>
         <Text>{item?.name}</Text>
-    </View>
+    </TouchableOpacity>
   )
 
   return (
