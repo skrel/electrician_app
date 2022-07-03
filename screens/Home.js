@@ -130,9 +130,11 @@ const HomeScreen = ({ navigation }) => {
             <Text style={[styles.buttontext]}> Other </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={styles.invisibleButton}
-            //onPress={() => navigation.navigate("Fire Alarm")}
-          ></TouchableOpacity>
+            style={styles.button}
+            onPress={() => navigation.navigate("Testing")}
+          >
+            <Text style={[styles.buttontext]}> Testing </Text>
+          </TouchableOpacity>
         </View>
 
         <Text style={{ paddingLeft: 20, fontWeight: "bold", fontSize: 14 }}>

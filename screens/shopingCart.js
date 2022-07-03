@@ -13,7 +13,7 @@ import {
 } from "react-native";
 import * as SQLite from "expo-sqlite";
 
-import { sendEmail } from "../components/sendEmail.js";
+import { sendEmail } from "../components/SendEmail.js";
 
 import { AntDesign } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
@@ -174,32 +174,32 @@ const ShopingCart = ({ navigation }) => {
 
           <View style={styles.flexRow}>
             <TouchableOpacity style={styles.buttonDeck} onPress={clear}>
-            <AntDesign name="delete" size={24} color="black" />
-              <Text style={styles.buttontext}>Empty</Text>
+            <AntDesign name="delete" size={22} color="black" />
+              <Text style={styles.buttontext}>Emt</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
               style={styles.buttonDeck}
               onPress={() => navigation.navigate("Add My Own Item")}
             >
-              <Entypo name="add-to-list" size={24} color="black" />
+              <Entypo name="add-to-list" size={22} color="black" />
               <Text style={styles.buttontext}>Add</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.buttonDeck}
               onPress={() => setModalVisible(true)}
             >
-              <AntDesign name="addfolder" size={24} color="black" />
+              <AntDesign name="addfolder" size={22} color="black" />
 
-              <Text style={styles.buttontext}>Store</Text>
+              <Text style={styles.buttontext}>Prj</Text>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.buttonDeck} onPress={() => navigation.navigate("See All")}>
-            <Ionicons name="file-tray-full-outline" size={24} color="black" />
-              <Text style={styles.buttontext}>See All</Text>
+            <Ionicons name="file-tray-full-outline" size={22} color="black" />
+              <Text style={styles.buttontext}>All</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.buttonDeck} onPress={() => navigation.navigate("Send", {cartContent: rawEmailString})}>
-            <MaterialCommunityIcons name="email-send-outline" size={24} color="black" />
+            <MaterialCommunityIcons name="email-send-outline" size={22} color="black" />
               <Text style={styles.buttontext}>Send</Text>
             </TouchableOpacity>
           </View>
@@ -238,7 +238,7 @@ const styles = StyleSheet.create({
   },
   buttontext: {
     //fontWeight: "bold",
-    fontSize: 10,
+    fontSize: 9,
     marginTop: 2,
     color: "#000000",
   },

@@ -13,7 +13,7 @@ import {
   Keyboard,
 } from "react-native";
 import * as SQLite from "expo-sqlite";
-import { sendEmail } from "../components/sendEmail.js";
+import { sendEmail } from "../components/SendEmail.js";
 
 //import * as Clipboard from 'expo-clipboard';
 
