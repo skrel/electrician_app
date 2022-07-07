@@ -41,7 +41,7 @@ import LightConfigurator from "./screens/LightConfigurator";
 import Send from "./screens/Send.js";
 import ListMyProject from "./screens/ListMyProject";
 import DetailProject from "./screens/DetailProject";
-import Testing from "./screens/Testing";
+//import Testing from "./screens/Testing";
 
 function openDatabase() {
   if (Platform.OS === "web") {
@@ -83,18 +83,22 @@ function App() {
             headerRight: () => (
               <Button
                 title="Cart"
+                color='white'
                 onPress={() => navigation.navigate("Shoping Cart")}
               />
             ),
             headerLeft: () => (
               <Button
                 title="Profile"
+                color='white'
                 onPress={() => navigation.navigate("Profile")}
               />
             ),
             title: "",
             headerShadowVisible: false,
+            //headerTintColor: 'white',
             headerStyle: {
+              backgroundColor: '#2a57fa',
               borderBottomColor: "transparent",
               shadowColor: "transparent",
               borderBottomWidth: 0,
@@ -461,20 +465,22 @@ function App() {
             },
           }}
         />
-        <Stack.Screen
+        {/* <Stack.Screen
           name="Testing"
           component={Testing}
           options={{
             title: "",
             headerShadowVisible: false,
+            headerTintColor: 'white',
             headerStyle: {
+              backgroundColor: '#2a57fa',
               borderBottomColor: "transparent",
               shadowColor: "transparent",
               borderBottomWidth: 0,
               elevation: 0,
             },
           }}
-        />
+        /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );
