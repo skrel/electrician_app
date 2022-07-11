@@ -10,6 +10,8 @@ import {
   TextInput,
   ScrollView,
   ImageBackground,
+  Alert,
+  Linking,
 } from "react-native";
 
 const HomeScreen = ({ navigation }) => {
@@ -194,7 +196,11 @@ const HomeScreen = ({ navigation }) => {
       </ScrollView>
       
       <View style={styles.footer}>
-        <TouchableOpacity >
+        <TouchableOpacity onPress={() =>
+            Linking.openURL(
+              "https://www.linkedin.com/company/app-for-electrician/?viewAsMember=true"
+            )
+          }>
           <Text style={[styles.colorText]}> Info </Text>
         </TouchableOpacity>
       </View>
