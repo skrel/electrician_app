@@ -162,18 +162,10 @@ const MyProfile = ({ route }) => {
             </Text>
           ) : null}
 
-          <Text
-            style={{
-              fontStyle: "italic",
-              alignSelf: "center",
-              margin: 30,
-              color: "#365eff",
-            }}
-            onPress={() => navigation.navigate("Home")}
-          >
-            {" "}
-            Back to Home screen...{" "}
-          </Text>
+          <TouchableOpacity style={styles.buttonRegister} onPress={() => navigation.navigate("Home")}>
+        <Text style={[styles.buttontextRegister]}> Back To Home Screen ... </Text>
+      </TouchableOpacity>
+
         </View>
 
         <Text style={{ paddingLeft: 20, fontWeight: "bold", fontSize: 18 }}>
@@ -486,7 +478,23 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     paddingVertical: 10,
     borderColor: 'red'
-  }
+  },
+  buttonRegister: {
+    alignItems: "center",
+    backgroundColor: "#ffffff",
+    height: 40,
+    marginTop: 16,
+    padding: 10,
+    borderRadius: 10,
+    width: "50%",
+    alignSelf: "center",
+    borderWidth: 2,
+  },
+  buttontextRegister: {
+    fontWeight: "bold",
+    fontSize: 14,
+    color: "#000000",
+  },
 });
 
 export default MyProfile;

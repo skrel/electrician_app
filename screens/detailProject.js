@@ -41,12 +41,16 @@ export default function DetailProject({route}) {
           <FontAwesome name="trash" size={24} color="black" />
         </TouchableOpacity>
       </View>
+      <TouchableOpacity style={styles.buttonRegister}>
+        <Text style={[styles.buttontextRegister]}> Send </Text>
+      </TouchableOpacity>
       <FlatList
         data={items}
         renderItem={renderItem}
         keyExtractor={({ id }) => id.toString()}
       />
     </View>
+
   )
 }
 
@@ -82,5 +86,21 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-  }
+  },
+  buttonRegister: {
+    alignItems: "center",
+    backgroundColor: "#ffffff",
+    height: 40,
+    marginTop: 16,
+    padding: 10,
+    borderRadius: 10,
+    width: "50%",
+    alignSelf: "center",
+    borderWidth: 2,
+  },
+  buttontextRegister: {
+    fontWeight: "bold",
+    fontSize: 14,
+    color: "#000000",
+  },
 })

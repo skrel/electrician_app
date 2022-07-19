@@ -87,6 +87,10 @@ const Profile = () => {
         <Text style={[styles.buttontextRegister]}> Register </Text>
       </TouchableOpacity>
 
+      <TouchableOpacity style={styles.buttonRegister} onPress={() => navigation.navigate("Register")}>
+        <Text style={[styles.buttontextRegister]}> Register Screen </Text>
+      </TouchableOpacity>
+
       <View style={{ flex: 1, justifyContent: "center", margin: 10 }}>
         <AntDesign
           name="copyright"
@@ -96,18 +100,6 @@ const Profile = () => {
         />
         <Text style={{ textAlign: "center", paddingBottom: 20 }}>
           Electrician App
-        </Text>
-
-        <Text
-          style={{ textAlign: "center", color: "blue" }}
-          onPress={() =>
-            Linking.openURL("https://github.com/skrel/Electrician/wiki")
-          }
-        >
-          Click Here For More Info
-        </Text>
-        <Text style={{ textAlign: "center" }}>
-          Reach out via appforconstruction@gmail.com
         </Text>
 
         <Text

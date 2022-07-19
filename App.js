@@ -41,7 +41,7 @@ import LightConfigurator from "./screens/LightConfigurator";
 import Send from "./screens/Send.js";
 import ListMyProject from "./screens/ListMyProject";
 import DetailProject from "./screens/DetailProject";
-//import Testing from "./screens/Testing";
+import Register from "./screens/Register";
 
 function openDatabase() {
   if (Platform.OS === "web") {
@@ -98,7 +98,7 @@ function App() {
             headerShadowVisible: false,
             //headerTintColor: 'white',
             headerStyle: {
-              backgroundColor: '#2a57fa',
+              backgroundColor: '#004aad',
               borderBottomColor: "transparent",
               shadowColor: "transparent",
               borderBottomWidth: 0,
@@ -465,6 +465,23 @@ function App() {
             },
           }}
         />
+
+        <Stack.Screen
+          name="Register"
+          component={Register}
+          options={{
+            title: "",
+            //headerBackVisible: false,
+            headerShadowVisible: false,
+            headerStyle: {
+              borderBottomColor: "transparent",
+              shadowColor: "transparent",
+              borderBottomWidth: 0,
+              elevation: 0,
+            },
+          }}
+        />
+
         {/* <Stack.Screen
           name="Testing"
           component={Testing}

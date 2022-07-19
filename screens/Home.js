@@ -17,8 +17,8 @@ import {
 const HomeScreen = ({ navigation }) => {
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#2a57fa", borderTopLeftRadius: 20, borderTopRightRadius: 20 }}>
-      <ScrollView style={{ flex: 1, backgroundColor: "#2a57fa" }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#004aad", borderTopLeftRadius: 20, borderTopRightRadius: 20 }}>
+      <ScrollView style={{ flex: 1, backgroundColor: "#004aad" }}>
       <View style={styles.header}>
         <TouchableOpacity >
           <Text style={[styles.colorText]}> Home </Text>
@@ -26,7 +26,7 @@ const HomeScreen = ({ navigation }) => {
       </View>
 
       <View style={styles.flexRow}>
-          <TouchableOpacity style={styles.buttonOne}>
+          <TouchableOpacity style={styles.buttonOne} onPress={() => navigation.navigate("Box")}>
             <ImageBackground
               source={require("../assets/boxButton.png")}
               imageStyle={{ borderTopLeftRadius: 20, borderTopRightRadius: 20 }}
@@ -38,7 +38,7 @@ const HomeScreen = ({ navigation }) => {
               <Text style={[styles.buttontext]}>BOX</Text>
             </ImageBackground>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.buttonTwo}>
+          <TouchableOpacity style={styles.buttonTwo} onPress={() => navigation.navigate("Bracket")}>
             <ImageBackground
                 source={require("../assets/bracketButton.png")}
                 imageStyle={{ borderTopLeftRadius: 20, borderTopRightRadius: 20 }}
@@ -53,7 +53,7 @@ const HomeScreen = ({ navigation }) => {
       </View>
 
       <View style={styles.flexRow}>
-          <TouchableOpacity style={styles.buttonRest}>
+          <TouchableOpacity style={styles.buttonRest} onPress={() => navigation.navigate("Wire")}>
           <ImageBackground
                 source={require("../assets/wireButton.png")}
                 style={{
@@ -64,7 +64,7 @@ const HomeScreen = ({ navigation }) => {
                 <Text style={[styles.buttontext]}>WIRE</Text>
               </ImageBackground>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.buttonRest}>
+          <TouchableOpacity style={styles.buttonRest} onPress={() => navigation.navigate("Panel")}>
           <ImageBackground
                 source={require("../assets/panelButton.png")}
                 style={{
@@ -78,7 +78,7 @@ const HomeScreen = ({ navigation }) => {
       </View>
 
       <View style={styles.flexRow}>
-          <TouchableOpacity style={styles.buttonRest}>
+          <TouchableOpacity style={styles.buttonRest} onPress={() => navigation.navigate("Conduit")}>
           <ImageBackground
                 source={require("../assets/conduitButton.png")}
                 style={{
@@ -89,7 +89,7 @@ const HomeScreen = ({ navigation }) => {
                 <Text style={[styles.buttontext]}>CONDUIT</Text>
               </ImageBackground>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.buttonRest}>
+          <TouchableOpacity style={styles.buttonRest} onPress={() => navigation.navigate("Connector")}>
           <ImageBackground
                 source={require("../assets/connectorButton.png")}
                 style={{
@@ -103,7 +103,7 @@ const HomeScreen = ({ navigation }) => {
       </View>
 
       <View style={styles.flexRow}>
-          <TouchableOpacity style={styles.buttonRest}>
+          <TouchableOpacity style={styles.buttonRest} onPress={() => navigation.navigate("Extension Ring")}>
           <ImageBackground
                 source={require("../assets/extensionButton.png")}
                 style={{
@@ -114,7 +114,7 @@ const HomeScreen = ({ navigation }) => {
                 <Text style={[styles.buttontext]}>EXTENSION</Text>
               </ImageBackground>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.buttonRest}>
+          <TouchableOpacity style={styles.buttonRest} onPress={() => navigation.navigate("Device")}>
           <ImageBackground
                 source={require("../assets/deviceButton.png")}
                 style={{
@@ -128,7 +128,7 @@ const HomeScreen = ({ navigation }) => {
       </View>
 
       <View style={styles.flexRow}>
-          <TouchableOpacity style={styles.buttonRest}>
+          <TouchableOpacity style={styles.buttonRest} onPress={() => navigation.navigate("Fire Alarm")}>
           <ImageBackground
                 source={require("../assets/fireAlarmButton.png")}
                 style={{
@@ -139,7 +139,7 @@ const HomeScreen = ({ navigation }) => {
                 <Text style={[styles.buttontext]}>FIRE ALARM</Text>
               </ImageBackground>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.buttonRest}>
+          <TouchableOpacity style={styles.buttonRest} onPress={() => navigation.navigate("Accessories")}>
           <ImageBackground
                 source={require("../assets/accessoriesButton.png")}
                 style={{
@@ -164,7 +164,7 @@ const HomeScreen = ({ navigation }) => {
                 <Text style={[styles.buttontext]}>ASSEMBLIES</Text>
               </ImageBackground>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.buttonRest}>
+          <TouchableOpacity style={styles.buttonRest} onPress={() => navigation.navigate("Configurators")}>
           <ImageBackground
                 source={require("../assets/config.png")}
                 style={{
@@ -178,7 +178,7 @@ const HomeScreen = ({ navigation }) => {
       </View>
 
       <View style={styles.flexRow}>
-          <TouchableOpacity style={styles.buttonRest}>
+          <TouchableOpacity style={styles.buttonRest} onPress={() => navigation.navigate("Other")}>
           <ImageBackground
                 source={require("../assets/otherButton.png")}
                 style={{
@@ -216,7 +216,7 @@ const styles = StyleSheet.create({
   },
   footer: {
     flexDirection: "row",
-    backgroundColor: "#2a57fa",
+    backgroundColor: "#004aad",
     alignContent: 'center',
     justifyContent: 'center',
     marginTop: -15,
@@ -232,7 +232,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
   },
   colorText: {
-    color: 'yellow',
+    color: '#ffffff',
     alignSelf: 'center',
     justifyContent: 'center',
     fontSize: 24,
@@ -240,7 +240,7 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: "row",
-    backgroundColor: "#2a57fa",
+    backgroundColor: "#004aad",
     alignContent: 'center',
     justifyContent: 'center',
     //marginTop: -15,
@@ -285,7 +285,7 @@ const styles = StyleSheet.create({
   buttontext: {
     fontWeight: "bold",
     fontSize: 24,
-    color: 'white',
+    color: '#ffffff',
     alignSelf: 'center',
     marginTop: 30,
     shadowColor: "#000000",
