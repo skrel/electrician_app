@@ -201,7 +201,7 @@ const HomeScreen = ({ navigation }) => {
               "https://www.linkedin.com/company/app-for-electrician/?viewAsMember=true"
             )
           }>
-          <Text style={[styles.colorText]}> Info </Text>
+          <Text style={[styles.colorText]}> ⓘ Info </Text>
         </TouchableOpacity>
       </View>
 
@@ -237,6 +237,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     fontSize: 24,
     marginTop: 10,
+    shadowColor: "#000000",
+    shadowOffset: {
+      width: 0,
+      height: -4,
+    },
+    shadowRadius: 2,
+    shadowOpacity: 0.5,
   },
   header: {
     flexDirection: "row",

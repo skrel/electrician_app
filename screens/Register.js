@@ -14,7 +14,30 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 
+import { auth } from "../firebase";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
+//import { sendEmail } from "../components/SendEmail.js";
+
 function Register() {
+
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+  const [name, setName] = useState();
+  const [company, setCompany] = useState();
+  const [role, setRole] = useState();
+
+  const register = async () => {
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        alert(error.message);
+        console.log('error message = ' + error.message);
+      });
+  };
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
@@ -24,36 +47,37 @@ function Register() {
           <TextInput
             style={styles.input}
             placeholder="Your name"
-            //onChangeText={(text) => setItemName(text)}
-            //value={itemName}
+            onChangeText={(text) => setName(text)}
+            value={name}
           />
 
           <TextInput
             style={styles.input}
             placeholder="Company name"
-            //onChangeText={(text) => setItemDescription(text)}
-            //value={itemDescription}
+            onChangeText={(text) => setCompany(text)}
+            value={company}
           />
 
           <TextInput
             style={styles.input}
             placeholder="Your role"
-            //onChangeText={(text) => setItemDescription(text)}
-            //value={itemDescription}
+            onChangeText={(text) => setRole(text)}
+            value={role}
           />
 
           <TextInput
             style={styles.input}
-            placeholder="Email"
-            //onChangeText={(text) => setPrice(text)}
-            //value={price}
+            placeholder="Email*"
+            onChangeText={(text) => setEmail(text)}
+            value={email}
           />
 
           <TextInput
             style={styles.input}
-            placeholder="Password"
-            //onChangeText={(text) => setPrice(text)}
-            //value={price}
+            placeholder="Password*"
+            secureTextEntry={true}
+            onChangeText={(text) => setPassword(text)}
+            value={password}
           />
         </View>
       </TouchableWithoutFeedback>
@@ -61,7 +85,7 @@ function Register() {
       <View style={styles.flexRow}>
         <TouchableOpacity
           style={styles.button}
-          //onPress={() => {addItem(), handleClick1();}}
+          onPress={register}
         >
           <Text style={[styles.buttontext]}> Register </Text>
         </TouchableOpacity>

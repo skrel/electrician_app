@@ -17,7 +17,7 @@ import {
 import { auth } from "../firebase";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
 
-import { AntDesign } from "@expo/vector-icons";
+import { Entypo } from '@expo/vector-icons';
 
 const Profile = () => {
   const [email, setEmail] = useState("");
@@ -38,18 +38,6 @@ const Profile = () => {
     return unsubscribe;
   }, []);
 
-  //v9 Sign up new users
-  const register = async () => {
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-      });
-  };
-
   //v9 Sign in existing users
   const signIn = async () => {
     signInWithEmailAndPassword(auth, email, password)
@@ -59,60 +47,68 @@ const Profile = () => {
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
+        alert(error.message);
       });
   };
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
-      <TextInput
-        style={styles.input}
-        placeholder="login"
-        onChangeText={(text) => setEmail(text)}
-        value={email}
-      />
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+        <View style={{ flex: 1, backgroundColor: "white", padding: 10 }}>
+          <TextInput
+            style={styles.input}
+            placeholder="login"
+            onChangeText={(text) => setEmail(text)}
+            value={email}
+          />
 
-      <TextInput
-        style={styles.input}
-        secureTextEntry={true}
-        placeholder="password"
-        onChangeText={(text) => setPassword(text)}
-        value={password}
-      />
+          <TextInput
+            style={styles.input}
+            secureTextEntry={true}
+            placeholder="password"
+            onChangeText={(text) => setPassword(text)}
+            value={password}
+          />
+        </View>
+      </TouchableWithoutFeedback>
 
       <TouchableOpacity style={styles.buttonSignIn} onPress={signIn}>
         <Text style={[styles.buttontextSignIn]}> Sign In </Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.buttonRegister} onPress={register}>
+      <TouchableOpacity style={styles.buttonRegister} onPress={() => navigation.navigate("Register")}>
         <Text style={[styles.buttontextRegister]}> Register </Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.buttonRegister} onPress={() => navigation.navigate("Register")}>
-        <Text style={[styles.buttontextRegister]}> Register Screen </Text>
-      </TouchableOpacity>
-
       <View style={{ flex: 1, justifyContent: "center", margin: 10 }}>
-        <AntDesign
-          name="copyright"
-          size={12}
-          color="black"
-          style={{ alignSelf: "center" }}
-        />
-        <Text style={{ textAlign: "center", paddingBottom: 20 }}>
-          Electrician App
-        </Text>
-
-        <Text
-          style={{ textAlign: "center", color: "blue" }}
+        
+        <Entypo 
+        name="linkedin" 
+        size={24} 
+        color="blue" 
+        style={{ alignSelf: "center" }}
           onPress={() =>
             Linking.openURL(
               "https://www.linkedin.com/company/app-for-electrician/?viewAsMember=true"
             )
-          }
-        >
-          Find Us On LinkedIn
+          }/>
+
+      </View>
+
+
+      <View style={{ flex: 1, justifyContent: 'flex-end'}}>
+        <Text style={{ 
+          textAlign: "center", 
+          alignItems: "center", 
+          alignSelf: 'center', 
+          justifyContent: 'center',
+          alignSelf: "center",
+        }}>
+          © Electrician App
         </Text>
       </View>
+
+
     </SafeAreaView>
   );
 };
@@ -122,6 +118,9 @@ const styles = StyleSheet.create({
     width: 200,
     height: 420,
     borderColor: "red",
+  },
+  flexRow: {
+    flexDirection: "row",
   },
   titletext: {
     fontWeight: "bold",
