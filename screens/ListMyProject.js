@@ -68,13 +68,20 @@ export default function ListMyProject() {
         renderItem={renderItem}
         keyExtractor={({ id }) => id.toString()}
       />
-      <TouchableOpacity style={styles.buttonAdd} onPress={() => setModalVisible(true)}>
-        <View style={styles.viewButton}>
-          <MaterialIcons name="add" size={24} color="black" />
-        </View>
-        <Text>New Project</Text>
+    </View>
+
+    <View style={styles.flexRow}>
+    <TouchableOpacity style={styles.buttonDeck} onPress={() => setModalVisible(true)}>
+        <Text style={styles.buttontext}>New Project</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.buttonDeck} 
+      //onPress={() => setModalVisible(true)}
+      >
+        <Text style={styles.buttontext}>Delete Project</Text>
       </TouchableOpacity>
     </View>
+
     <Modal animationType="fade"
         transparent={true}
         visible={modalVisible}
@@ -102,15 +109,34 @@ export default function ListMyProject() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    //flexDirection: "row",
     backgroundColor: '#fff',
     paddingHorizontal: 20,
     paddingTop: 20,
+  },
+  flexRow: {
+    flexDirection: "row",
+  },
+  buttonDeck: {
+    alignItems: "center",
+    backgroundColor: "#ffffff",
+    flex: 1,
+    height: 42,
+    margin: 16,
+    padding: 10,
+    borderRadius: 10,
   },
   buttonAdd: {
     position: 'absolute',
     bottom: 50,
     alignItems: 'center',
     alignSelf: 'center',
+  },
+  buttontext: {
+    //fontWeight: "bold",
+    fontSize: 12,
+    marginTop: 2,
+    color: "#000000",
   },
   itemView: {
     borderWidth: 1,

@@ -34,7 +34,17 @@ function Register() {
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        alert(error.message);
+        if(errorCode === 'auth/admin-restricted-operation'){
+          alert('Bad email address');
+        }
+        if(errorCode === 'auth/internal-error'){
+          alert('Enter password');
+        }
+        if(errorCode === 'auth/weak-password'){
+          alert('Password is too short');
+        }
+        //alert(error.message);
+        console.log('error code = ' + error.code);
         console.log('error message = ' + error.message);
       });
   };
@@ -44,27 +54,6 @@ function Register() {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <View style={{ flex: 1, backgroundColor: "white", padding: 10 }}>
           <Text style={[styles.screenTitle]}>Register</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Your name"
-            onChangeText={(text) => setName(text)}
-            value={name}
-          />
-
-          <TextInput
-            style={styles.input}
-            placeholder="Company name"
-            onChangeText={(text) => setCompany(text)}
-            value={company}
-          />
-
-          <TextInput
-            style={styles.input}
-            placeholder="Your role"
-            onChangeText={(text) => setRole(text)}
-            value={role}
-          />
-
           <TextInput
             style={styles.input}
             placeholder="Email*"
@@ -79,6 +68,7 @@ function Register() {
             onChangeText={(text) => setPassword(text)}
             value={password}
           />
+          <Text style={{fontSize: 10, alignSelf:"center", color:'red'}}>*Your password has to be at least 8 characters</Text>
         </View>
       </TouchableWithoutFeedback>
 

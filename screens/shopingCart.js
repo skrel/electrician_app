@@ -64,6 +64,8 @@ const ShopingCart = ({ navigation }) => {
   }, [modalVisible])
 
   const getListProject = async () => {
+    //if(auth.currentUser.uid !== null){}
+    //console.log('auth.currentUser.uid = ' + firebase.auth.currentUser.uid)
     database.collection('users').where('userId', '==', auth.currentUser.uid ).get().then( async(snapshot) => {
       // let data = snapshot.data();
       let response = []
@@ -194,10 +196,10 @@ const ShopingCart = ({ navigation }) => {
               <Text style={styles.buttontext}>Prj</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.buttonDeck} onPress={() => navigation.navigate("See All")}>
+            {/* <TouchableOpacity style={styles.buttonDeck} onPress={() => navigation.navigate("See All")}>
             <Ionicons name="file-tray-full-outline" size={22} color="black" />
               <Text style={styles.buttontext}>All</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <TouchableOpacity style={styles.buttonDeck} onPress={() => navigation.navigate("Send", {cartContent: rawEmailString})}>
             <MaterialCommunityIcons name="email-send-outline" size={22} color="black" />
               <Text style={styles.buttontext}>Send</Text>
@@ -219,6 +221,9 @@ const ShopingCart = ({ navigation }) => {
                   renderItem={renderProject}
                   keyExtractor={({ id }) => id.toString()}
                 />
+                <TouchableOpacity style={styles.buttonView} onPress={() => setModalVisible(false)}>
+                  <Text>Cancel</Text>
+                </TouchableOpacity>
             </View>
           </View>
         </View>
@@ -316,7 +321,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 10
-  }
+  },
+  buttonView: {
+    borderWidth: 1,
+    width: 100,
+    alignItems: "center",
+    borderRadius: 10,
+    paddingVertical: 10,
+    borderColor: 'black',
+    marginTop:15,
+  },
 });
 
 export default ShopingCart;

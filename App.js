@@ -83,14 +83,14 @@ function App() {
             headerRight: () => (
               <Button
                 title="Cart"
-                color='white'
+                color='#000000'
                 onPress={() => navigation.navigate("Shoping Cart")}
               />
             ),
             headerLeft: () => (
               <Button
                 title="Profile"
-                color='white'
+                color='#000000'
                 onPress={() => navigation.navigate("Profile")}
               />
             ),
