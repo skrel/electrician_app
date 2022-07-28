@@ -65,22 +65,28 @@ export default function ListMyProject() {
 
   //delete project
   const removeProject = async () => {
+    let xUser = auth.currentUser.uid;
+    console.log('auth.currentUser.uid = ' + xUser);
     if(projectName) {
-      let projectQuery = database.collection('users').where('name', '==', projectName)
+      //let projectQuery = database.collection('users').where('name', '==', projectName)
+
+      const getCollection = database.collection("users")
+      const userFilter = getCollection.where("userId", "==", xUser)
+      const projectQuery = userFilter.where("name", "==", projectName)
+
       projectQuery.get().then(function(querySnapshot) {
         querySnapshot.forEach(function(doc) {
           doc.ref.delete();
         });
       });
-      //if ...
-      //alert('Project' + projectName + ' has been deleted. Refresh the page');
+      alert('Project' + projectName + ' has been deleted. Refresh the page')
       setModalVisible(false)
     }
   }
 
   const renderItem = ({item, index}) => (
     <TouchableOpacity key={index} style={styles.itemView} onPress={() => navigation.navigate('DetailProject', item)}>
-        <Text>{item?.name}</Text>
+        <Text style={{ alignSelf: 'flex-start', fontSize: 16 }}>{item?.name}</Text>
     </TouchableOpacity>
   )
 
@@ -114,10 +120,10 @@ export default function ListMyProject() {
                 <TouchableOpacity style={styles.buttonView} onPress={() => setModalVisible(false)}>
                   <Text>Cancel</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.buttonView} onPress={addNewProject}>
-                  <Text>Create</Text>
+                <TouchableOpacity style={styles.buttonViewCreate} onPress={addNewProject}>
+                  <Text>Add</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.buttonView} onPress={removeProject}>
+                <TouchableOpacity style={styles.buttonViewDelete} onPress={removeProject}>
                   <Text>Delete</Text>
                 </TouchableOpacity>
               </View>
@@ -161,11 +167,13 @@ const styles = StyleSheet.create({
     color: "#000000",
   },
   itemView: {
-    borderWidth: 1,
-    marginTop: 20,
+    //borderWidth: 1,
+    marginTop: 5,
     alignItems: 'center',
     padding: 10,
-    borderRadius: 8
+    borderRadius: 8,
+    backgroundColor: '#f2f2f2',
+    minHeight: 60
   },
   viewButton: {
     borderWidth: 1,
@@ -207,12 +215,24 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: 'black'
   },
+  // inputView: {
+  //   padding: 15, 
+  //   borderWidth: 1,
+  //   borderColor: 'black',
+  //   borderRadius: 10,
+  //   marginVertical: 20
+  // },
   inputView: {
-    padding: 15, 
+    height: 40,
+    marginVertical: 20,
     borderWidth: 1,
-    borderColor: 'black',
+    borderColor: "#f7f7f7",
     borderRadius: 10,
-    marginVertical: 20
+    padding: 10,
+    width: "100%",
+    justifyContent: "center",
+    alignSelf: "center",
+    backgroundColor: "#f7f7f7",
   },
   buttonView: {
     borderWidth: 1,
@@ -221,6 +241,24 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingVertical: 10,
     borderColor: 'black'
+  },
+  buttonViewDelete: {
+    //borderWidth: 1,
+    width: 80,
+    alignItems: "center",
+    borderRadius: 10,
+    paddingVertical: 10,
+    //borderColor: 'black',
+    backgroundColor: '#f084af'
+  },
+  buttonViewCreate: {
+    //borderWidth: 1,
+    width: 80,
+    alignItems: "center",
+    borderRadius: 10,
+    paddingVertical: 10,
+    //borderColor: 'black',
+    backgroundColor: '#84f098'
   },
   flexRow: {
     flexDirection: "row",

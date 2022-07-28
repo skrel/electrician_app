@@ -67,8 +67,8 @@ const ShopingCart = ({ navigation }) => {
 
   const getListProject = async () => {
     
-    let xUser = auth.currentUser;
-    //console.log('auth.currentUser?= ' + xUser);
+    let xUser = auth.currentUser.uid;
+    console.log('auth.currentUser?= ' + xUser);
     if(xUser !== null){
       database.collection('users').where('userId', '==', auth.currentUser.uid ).get().then( async(snapshot) => {
         // let data = snapshot.data();
