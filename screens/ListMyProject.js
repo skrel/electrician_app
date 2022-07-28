@@ -1,4 +1,14 @@
-import { StyleSheet, Text, View, TouchableOpacity, FlatList, Modal, Dimensions, TextInput, DeviceEventEmitter } from 'react-native'
+import { 
+  StyleSheet, 
+  Text, 
+  View, 
+  TouchableOpacity, 
+  FlatList, 
+  Modal, 
+  Dimensions, 
+  TextInput, 
+  SafeAreaView,
+  DeviceEventEmitter } from 'react-native'
 import React, {useEffect, useState} from 'react'
 import { MaterialIcons } from '@expo/vector-icons';
 import database from '../firebase'
@@ -53,6 +63,21 @@ export default function ListMyProject() {
     }
   }
 
+  //delete project
+  const removeProject = async () => {
+    if(projectName) {
+      let projectQuery = database.collection('users').where('name', '==', projectName)
+      projectQuery.get().then(function(querySnapshot) {
+        querySnapshot.forEach(function(doc) {
+          doc.ref.delete();
+        });
+      });
+      //if ...
+      //alert('Project' + projectName + ' has been deleted. Refresh the page');
+      setModalVisible(false)
+    }
+  }
+
   const renderItem = ({item, index}) => (
     <TouchableOpacity key={index} style={styles.itemView} onPress={() => navigation.navigate('DetailProject', item)}>
         <Text>{item?.name}</Text>
@@ -60,49 +85,46 @@ export default function ListMyProject() {
   )
 
   return (
-    <>
-    <View style={styles.container}>
-      <Text style={{fontSize: 17}}>My Projects</Text>
-      <FlatList
-        data={listProject}
-        renderItem={renderItem}
-        keyExtractor={({ id }) => id.toString()}
-      />
-    </View>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+      <Text style={[styles.screenTitle]}>My Projects</Text>
+      <View style={styles.container}>
+        <FlatList
+          data={listProject}
+          renderItem={renderItem}
+          keyExtractor={({ id }) => id.toString()}
+        />
+      </View>
 
-    <View style={styles.flexRow}>
-    <TouchableOpacity style={styles.buttonDeck} onPress={() => setModalVisible(true)}>
-        <Text style={styles.buttontext}>New Project</Text>
-      </TouchableOpacity>
+      
+      <TouchableOpacity style={styles.buttonFooter} onPress={() => setModalVisible(true)}>
+          <Text style={styles.buttontextFooter}>Add/Delete Project</Text>
+        </TouchableOpacity>
+      
 
-      <TouchableOpacity style={styles.buttonDeck} 
-      //onPress={() => setModalVisible(true)}
-      >
-        <Text style={styles.buttontext}>Delete Project</Text>
-      </TouchableOpacity>
-    </View>
-
-    <Modal animationType="fade"
-        transparent={true}
-        visible={modalVisible}
-        presentationStyle="overFullScreen"
-        >
-        <View style={styles.popupView}>
-          <View style={styles.modalContentView}>
-            <Text style={[styles.titlePopuptext]}>Enter Project Name</Text> 
-            <TextInput style={styles.inputView} placeholder="Name project..." onChangeText={(text) => setProjectName(text)}/>
-            <View style={[styles.flexRow, styles.backgroundButtonModal]}>
-              <TouchableOpacity style={styles.buttonView} onPress={() => setModalVisible(false)}>
-                <Text>Cancel</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.buttonView} onPress={addNewProject}>
-                <Text>Ok</Text>
-              </TouchableOpacity>
+      <Modal animationType="fade"
+          transparent={true}
+          visible={modalVisible}
+          presentationStyle="overFullScreen"
+          >
+          <View style={styles.popupView}>
+            <View style={styles.modalContentView}>
+              <Text style={[styles.titlePopuptext]}>Enter Project Name</Text> 
+              <TextInput style={styles.inputView} placeholder="Name project..." onChangeText={(text) => setProjectName(text)}/>
+              <View style={[styles.flexRow, styles.backgroundButtonModal]}>
+                <TouchableOpacity style={styles.buttonView} onPress={() => setModalVisible(false)}>
+                  <Text>Cancel</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.buttonView} onPress={addNewProject}>
+                  <Text>Create</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.buttonView} onPress={removeProject}>
+                  <Text>Delete</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
-        </View>
-      </Modal>
-    </>
+        </Modal>
+      </SafeAreaView>
   )
 }
 
@@ -183,24 +205,53 @@ const styles = StyleSheet.create({
   titlePopuptext: {
     textAlign: 'center',
     fontSize: 16,
-    color: 'red'
+    color: 'black'
   },
   inputView: {
     padding: 15, 
     borderWidth: 1,
-    borderColor: 'red',
-    borderRadius: 20,
+    borderColor: 'black',
+    borderRadius: 10,
     marginVertical: 20
   },
   buttonView: {
     borderWidth: 1,
-    width: 100,
+    width: 80,
     alignItems: "center",
-    borderRadius: 20,
+    borderRadius: 10,
     paddingVertical: 10,
-    borderColor: 'red'
+    borderColor: 'black'
   },
   flexRow: {
     flexDirection: "row",
+  },
+  screenTitle: {
+    margin: 2,
+    padding: 10,
+    fontSize: 30,
+    //fontStyle: "italic",
+    //textDecorationLine: 'underline',
+  },
+  buttonFooter: {
+    alignItems: "center",
+    backgroundColor: "#000000",
+    height: 40,
+    margin: 16,
+    padding: 10,
+    borderRadius: 10,
+    width: "50%",
+    alignSelf: "center",
+    shadowColor: "#000000",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowRadius: 2,
+    shadowOpacity: 0.5,
+  },
+  buttontextFooter: {
+    fontWeight: "bold",
+    fontSize: 14,
+    color: "#ffffff",
   },
 })

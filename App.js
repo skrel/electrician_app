@@ -83,14 +83,14 @@ function App() {
             headerRight: () => (
               <Button
                 title="Cart"
-                color='#000000'
+                //color='#000000'
                 onPress={() => navigation.navigate("Shoping Cart")}
               />
             ),
             headerLeft: () => (
               <Button
                 title="Profile"
-                color='#000000'
+                //color='#000000'
                 onPress={() => navigation.navigate("Profile")}
               />
             ),
@@ -98,7 +98,7 @@ function App() {
             headerShadowVisible: false,
             //headerTintColor: 'white',
             headerStyle: {
-              backgroundColor: '#004aad',
+              backgroundColor: '#d9d327',
               borderBottomColor: "transparent",
               shadowColor: "transparent",
               borderBottomWidth: 0,

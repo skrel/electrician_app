@@ -47,6 +47,8 @@ const ShopingCart = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectProject, setSelectedProject] = useState({});
 
+  const [promtUserToRegister, setPromtUserToRegister] = useState(false);
+
   //output only name purpose and qty
   let rawEmailString = JSON.stringify(flatListItems, ["name", "purpose", "qty"]);
   //delete all quotes
@@ -64,19 +66,25 @@ const ShopingCart = ({ navigation }) => {
   }, [modalVisible])
 
   const getListProject = async () => {
-    //if(auth.currentUser.uid !== null){}
-    //console.log('auth.currentUser.uid = ' + firebase.auth.currentUser.uid)
-    database.collection('users').where('userId', '==', auth.currentUser.uid ).get().then( async(snapshot) => {
-      // let data = snapshot.data();
-      let response = []
-      snapshot
-        .forEach(documentSnapshot => {
-          item = {...documentSnapshot.data(), id: documentSnapshot.id};
-          response.push(item)
-        });
-      setListProject(response)
-      console.log(response)
-    });
+    
+    let xUser = auth.currentUser;
+    //console.log('auth.currentUser?= ' + xUser);
+    if(xUser !== null){
+      database.collection('users').where('userId', '==', auth.currentUser.uid ).get().then( async(snapshot) => {
+        // let data = snapshot.data();
+        let response = []
+        snapshot
+          .forEach(documentSnapshot => {
+            item = {...documentSnapshot.data(), id: documentSnapshot.id};
+            response.push(item)
+          });
+        setListProject(response)
+        console.log(response)
+      });
+    } else {
+      setPromtUserToRegister(true);
+    }
+ 
   }
 
   useEffect(() => {
@@ -215,6 +223,7 @@ const ShopingCart = ({ navigation }) => {
         <View style={styles.popupView}>
           <View style={styles.modalContentView}>
             <Text style={[styles.titletext]}>Select Project</Text> 
+            {promtUserToRegister ? <Text style={[styles.messageText]}>You don't have access to your projects. Please create a profile</Text> : null}
             <View>
                 <FlatList
                   data={listProject}
@@ -258,6 +267,10 @@ const styles = StyleSheet.create({
   titletext: {
     fontWeight: "bold",
     fontSize: 16,
+  },
+  messageText: {
+    //fontWeight: "bold",
+    fontSize: 14,
   },
   buttonDeck: {
     alignItems: "center",

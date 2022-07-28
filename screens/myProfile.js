@@ -180,7 +180,7 @@ const MyProfile = ({ route }) => {
                 paddingTop: 2,
                 fontSize: 12,
                 alignSelf: "center",
-                color: "#ffffff",
+                color: "#000000",
               }}
             >
               Items In Cart
@@ -199,7 +199,7 @@ const MyProfile = ({ route }) => {
                 paddingTop: 2,
                 fontSize: 12,
                 alignSelf: "center",
-                color: "#ffffff",
+                color: "#000000",
               }}
             >
               Total Cost
@@ -219,7 +219,7 @@ const MyProfile = ({ route }) => {
                 paddingTop: 2,
                 fontSize: 12,
                 alignSelf: "center",
-                color: "#ffffff",
+                color: "#000000",
               }}
             >
               Last Login
@@ -385,50 +385,71 @@ const styles = StyleSheet.create({
   },
   itemsInCart: {
     alignItems: "center",
-    backgroundColor: "#146aff",
+    backgroundColor: "#d4d4cf",
     height: 100,
     margin: 16,
     padding: 10,
-    borderRadius: 50,
+    borderRadius: 20,
     width: 100,
-    alignSelf: "center",
-    justifyContent: "center",
-  },
-  textItemsInCart: {
-    fontSize: 36,
-    color: "#ffffff",
-    alignItems: "center",
     alignSelf: "center",
     justifyContent: "center",
     shadowColor: "#000000",
     shadowOffset: {
-      width: 0,
+      width: 3,
       height: 3,
     },
     shadowRadius: 2,
     shadowOpacity: 0.5,
   },
+  textItemsInCart: {
+    fontSize: 36,
+    color: "#000000",
+    alignItems: "center",
+    alignSelf: "center",
+    justifyContent: "center",
+    // shadowColor: "#000000",
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 3,
+    // },
+    // shadowRadius: 2,
+    // shadowOpacity: 0.5,
+  },
   totalCost: {
     alignItems: "center",
-    backgroundColor: "#0ca620",
+    backgroundColor: "#d4d4cf",
     height: 100,
     marginRight: 16,
     //padding: 10,
-    borderRadius: 50,
+    borderRadius: 20,
     width: 100,
     alignSelf: "center",
     justifyContent: "center",
+    shadowColor: "#000000",
+    shadowOffset: {
+      width: 3,
+      height: 3,
+    },
+    shadowRadius: 2,
+    shadowOpacity: 0.5,
   },
   lastLogin: {
     alignItems: "center",
-    backgroundColor: "#ada810",
+    backgroundColor: "#d4d4cf",
     height: 100,
     //margin: 16,
     //padding: 10,
-    borderRadius: 50,
+    borderRadius: 20,
     width: 100,
     alignSelf: "center",
     justifyContent: "center",
+    shadowColor: "#000000",
+    shadowOffset: {
+      width: 3,
+      height: 3,
+    },
+    shadowRadius: 2,
+    shadowOpacity: 0.5,
   },
   popupView: {
     flex: 1,
