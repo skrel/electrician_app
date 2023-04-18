@@ -98,7 +98,7 @@ function App() {
             headerShadowVisible: false,
             //headerTintColor: 'white',
             headerStyle: {
-              backgroundColor: '#d9d327',
+              backgroundColor: '#f2f2f2',
               borderBottomColor: "transparent",
               shadowColor: "transparent",
               borderBottomWidth: 0,

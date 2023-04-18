@@ -14,14 +14,17 @@ import {
   Linking,
 } from "react-native";
 
+import { AntDesign } from '@expo/vector-icons';
+
 const HomeScreen = ({ navigation }) => {
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#004aad", borderTopLeftRadius: 20, borderTopRightRadius: 20 }}>
-      <ScrollView style={{ flex: 1, backgroundColor: "#004aad" }}>
+    <SafeAreaView style={{ flex: 1, borderTopLeftRadius: 20, borderTopRightRadius: 20, paddingBottom: 0 }}>
+      <ScrollView style={{ flex: 1 }}>
+
       <View style={styles.header}>
         <TouchableOpacity >
-          <Text style={[styles.colorText]}> Home </Text>
+          {/* <Text style={[styles.colorText]}> Home </Text> */}
         </TouchableOpacity>
       </View>
 
@@ -189,19 +192,26 @@ const HomeScreen = ({ navigation }) => {
                 <Text style={[styles.buttontext]}>OTHER</Text>
               </ImageBackground>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.buttonRest}>
-          </TouchableOpacity>
+          {/* <TouchableOpacity style={styles.buttonRest}>
+          </TouchableOpacity> */}
       </View>
 
       </ScrollView>
       
+
+      {/* Footer */}
       <View style={styles.footer}>
-        <TouchableOpacity onPress={() =>
+        <TouchableOpacity style={{width: '50%', marginTop: 5}}>
+            <AntDesign name="home" size={22} color="blue" />
+            <Text style={{fontSize: 10, color: "blue"}}>Home</Text>
+          </TouchableOpacity>
+        <TouchableOpacity style={{ marginTop: 5}} onPress={() =>
             Linking.openURL(
               "https://www.linkedin.com/company/app-for-electrician/?viewAsMember=true"
             )
           }>
-          <Text style={[styles.colorText]}> ⓘ Info </Text>
+          <AntDesign name="infocirlceo" size={22} color="black" />
+          <Text style={{fontSize: 10, color: "black"}}>Info</Text>
         </TouchableOpacity>
       </View>
 
@@ -216,10 +226,11 @@ const styles = StyleSheet.create({
   },
   footer: {
     flexDirection: "row",
-    backgroundColor: "#004aad",
+    backgroundColor: "#f2f2f2",
     alignContent: 'center',
     justifyContent: 'center',
     marginTop: -15,
+    marginBottom: 0,
     height: '5%',
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
@@ -231,27 +242,13 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     shadowOpacity: 0.5,
   },
-  colorText: {
-    color: '#ffffff',
-    alignSelf: 'center',
-    justifyContent: 'center',
-    fontSize: 24,
-    marginTop: 10,
-    shadowColor: "#000000",
-    shadowOffset: {
-      width: 0,
-      height: -4,
-    },
-    shadowRadius: 2,
-    shadowOpacity: 0.5,
-  },
+
   header: {
     flexDirection: "row",
-    backgroundColor: "#004aad",
+    // backgroundColor: "#004aad",
     alignContent: 'center',
     justifyContent: 'center',
-    //marginTop: -15,
-    height: 80,
+    height: 40,
   },
   buttonOne: {
     marginTop: -25,

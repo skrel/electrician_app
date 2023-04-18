@@ -18,11 +18,12 @@ import * as SQLite from "expo-sqlite";
 //import ConvertingDateToString from '../components/Functions.js';
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { Feather } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
-//import { ScrollView } from "react-native-web";
 import { MaterialIcons } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
 import database from '../firebase'
+
+// import { AuthSession } from 'expo';
 
 function openDatabase() {
   if (Platform.OS === "web") {
@@ -77,7 +78,23 @@ const MyProfile = ({ route }) => {
     }, []);
   }
 
-  
+//   TODO
+  // Salesforce piece===========================================
+  // add Salesforce POST
+  const postSF = () => {
+        return fetch('https://wise-fox-8bpt8d-dev-ed.trailblaze.my.salesforce.com/services/data/v51.0/sobjects/Account', {
+            method: 'POST',
+            headers: {
+                Authorization: 'Bearer 00DDm000000Ivpq!AQYAQBeVZbWXM72Bqib45kDjI73JPvkcutqnSFuWMrpG3MuXmWTKKVJPKJA6CSDWcQqzMraX6PqGaj88ly2H8GvkTdQukd0Q',
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                Name: 'From_App',
+                BillingState: 'AZ',
+            }),
+        });
+    }
 
   //query amount of items in sqlite
   let sql = "select * from cart";
@@ -163,7 +180,7 @@ const MyProfile = ({ route }) => {
           ) : null}
 
           <TouchableOpacity style={styles.buttonRegister} onPress={() => navigation.navigate("Home")}>
-        <Text style={[styles.buttontextRegister]}> Back To Home Screen ... </Text>
+        <Text style={[styles.buttontextRegister]}>Back To Home</Text>
       </TouchableOpacity>
 
         </View>
@@ -227,6 +244,8 @@ const MyProfile = ({ route }) => {
           </TouchableOpacity>
         </View>
       </ScrollView>
+
+      {/* FOOTER */}
       <View style={styles.flexRow}>
         {notApproved ? (
           <TouchableOpacity style={styles.buttonDeck}>
@@ -238,7 +257,8 @@ const MyProfile = ({ route }) => {
             <Text style={[styles.buttontextdisabled]}> CRM </Text>
           </TouchableOpacity>
         ) : (
-          <TouchableOpacity style={styles.buttonDeck}>
+            // add Salesforce login here
+          <TouchableOpacity style={styles.buttonDeck} onPress={postSF}>
             <MaterialCommunityIcons
               name="salesforce"
               size={24}
@@ -253,34 +273,13 @@ const MyProfile = ({ route }) => {
           <Text style={[styles.buttontext]}> Projects </Text>
         </TouchableOpacity>
 
-        {notApproved ? (
-          <TouchableOpacity style={styles.buttonDeck}>
-            <MaterialCommunityIcons
-              name="rotate-3d"
-              size={22}
-              color="#9c9c9c"
-            />
-            <Text style={[styles.buttontextdisabled]}> CSV </Text>
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity style={styles.buttonDeck}>
-            <MaterialCommunityIcons
-              name="rotate-3d"
-              size={22}
-              color="#000000"
-            />
-            <Text style={[styles.buttontext]}> CSV </Text>
-          </TouchableOpacity>
-        )}
-
         <TouchableOpacity style={styles.buttonDeck} onPress={() => setModalVisible(true)}>
           <MaterialIcons name="add" size={24} color="black" />
           <Text style={[styles.buttontext]}> Add </Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.buttonDeck} onPress={signOutUser}>
           <FontAwesome name="sign-out" size={24} color="black" />
-          <Text style={[styles.buttontext]}> Sing </Text>
-          <Text style={[styles.buttontext]}> Out </Text>
+          <Text style={[styles.buttontext]}>Sing Out</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -402,7 +401,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
   },
   textItemsInCart: {
-    fontSize: 36,
+    fontSize: 28,
     color: "#000000",
     alignItems: "center",
     alignSelf: "center",
