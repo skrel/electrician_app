@@ -9,6 +9,7 @@ import {
   Text,
   ScrollView,
   Button,
+  useEffect
 } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -43,6 +44,8 @@ import ListMyProject from "./screens/ListMyProject";
 import DetailProject from "./screens/DetailProject";
 import Register from "./screens/Register";
 
+import { AntDesign } from '@expo/vector-icons';
+
 function openDatabase() {
   if (Platform.OS === "web") {
     return {
@@ -73,6 +76,19 @@ function App() {
     });
   }, []);
 
+  //TODO
+  // total amount of items in cart
+  const itemsInCart = () =>
+      db.transaction((tx) => {
+        tx.executeSql("select COUNT(*) from cart", [], (tx, results) => {
+            console.log('@@@ results = ' + results)
+            return results
+        });
+      });
+
+//   console.log('@@@ items in the cart = ' + itemsInCart)
+  //
+
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -81,18 +97,15 @@ function App() {
           component={HomeScreen}
           options={({ navigation }) => ({
             headerRight: () => (
-              <Button
-                title="Cart"
-                //color='#000000'
-                onPress={() => navigation.navigate("Shoping Cart")}
-              />
+                <TouchableOpacity onPress={() => navigation.navigate("Shoping Cart")}>
+                    <Text style={{fontSize: 8, color: 'red', borderColor: 'red', borderWidth: 1, borderRadius: 7, alignSelf: 'center', padding: 2}}>0</Text>
+                    <AntDesign name="shoppingcart" size={24} color="black" />
+                </TouchableOpacity>
             ),
             headerLeft: () => (
-              <Button
-                title="Profile"
-                //color='#000000'
-                onPress={() => navigation.navigate("Profile")}
-              />
+                <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+                    <AntDesign name="user" size={24} color="black" />
+                </TouchableOpacity>
             ),
             title: "",
             headerShadowVisible: false,

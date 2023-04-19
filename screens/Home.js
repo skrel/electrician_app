@@ -204,7 +204,7 @@ const HomeScreen = ({ navigation }) => {
         <TouchableOpacity style={{width: '50%', marginTop: 5}}>
             <AntDesign name="home" size={22} color="blue" />
             <Text style={{fontSize: 10, color: "blue"}}>Home</Text>
-          </TouchableOpacity>
+        </TouchableOpacity>
         <TouchableOpacity style={{ marginTop: 5}} onPress={() =>
             Linking.openURL(
               "https://www.linkedin.com/company/app-for-electrician/?viewAsMember=true"

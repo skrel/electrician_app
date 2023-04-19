@@ -291,8 +291,8 @@ const BoxConfigurator = ({ navigation }) => {
         </ScrollView>
       </View>
 
-      {/* svg portion */}
-      <View style={{ flex: 1, padding: 10 }}>
+      {/* svg portion, move to a different tab */}
+      {/* <View style={{ flex: 1, padding: 10 }}>
         <Svg height="100%" width="100%">
           {boxIsEnabled ? [<Image key="box" source={require("../assets/box.png")} style={styles.imgBox}/>] : null}
           {bracketIsEnabled ? [<Rect key="bracket"x="10"y="170"width="330"height="12"fill="#949494"/>] : null}
@@ -307,7 +307,7 @@ const BoxConfigurator = ({ navigation }) => {
           {tckoIsEnabled ? [<Polygon key="tckoPoly"points="165,70 175,100 185,70"strokeWidth="2.5"fill="#ffaa00"/>]: null}
           {trkoIsEnabled ? [<Polygon key="trkoPoly"points="200,70 210,100 220,70"strokeWidth="2.5"fill="#ffaa00"/>]: null}
         </Svg>
-      </View>
+      </View> */}
     </SafeAreaView>
   );
 };

@@ -59,7 +59,7 @@ export const ASSEMBLY_TYPE_LOCAL = [
     },
     {
         id: "7",
-        img:"https://skrel.github.io/jsonapi/image/config_three_way_switch.png",
+        img:"https://skrel.github.io/jsonapi/image/na.png",
         title: "other"
     }
 ];

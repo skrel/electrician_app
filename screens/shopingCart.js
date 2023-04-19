@@ -10,6 +10,7 @@ import {
   Image,
   Dimensions,
   Modal,
+  TextInput
 } from "react-native";
 import * as SQLite from "expo-sqlite";
 
@@ -37,11 +38,13 @@ function openDatabase() {
   return db;
 }
 
-
 const db = openDatabase();
 
 const ShopingCart = ({ navigation }) => {
   let [flatListItems, setFlatListItems] = useState([]);
+  const [search, setSearch] = useState("");
+  const [masterDataSource, setMasterDataSource] = useState([]);
+  const [filteredDataSource, setFilteredDataSource] = useState([]);
   const [listProject, setListProject] = useState([])
   const [forceUpdate] = useForceUpdate();
   const [modalVisible, setModalVisible] = useState(false);
@@ -66,9 +69,7 @@ const ShopingCart = ({ navigation }) => {
   }, [modalVisible])
 
   const getListProject = async () => {
-    
     let xUser = auth.currentUser.uid;
-    console.log('auth.currentUser?= ' + xUser);
     if(xUser !== null){
       database.collection('users').where('userId', '==', auth.currentUser.uid ).get().then( async(snapshot) => {
         // let data = snapshot.data();
@@ -84,7 +85,6 @@ const ShopingCart = ({ navigation }) => {
     } else {
       setPromtUserToRegister(true);
     }
- 
   }
 
   useEffect(() => {
@@ -94,7 +94,9 @@ const ShopingCart = ({ navigation }) => {
           let temp = [];
           for (let i = 0; i < results.rows.length; ++i)
             temp.push(results.rows.item(i));
-          setFlatListItems(temp);
+        //   setFlatListItems(temp);
+        setFilteredDataSource(temp);
+          setMasterDataSource(temp);
         });
       });
     });
@@ -125,6 +127,21 @@ const ShopingCart = ({ navigation }) => {
     );
   };
 
+  const searchFilterFunction = (text) => {
+    if (text) {
+      const newData = masterDataSource.filter(function (item) {
+        const itemData = item.name ? item.name.toLowerCase() : "".toLowerCase();
+        const textData = text.toLowerCase();
+        return itemData.indexOf(textData) > -1;
+      });
+      setFilteredDataSource(newData);
+      setSearch(text);
+    } else {
+      setFilteredDataSource(masterDataSource);
+      setSearch(text);
+    }
+  };
+
   const handleSaveItemToFirebase = (item) => {
     database.collection('users').doc(item?.id).update({
       projects: [...flatListItems]
@@ -146,10 +163,17 @@ const ShopingCart = ({ navigation }) => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
       <Text style={[styles.screenTitle]}>Cart</Text>
+      <TextInput
+          style={styles.input}
+          onChangeText={(text) => searchFilterFunction(text)}
+          value={search}
+          underlineColorAndroid="transparent"
+          placeholder="Search Here"
+        />
       <View style={{ flex: 1, backgroundColor: "white" }}>
         <View style={{ flex: 1, padding: 5 }}>
           <FlatList
-            data={flatListItems}
+            data={filteredDataSource} //flatListItems
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => (
               <TouchableOpacity
@@ -343,6 +367,18 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderColor: 'black',
     marginTop:15,
+  },
+  input: {
+    height: 40,
+    margin: 6,
+    borderWidth: 1,
+    borderColor: "#f7f7f7",
+    borderRadius: 10,
+    padding: 10,
+    width: "90%",
+    justifyContent: "center",
+    alignSelf: "center",
+    backgroundColor: "#f7f7f7",
   },
 });
 
