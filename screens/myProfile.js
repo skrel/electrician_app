@@ -10,7 +10,8 @@ import {
   TouchableOpacity,
   ScrollView,
   Modal,
-  Dimensions
+  Dimensions,
+  Linking
 } from "react-native";
 import { auth } from "../firebase";
 import { signOut } from "firebase/auth";
@@ -47,7 +48,6 @@ let ConvertingDateToString = require("../components/Functions.js");
 const MyProfile = ({ route }) => {
   const navigation = useNavigation();
   const [itemsDB, setItemsDB] = useState(0);
-  const [notApproved, setNotApproved] = useState(true);
   const [totalPrice, setTotalPrice] = useState(0);
   const [modalVisible, setModalVisible] = useState(false);
   const [projectName, setProjectName] = useState('')
@@ -72,10 +72,6 @@ const MyProfile = ({ route }) => {
   let title = "title undefind";
   if (auth.currentUser?.email === "krel.svyatoslav@gmail.com") {
     title = "Admin";
-    //TODO: delete this part
-    useEffect(() => {
-      setNotApproved(false);
-    }, []);
   }
 
 //   TODO
@@ -95,6 +91,10 @@ const MyProfile = ({ route }) => {
             }),
         });
     }
+
+    // const sfAuthUrl = 'https://login.salesforce.com/services/oauth2/authorize?client_id=3MVG9Nk1FpUrSQHfqI0D15n2kX94zxFPYbLjP4ymITStd987ymiHR76JxxGq.2t9onJsKm6RiueJFAMVgi7Lf&redirect_uri=https://login.salesforce.com&response_type=code';
+    // const sfAuthUrl = 'https://login.salesforce.com/services/oauth2/authorize?client_id=3MVG9Nk1FpUrSQHfqI0D15n2kX94zxFPYbLjP4ymITStd987ymiHR76JxxGq.2t9onJsKm6RiueJFAMVgi7Lf&redirect_uri=https://skrel.github.io/sf_auth_success&response_type=code'
+
 
   //query amount of items in sqlite
   let sql = "select * from cart";
@@ -172,13 +172,6 @@ const MyProfile = ({ route }) => {
             Created: {createdAtTrimmed}
           </Text>
 
-          {notApproved ? (
-            <Text style={{ padding: 10, alignSelf: "center" }}>
-              Ups... Your company is not registered in the system. Reach out to
-              us via appforconstruction@gmail.com.
-            </Text>
-          ) : null}
-
           <TouchableOpacity style={styles.buttonRegister} onPress={() => navigation.navigate("Home")}>
         <Text style={[styles.buttontextRegister]}>Back To Home</Text>
       </TouchableOpacity>
@@ -247,26 +240,15 @@ const MyProfile = ({ route }) => {
 
       {/* FOOTER */}
       <View style={styles.flexRow}>
-        {notApproved ? (
-          <TouchableOpacity style={styles.buttonDeck}>
-            <MaterialCommunityIcons
-              name="salesforce"
-              size={24}
-              color="#9c9c9c"
-            />
-            <Text style={[styles.buttontextdisabled]}> CRM </Text>
-          </TouchableOpacity>
-        ) : (
-            // add Salesforce login here
-          <TouchableOpacity style={styles.buttonDeck} onPress={postSF}>
-            <MaterialCommunityIcons
-              name="salesforce"
-              size={24}
-              color="#000000"
-            />
-            <Text style={[styles.buttontext]}> CRM </Text>
-          </TouchableOpacity>
-        )}
+
+        <TouchableOpacity style={styles.buttonDeck} onPress={() => {
+        Linking.openURL(
+            "https://login.salesforce.com/services/oauth2/authorize?client_id=3MVG9Nk1FpUrSQHfqI0D15n2kX94zxFPYbLjP4ymITStd987ymiHR76JxxGq.2t9onJsKm6RiueJFAMVgi7Lf&redirect_uri=https://skrel.github.io/sf_auth_success&response_type=code"
+            )
+        }}>
+        <MaterialCommunityIcons name="salesforce" size={24} color="#000000"/>
+        <Text style={[styles.buttontext]}> CRM </Text>
+        </TouchableOpacity>
 
         <TouchableOpacity style={styles.buttonDeck} onPress={() => navigation.navigate('ListMyProject')}>
           <MaterialCommunityIcons name="format-list-bulleted" size={24} color="black" />
@@ -277,10 +259,12 @@ const MyProfile = ({ route }) => {
           <MaterialIcons name="add" size={24} color="black" />
           <Text style={[styles.buttontext]}> Add </Text>
         </TouchableOpacity>
+
         <TouchableOpacity style={styles.buttonDeck} onPress={signOutUser}>
           <FontAwesome name="sign-out" size={24} color="black" />
           <Text style={[styles.buttontext]}>Sing Out</Text>
         </TouchableOpacity>
+
       </View>
     </SafeAreaView>
     <Modal animationType="fade"

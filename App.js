@@ -9,7 +9,8 @@ import {
   Text,
   ScrollView,
   Button,
-  useEffect
+  useEffect,
+  useState
 } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -78,15 +79,24 @@ function App() {
 
   //TODO
   // total amount of items in cart
-  const itemsInCart = () =>
-      db.transaction((tx) => {
-        tx.executeSql("select COUNT(*) from cart", [], (tx, results) => {
-            console.log('@@@ results = ' + results)
-            return results
-        });
-      });
-
-//   console.log('@@@ items in the cart = ' + itemsInCart)
+  const [itemsInCart, setItemsInCart] = React.useState(0);
+  let sql = "select * from cart";
+  let params = [];
+  db.transaction((txn) => {
+    txn.executeSql(
+      sql,
+      params,
+      (trans, results) => {
+        console.log("count = " + results.rows.length);
+        setItemsInCart(results.rows.length);
+      },
+      (error) => {
+        console.log("execute error: " + JSON.stringify(error));
+        return error;
+      }
+    );
+  });
+  
   //
 
   return (
@@ -98,7 +108,7 @@ function App() {
           options={({ navigation }) => ({
             headerRight: () => (
                 <TouchableOpacity onPress={() => navigation.navigate("Shoping Cart")}>
-                    <Text style={{fontSize: 8, color: 'red', borderColor: 'red', borderWidth: 1, borderRadius: 7, alignSelf: 'center', padding: 2}}>0</Text>
+                    <Text style={{fontSize: 8, color: 'red', borderColor: 'red', borderWidth: 1, borderRadius: 7, alignSelf: 'center', padding: 2}}>{itemsInCart}</Text>
                     <AntDesign name="shoppingcart" size={24} color="black" />
                 </TouchableOpacity>
             ),
