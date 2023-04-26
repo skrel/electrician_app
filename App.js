@@ -2,15 +2,9 @@
 
 import * as React from "react";
 import {
-  View,
   StyleSheet,
-  SafeAreaView,
   TouchableOpacity,
-  Text,
-  ScrollView,
-  Button,
-  useEffect,
-  useState
+  Text
 } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -44,6 +38,7 @@ import Send from "./screens/Send.js";
 import ListMyProject from "./screens/ListMyProject";
 import DetailProject from "./screens/DetailProject";
 import Register from "./screens/Register";
+import Salesforce from "./screens/Salesforce";
 
 import { AntDesign } from '@expo/vector-icons';
 
@@ -505,9 +500,9 @@ function App() {
           }}
         />
 
-        {/* <Stack.Screen
-          name="Testing"
-          component={Testing}
+        <Stack.Screen
+          name="Salesforce"
+          component={Salesforce}
           options={{
             title: "",
             headerShadowVisible: false,
@@ -520,7 +515,7 @@ function App() {
               elevation: 0,
             },
           }}
-        /> */}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -242,12 +242,10 @@ const MyProfile = ({ route }) => {
       <View style={styles.flexRow}>
 
         <TouchableOpacity style={styles.buttonDeck} onPress={() => {
-        Linking.openURL(
-            "https://login.salesforce.com/services/oauth2/authorize?client_id=3MVG9Nk1FpUrSQHfqI0D15n2kX94zxFPYbLjP4ymITStd987ymiHR76JxxGq.2t9onJsKm6RiueJFAMVgi7Lf&redirect_uri=https://skrel.github.io/sf_auth_success&response_type=code"
-            )
+            navigation.navigate("Salesforce")
         }}>
         <MaterialCommunityIcons name="salesforce" size={24} color="#000000"/>
-        <Text style={[styles.buttontext]}> CRM </Text>
+        <Text style={[styles.buttontext]}> Salesforce </Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.buttonDeck} onPress={() => navigation.navigate('ListMyProject')}>
