@@ -34,13 +34,17 @@ const Salesforce = ({ navigation }) => {
 
     // custom code here
     const [code, setCode] = useState("");
+    const [token, setToken] = useState("");
+    const [instanceUrl, setInstanceUrl] = useState("");
+    const [tokenType, setTokenType] = useState("");
+
+    const [access, setAccess] = useState(false);
 
     let url = 'https://login.salesforce.com/services/oauth2/token?';
     let client_id = '3MVG9Nk1FpUrSQHfqI0D15n2kX94zxFPYbLjP4ymITStd987ymiHR76JxxGq.2t9onJsKm6RiueJFAMVgi7Lf';
     let redirect_uri = 'https://skrel.github.io/sf_auth_success';
     let client_secret = '0A565894322F18F5357B247C513EB64C27754C5500A6E5C6219BF2EB613DF8AD';
     let grant_type = 'authorization_code';
-    // let code = 'aPrxQMYPimtcuJ71iTrvhqRrpMvOD.A_gEOXA4NjkurNJqBIWps1HUyGrv_jGWBmD7.arqEh2g==';
 
     var myUrl = url + 'client_id=' 
     + client_id + '&redirect_uri=' 
@@ -53,17 +57,26 @@ const Salesforce = ({ navigation }) => {
         fetch(myUrl, {method: "POST"})
             .then((response) => response.json())
             .then((responseData) => {
-                console.log('@@@ responseData = ' + JSON.stringify(responseData));
+                console.log('@@@ responseData = ' + JSON.stringify(responseData)),
+                console.log('@@@ access token = ' + JSON.stringify(responseData.access_token)),
+                console.log('@@@ access instance url = ' + JSON.stringify(responseData.instance_url)),
+                console.log('@@@ access token type = ' + JSON.stringify(responseData.token_type)),
+                setInstanceUrl(JSON.stringify(responseData.instance_url)),
+                setToken(JSON.stringify(responseData.access_token)),
+                setTokenType(JSON.stringify(responseData.token_type))
+                // if(responseData.access_token !== null || responseData.access_token !== undefined) {
+                //     setAccess(true);
+                // }
             })
     }
 
     // post
     const postSF = () => {
         console.log('post start')
-        return fetch('https://login.salesforce.com/services/data/v51.0/sobjects/Account', {
+        return fetch(instanceUrl + '/services/data/v51.0/sobjects/Account', {
             method: 'POST',
             headers: {
-                Authorization: 'Bearer 00D5Y000001NBHY!AQQAQIHxXuU4EjMVQ4AFIjH7ufn3GCITvyMVRk_urK6u8h9K0nMZjMnw7ZLtLSNsNDlUt3dYa0qCtXHbuyWibwtFt7GRLEyI',
+                Authorization: tokenType + " " + token,
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
             },
@@ -79,26 +92,50 @@ const Salesforce = ({ navigation }) => {
     }
 
 
+    // get all accounts
+    const getAccts = () => {
+        fetch(instanceUrl + '/services/data/v51/queryAll/?q=SELECT+name+from+Account', {method: "GET"})
+            .then((response) => response.json())
+            .then((responseData) => {
+                console.log('@@@ All my accounts = ' + JSON.stringify(responseData))
+            })
+    }
+
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
         <ScrollView style={{ flex: 1 }}>
         <View style={{ flex: 1, padding: 10 }}>
             <Text style={[styles.screenTitle]}>Salesforce</Text>
-            <TouchableOpacity style={styles.buttonDeck} onPress={() => {
+            <Text style={{marginTop:10}}> Step 1 - Press "Salesforce Login" and enter your credentials.</Text>
+            <TouchableOpacity style={styles.buttonLogin} onPress={() => {
                 Linking.openURL(
                     "https://login.salesforce.com/services/oauth2/authorize?client_id=3MVG9Nk1FpUrSQHfqI0D15n2kX94zxFPYbLjP4ymITStd987ymiHR76JxxGq.2t9onJsKm6RiueJFAMVgi7Lf&redirect_uri=https://skrel.github.io/sf_auth_success&response_type=code"
                     )
             }}>
-                <Text style={[styles.buttontext]}> Authorize </Text>
-            </TouchableOpacity>
-            <TextInput style={styles.input} underlineColorAndroid="transparent" placeholder="Paste code here" onChangeText={(text) => setCode(text)} value={code}/>
-            <TouchableOpacity style={styles.buttonDeck} onPress={() => {console.log(myUrl), getToken()}}>
-                <Text style={[styles.buttontext]}> Get Token </Text>
+                <Text style={[styles.buttontext]}> Salesforce Login </Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.buttonDeck} onPress={() => {postSF()}}>
-                <Text style={[styles.buttontext]}> Create Account </Text>
+            <Text style={{marginTop:10}}> Step 2 - To get access to your Salesforce entity, paste the access code you copied on the previouse screen and click "Get Access"</Text>
+            <TextInput 
+                style={styles.input} 
+                underlineColorAndroid="transparent" 
+                placeholder="Paste code here" 
+                onChangeText={(text) => setCode(text)} 
+                secureTextEntry={true}
+                value={code}
+            />
+            
+            <TouchableOpacity style={styles.buttonAccess} onPress={() => {console.log(myUrl), getToken()}}>
+                <Text style={[styles.buttontext]}> Get Access </Text>
             </TouchableOpacity>
+
+            {access ? [
+                <Text style={{marginTop:10}}> You have access to your {instanceUrl} salesforce org.</Text>,
+                <TouchableOpacity style={styles.buttonQuery} onPress={() => {getAccts()}}>
+                    <Text style={[styles.buttontext]}> See Accounts </Text>
+                </TouchableOpacity>
+            ] : null}
         </View>
         </ScrollView>
     </SafeAreaView>
@@ -111,18 +148,37 @@ const styles = StyleSheet.create({
     padding: 10,
     fontSize: 30
   },
-  buttonDeck: {
+  buttonLogin: {
     alignItems: "center",
-    backgroundColor: "red",
+    backgroundColor: "green",
     flex: 1,
     height: 42,
-    margin: 0,
+    margin: 5,
+    padding: 3,
+    borderRadius: 10,
+  },
+  buttonAccess: {
+    alignItems: "center",
+    backgroundColor: "blue",
+    flex: 1,
+    height: 42,
+    margin: 5,
+    padding: 3,
+    borderRadius: 10,
+  },
+  buttonQuery: {
+    alignItems: "center",
+    backgroundColor: "#de8d1d",
+    flex: 1,
+    height: 42,
+    margin: 5,
     padding: 3,
     borderRadius: 10,
   },
   buttontext: {
-    //fontWeight: "bold",
-    color: "#000000",
+    color: "#ffffff",
+    marginTop: 10,
+    fontWeight: "bold"
   },
   input: {
     height: 40,
