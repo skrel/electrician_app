@@ -8,7 +8,8 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
-  Linking
+  Linking,
+  Alert
 } from "react-native";
 
 import * as SQLite from "expo-sqlite";
@@ -35,10 +36,8 @@ const Salesforce = ({ navigation }) => {
     // custom code here
     const [code, setCode] = useState("");
     const [token, setToken] = useState("");
-    const [instanceUrl, setInstanceUrl] = useState("");
+    const [instanceUrl, setInstanceUrl] = useState("<undefined>");
     const [tokenType, setTokenType] = useState("");
-
-    const [access, setAccess] = useState(false);
 
     let url = 'https://login.salesforce.com/services/oauth2/token?';
     let client_id = '3MVG9Nk1FpUrSQHfqI0D15n2kX94zxFPYbLjP4ymITStd987ymiHR76JxxGq.2t9onJsKm6RiueJFAMVgi7Lf';
@@ -52,49 +51,65 @@ const Salesforce = ({ navigation }) => {
     + client_secret + '&grant_type=' 
     + grant_type + '&code=' + code;
 
+    //erase
+    const erase = () => {
+        setCode();
+    }
+
     // get access token
     const getToken = () => {
+        console.log(myUrl)
         fetch(myUrl, {method: "POST"})
             .then((response) => response.json())
             .then((responseData) => {
-                console.log('@@@ responseData = ' + JSON.stringify(responseData)),
                 console.log('@@@ access token = ' + JSON.stringify(responseData.access_token)),
                 console.log('@@@ access instance url = ' + JSON.stringify(responseData.instance_url)),
                 console.log('@@@ access token type = ' + JSON.stringify(responseData.token_type)),
                 setInstanceUrl(JSON.stringify(responseData.instance_url)),
                 setToken(JSON.stringify(responseData.access_token)),
-                setTokenType(JSON.stringify(responseData.token_type))
-                // if(responseData.access_token !== null || responseData.access_token !== undefined) {
-                //     setAccess(true);
-                // }
+                setTokenType(JSON.stringify(responseData.token_type)),
+                console.log('step 2 end ============================================')
             })
     }
 
     // post
-    const postSF = () => {
-        console.log('post start')
-        return fetch(instanceUrl + '/services/data/v51.0/sobjects/Account', {
-            method: 'POST',
-            headers: {
-                Authorization: tokenType + " " + token,
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                Name: 'From App 20230426',
-                BillingState: 'AZ',
-            }),
-        })
-            .then((response) => response.json())
-            .then((responseData) => {
-                console.log('@@@ response after post = ' + JSON.stringify(responseData));
-            })
-    }
+    // const postSF = () => {
+    //     console.log('post start')
+    //     return fetch(instanceUrl + '/services/data/v51.0/sobjects/Account', {
+    //         method: 'POST',
+    //         headers: {
+    //             Authorization: tokenType + " " + token,
+    //             Accept: 'application/json',
+    //             'Content-Type': 'application/json',
+    //         },
+    //         body: JSON.stringify({
+    //             Name: 'From App 20230426',
+    //             BillingState: 'AZ',
+    //         }),
+    //     })
+    //         .then((response) => response.json())
+    //         .then((responseData) => {
+    //             console.log('@@@ response after post = ' + JSON.stringify(responseData));
+    //         })
+    // }
 
 
     // get all accounts
     const getAccts = () => {
-        fetch(instanceUrl + '/services/data/v51/queryAll/?q=SELECT+name+from+Account', {method: "GET"})
+        console.log('step 3 start, get account pressed ============================================');
+        // console.log('link = ' + instanceUrl.slice(1,-1) + '/services/data/v51.0/queryAll/?q=SELECT+name+from+Account');
+        // console.log('auth = ' + tokenType.slice(0, -1) + " " + token.slice(1));
+        console.log('token = ' + token.slice(1, -1));
+        console.log('Authorization = ' + "Bearer " + token.slice(1, -1));
+        
+        fetch(instanceUrl.slice(1,-1) + '/services/data/v51.0/queryAll/?q=SELECT+name+from+Account', {
+            method: "GET",
+            headers: {
+                "Authorization": "Bearer " + token.slice(1, -1),
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+            },
+        })
             .then((response) => response.json())
             .then((responseData) => {
                 console.log('@@@ All my accounts = ' + JSON.stringify(responseData))
@@ -121,21 +136,26 @@ const Salesforce = ({ navigation }) => {
                 style={styles.input} 
                 underlineColorAndroid="transparent" 
                 placeholder="Paste code here" 
-                onChangeText={(text) => setCode(text)} 
+                onChangeText={(text) => setCode(text.slice(46))} 
                 secureTextEntry={true}
                 value={code}
             />
             
-            <TouchableOpacity style={styles.buttonAccess} onPress={() => {console.log(myUrl), getToken()}}>
-                <Text style={[styles.buttontext]}> Get Access </Text>
-            </TouchableOpacity>
-
-            {access ? [
-                <Text style={{marginTop:10}}> You have access to your {instanceUrl} salesforce org.</Text>,
-                <TouchableOpacity style={styles.buttonQuery} onPress={() => {getAccts()}}>
-                    <Text style={[styles.buttontext]}> See Accounts </Text>
+            <View style={{ flexDirection: "row", padding: 10 }}>
+                <TouchableOpacity style={styles.buttonAccess} onPress={() => {console.log('step 2 start ============================================'), console.log('@@@ here is myUrl = ' + myUrl), getToken()}}>
+                    <Text style={[styles.buttontext]}> Get Access </Text>
                 </TouchableOpacity>
-            ] : null}
+
+                <TouchableOpacity style={styles.buttonErase} onPress={() => {erase()}}>
+                    <Text style={[styles.buttontext]}> Erase Code </Text>
+                </TouchableOpacity>
+            </View>
+
+            <Text style={{marginTop:10}}> You have access to your {instanceUrl} salesforce org.</Text>
+            <TouchableOpacity style={styles.buttonQuery} onPress={() => {getAccts()}}>
+                <Text style={[styles.buttontext]}> See Accounts </Text>
+            </TouchableOpacity>
+            
         </View>
         </ScrollView>
     </SafeAreaView>
@@ -160,6 +180,15 @@ const styles = StyleSheet.create({
   buttonAccess: {
     alignItems: "center",
     backgroundColor: "blue",
+    flex: 1,
+    height: 42,
+    margin: 5,
+    padding: 3,
+    borderRadius: 10,
+  },
+  buttonErase: {
+    alignItems: "center",
+    backgroundColor: "red",
     flex: 1,
     height: 42,
     margin: 5,
