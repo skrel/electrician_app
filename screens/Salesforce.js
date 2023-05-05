@@ -9,7 +9,8 @@ import {
   TouchableOpacity,
   ScrollView,
   Linking,
-  Alert
+  Alert,
+  FlatList
 } from "react-native";
 
 import * as SQLite from "expo-sqlite";
@@ -38,6 +39,9 @@ const Salesforce = ({ navigation }) => {
     const [token, setToken] = useState("");
     const [instanceUrl, setInstanceUrl] = useState("<undefined>");
     const [tokenType, setTokenType] = useState("");
+    const [accounts, setAccounts] = useState([]);
+
+    let [totalAccounts, setTotalAccounts] = useState();
 
     let url = 'https://login.salesforce.com/services/oauth2/token?';
     let client_id = '3MVG9Nk1FpUrSQHfqI0D15n2kX94zxFPYbLjP4ymITStd987ymiHR76JxxGq.2t9onJsKm6RiueJFAMVgi7Lf';
@@ -97,10 +101,8 @@ const Salesforce = ({ navigation }) => {
     // get all accounts
     const getAccts = () => {
         console.log('step 3 start, get account pressed ============================================');
-        // console.log('link = ' + instanceUrl.slice(1,-1) + '/services/data/v51.0/queryAll/?q=SELECT+name+from+Account');
-        // console.log('auth = ' + tokenType.slice(0, -1) + " " + token.slice(1));
-        console.log('token = ' + token.slice(1, -1));
-        console.log('Authorization = ' + "Bearer " + token.slice(1, -1));
+        // console.log('token = ' + token.slice(1, -1));
+        // console.log('Authorization = ' + "Bearer " + token.slice(1, -1));
         
         fetch(instanceUrl.slice(1,-1) + '/services/data/v51.0/queryAll/?q=SELECT+name+from+Account', {
             method: "GET",
@@ -112,9 +114,21 @@ const Salesforce = ({ navigation }) => {
         })
             .then((response) => response.json())
             .then((responseData) => {
-                console.log('@@@ All my accounts = ' + JSON.stringify(responseData))
+                console.log('@@@ All my accounts = ' + JSON.stringify(responseData)),
+                console.log('@@@  = ' + responseData.totalSize),
+                console.log('@@@  = ' + JSON.stringify(responseData.records)),
+                // console.log('@@@  = ' + JSON.stringify(responseData.records[0].Name)), // this will show the first account
+                setTotalAccounts(responseData.totalSize),
+                setAccounts(responseData.records)
             })
     }
+
+    const Item = ({title}) => (
+        <View style={styles.item}>
+          <Text style={styles.title}>{title}</Text>
+        </View>
+      );
+
 
 
   return (
@@ -155,9 +169,20 @@ const Salesforce = ({ navigation }) => {
             <TouchableOpacity style={styles.buttonQuery} onPress={() => {getAccts()}}>
                 <Text style={[styles.buttontext]}> See Accounts </Text>
             </TouchableOpacity>
+
+            <Text> Total Accounts: {totalAccounts}</Text>
+            {/* <Text> Accounts: {accounts}</Text> */}
+            
+            
             
         </View>
         </ScrollView>
+
+        <FlatList
+        data={accounts}
+        renderItem={({item}) => <Item title={item.Name} />}
+      />
+
     </SafeAreaView>
   );
 };
@@ -168,10 +193,16 @@ const styles = StyleSheet.create({
     padding: 10,
     fontSize: 30
   },
+  item: {
+    backgroundColor: '#f9c2ff',
+    padding: 20,
+    marginVertical: 8,
+    marginHorizontal: 16,
+  },
   buttonLogin: {
     alignItems: "center",
     backgroundColor: "green",
-    flex: 1,
+    // flex: 1,
     height: 42,
     margin: 5,
     padding: 3,
@@ -198,7 +229,7 @@ const styles = StyleSheet.create({
   buttonQuery: {
     alignItems: "center",
     backgroundColor: "#de8d1d",
-    flex: 1,
+    // flex: 1,
     height: 42,
     margin: 5,
     padding: 3,
