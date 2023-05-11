@@ -74,28 +74,6 @@ const MyProfile = ({ route }) => {
     title = "Admin";
   }
 
-//   TODO
-  // Salesforce piece===========================================
-  // add Salesforce POST
-  const postSF = () => {
-        return fetch('https://wise-fox-8bpt8d-dev-ed.trailblaze.my.salesforce.com/services/data/v51.0/sobjects/Account', {
-            method: 'POST',
-            headers: {
-                Authorization: 'Bearer 00DDm000000Ivpq!AQYAQBeVZbWXM72Bqib45kDjI73JPvkcutqnSFuWMrpG3MuXmWTKKVJPKJA6CSDWcQqzMraX6PqGaj88ly2H8GvkTdQukd0Q',
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                Name: 'From_App',
-                BillingState: 'AZ',
-            }),
-        });
-    }
-
-    // const sfAuthUrl = 'https://login.salesforce.com/services/oauth2/authorize?client_id=3MVG9Nk1FpUrSQHfqI0D15n2kX94zxFPYbLjP4ymITStd987ymiHR76JxxGq.2t9onJsKm6RiueJFAMVgi7Lf&redirect_uri=https://login.salesforce.com&response_type=code';
-    // const sfAuthUrl = 'https://login.salesforce.com/services/oauth2/authorize?client_id=3MVG9Nk1FpUrSQHfqI0D15n2kX94zxFPYbLjP4ymITStd987ymiHR76JxxGq.2t9onJsKm6RiueJFAMVgi7Lf&redirect_uri=https://skrel.github.io/sf_auth_success&response_type=code'
-
-
   //query amount of items in sqlite
   let sql = "select * from cart";
   let sqlPrice = "select qty, price from cart";

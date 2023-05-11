@@ -101,10 +101,7 @@ const Salesforce = ({ navigation }) => {
     // get all accounts
     const getAccts = () => {
         console.log('step 3 start, get account pressed ============================================');
-        // console.log('token = ' + token.slice(1, -1));
-        // console.log('Authorization = ' + "Bearer " + token.slice(1, -1));
-        
-        fetch(instanceUrl.slice(1,-1) + '/services/data/v51.0/queryAll/?q=SELECT+name+from+Account', {
+        fetch(instanceUrl.slice(1,-1) + '/services/data/v51.0/queryAll/?q=SELECT+id+,+name+from+Account', {
             method: "GET",
             headers: {
                 "Authorization": "Bearer " + token.slice(1, -1),
@@ -114,10 +111,9 @@ const Salesforce = ({ navigation }) => {
         })
             .then((response) => response.json())
             .then((responseData) => {
-                console.log('@@@ All my accounts = ' + JSON.stringify(responseData)),
-                console.log('@@@  = ' + responseData.totalSize),
-                console.log('@@@  = ' + JSON.stringify(responseData.records)),
-                // console.log('@@@  = ' + JSON.stringify(responseData.records[0].Name)), // this will show the first account
+                // console.log('@@@ All my accounts = ' + JSON.stringify(responseData)),
+                // console.log('@@@  = ' + responseData.totalSize),
+                // console.log('@@@  = ' + JSON.stringify(responseData.records)),
                 setTotalAccounts(responseData.totalSize),
                 setAccounts(responseData.records)
             })
@@ -127,8 +123,34 @@ const Salesforce = ({ navigation }) => {
         <View style={styles.item}>
           <Text style={styles.title}>{title}</Text>
         </View>
-      );
+    );
 
+
+
+      // create opportunity
+      const postOpps = () => {
+        console.log('post opps clicked');
+        fetch(instanceUrl.slice(1,-1) + '/services/data/v51.0/sobjects/Opportunity', {
+            method: "POST",
+            headers: {
+                "Authorization": "Bearer " + token.slice(1, -1),
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                Name: 'Opp_From_App_20230511',
+                StageName: 'Prospecting',
+                CloseDate: '2023-01-01',
+                State__c: 'AZ',
+                AccountId: '0015Y00003pVcBwQAK',
+                Description: 'default description'
+            }),
+        })
+        .then((response) => response.json())
+        .then((responseData) => {
+            console.log('@@@ post response = ' + JSON.stringify(responseData))
+        })
+    }
 
 
   return (
@@ -169,19 +191,22 @@ const Salesforce = ({ navigation }) => {
             <TouchableOpacity style={styles.buttonQuery} onPress={() => {getAccts()}}>
                 <Text style={[styles.buttontext]}> See Accounts </Text>
             </TouchableOpacity>
-
-            <Text> Total Accounts: {totalAccounts}</Text>
-            {/* <Text> Accounts: {accounts}</Text> */}
-            
-            
             
         </View>
         </ScrollView>
 
         <FlatList
-        data={accounts}
-        renderItem={({item}) => <Item title={item.Name} />}
-      />
+            data={accounts}
+            renderItem={({item}) => (
+                <TouchableOpacity onPress={() => {postOpps()}}>
+                    <View style={{ flex: 1, padding: 10 }}>
+                        <Text>Name: {item.Name}</Text>
+                        <Text style={[styles.accountId]}>Id: {item.Id}</Text>
+                    </View>
+                </TouchableOpacity>
+            )
+        }
+        />
 
     </SafeAreaView>
   );
@@ -193,8 +218,11 @@ const styles = StyleSheet.create({
     padding: 10,
     fontSize: 30
   },
+  accountId: {
+    fontSize: 9,
+  },
   item: {
-    backgroundColor: '#f9c2ff',
+    backgroundColor: '#f2f2f2',
     padding: 20,
     marginVertical: 8,
     marginHorizontal: 16,
