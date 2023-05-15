@@ -2,7 +2,7 @@
   "expo": {
     "name": "Electrician",
     "slug": "electrician-app",
-    "version": "2.3.5",
+    "version": "2.3.6",
     "orientation": "portrait",
     "icon": "./assets/ios_logo.png",
     "splash": {
@@ -19,10 +19,10 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.skrel.electricianapp",
-      "buildNumber": "2.3.5"
+      "buildNumber": "2.3.6"
     },
     "android": {
-      "versionCode": 235,
+      "versionCode": 236,
       "adaptiveIcon": {
         "foregroundImage": "./assets/logo.png",
         "backgroundColor": "#FFFFFF"
@@ -31,6 +31,11 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "8697f49c-0c68-4c7d-9c8b-6679cd41abd0"
+      }
     }
   }
 }

@@ -136,7 +136,7 @@ const MyProfile = ({ route }) => {
             style={styles.profileImg}
           />
           <Text
-            style={{ fontStyle: "italic", alignSelf: "flex-end", margin: 10 }}
+            style={{ fontStyle: "italic", alignSelf: "flex-end", margin: 10, marginTop: -2 }}
           >
             {auth.currentUser?.email}, {title}
           </Text>
@@ -145,6 +145,7 @@ const MyProfile = ({ route }) => {
               fontStyle: "italic",
               alignSelf: "flex-end",
               marginRight: 10,
+              marginTop: -12
             }}
           >
             Created: {createdAtTrimmed}

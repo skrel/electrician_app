@@ -54,6 +54,7 @@ const ShopingCart = ({ navigation }) => {
 
   //output only name purpose and qty
   let rawEmailString = JSON.stringify(flatListItems, ["name", "purpose", "qty"]);
+//   console.log(rawEmailString);
   //delete all quotes
   let emailStringWithNoQuots = rawEmailString.replace(/"/g, "");
   //replace comas with line breaks 
@@ -80,7 +81,7 @@ const ShopingCart = ({ navigation }) => {
             response.push(item)
           });
         setListProject(response)
-        console.log(response)
+        // console.log(response)
       });
     } else {
       setPromtUserToRegister(true);
@@ -94,7 +95,7 @@ const ShopingCart = ({ navigation }) => {
           let temp = [];
           for (let i = 0; i < results.rows.length; ++i)
             temp.push(results.rows.item(i));
-        //   setFlatListItems(temp);
+          setFlatListItems(temp);
         setFilteredDataSource(temp);
           setMasterDataSource(temp);
         });
@@ -107,9 +108,9 @@ const ShopingCart = ({ navigation }) => {
     db.transaction(
       (tx) => {
         tx.executeSql("delete from cart");
-        tx.executeSql("select * from cart", [], (_, { rows }) =>
-          console.log(JSON.stringify(rows))
-        );
+        // tx.executeSql("select * from cart", [], (_, { rows }) =>
+        //   console.log(JSON.stringify(rows))
+        // );
         Alert.alert(
           "Success",
           "All items were deleted",
@@ -224,14 +225,10 @@ const ShopingCart = ({ navigation }) => {
               onPress={() => setModalVisible(true)}
             >
               <AntDesign name="addfolder" size={22} color="black" />
-
               <Text style={styles.buttontext}>Prj</Text>
             </TouchableOpacity>
 
-            {/* <TouchableOpacity style={styles.buttonDeck} onPress={() => navigation.navigate("See All")}>
-            <Ionicons name="file-tray-full-outline" size={22} color="black" />
-              <Text style={styles.buttontext}>All</Text>
-            </TouchableOpacity> */}
+
             <TouchableOpacity style={styles.buttonDeck} onPress={() => navigation.navigate("Send", {cartContent: rawEmailString})}>
             <MaterialCommunityIcons name="email-send-outline" size={22} color="black" />
               <Text style={styles.buttontext}>Send</Text>

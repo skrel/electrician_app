@@ -103,7 +103,7 @@ function App() {
           options={({ navigation }) => ({
             headerRight: () => (
                 <TouchableOpacity onPress={() => navigation.navigate("Shoping Cart")}>
-                    <Text style={{fontSize: 8, color: 'red', borderColor: 'red', borderWidth: 1, borderRadius: 7, alignSelf: 'center', padding: 2}}>{itemsInCart}</Text>
+                    <Text style={{fontSize: 8, color: 'red', alignSelf: 'center', padding: 2,}}>{itemsInCart}</Text>
                     <AntDesign name="shoppingcart" size={24} color="black" />
                 </TouchableOpacity>
             ),

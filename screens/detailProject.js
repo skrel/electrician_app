@@ -60,13 +60,6 @@ export default function DetailProject({ route }) {
         />
       </View>
 
-      {/* <TouchableOpacity
-        style={styles.buttonFooter}
-        onPress={() => setModalVisible(true)}
-      >
-        <Text style={styles.buttontextFooter}>+ Add Item</Text>
-      </TouchableOpacity> */}
-
       <Modal
         animationType="fade"
         transparent={true}
@@ -80,8 +73,6 @@ export default function DetailProject({ route }) {
               <TextInput
                 style={styles.input}
                 placeholder="Enter name"
-                //onChangeText={(text) => setItemName(text)}
-                //value={itemName}
                 maxLength={18}
               />
               <View style={[styles.flexRow, styles.backgroundButtonModal]}>

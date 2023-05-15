@@ -14,7 +14,6 @@ import {
 } from "react-native";
 import * as SQLite from "expo-sqlite";
 import { sendEmail } from "../components/SendEmail.js";
-
 //import * as Clipboard from 'expo-clipboard';
 
 function openDatabase() {
@@ -34,11 +33,10 @@ function openDatabase() {
 
 const db = openDatabase();
 
-const Send = ({ route, navigation }) => {
+function Send ({ route, navigation }) {
 
     const { cartContent } = route.params;
     const [copiedText, setCopiedText] = React.useState('');
-    //const [textToSend, setTextToSend] = useState('');
 
     let rawText = JSON.stringify(cartContent);
     let textWithNoQuotes = rawText.replace(/"/g, "");
@@ -46,11 +44,7 @@ const Send = ({ route, navigation }) => {
     let textStringWithNoFrontCrlBrackets = textStringWithNoComas.replace(/{/g, "\n");
     let textStringWithNoBackCrlBrackets = textStringWithNoFrontCrlBrackets.replace(/}/g, "");
     let textStringWithNoFrontAndBackBrackets = textStringWithNoBackCrlBrackets.slice(1,-1);
-    //let textStringWithNoSlashes = textStringWithNoFrontAndBackBrackets.replace("\\", "");
-
-    // const copyToClipboard = async () => {
-    //   await Clipboard.setStringAsync('some text');
-    // };
+    let textToSend = textStringWithNoFrontAndBackBrackets.replace(/\\/g,"");
 
     function MultilineTextInput(props) {
       return (
@@ -72,7 +66,7 @@ const Send = ({ route, navigation }) => {
                             placeholder='Cart is empty'
                             multiline
                             //onChangeText={text => onChangeText(text)}
-                            value={textStringWithNoFrontAndBackBrackets}
+                            value={textToSend}
                           />
                 </View>
             </TouchableWithoutFeedback>
@@ -87,10 +81,11 @@ const Send = ({ route, navigation }) => {
               "",
               "",
               "BOM from electrician-app -- \n \n" +
-              textStringWithNoFrontAndBackBrackets,
+              textToSend,
               { cc: "" }
             ).then(() => {
               console.log("Your message was successfully sent!");
+            //   console.log(textStringWithNoFrontAndBackBrackets);
             });
           }}
         >

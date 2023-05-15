@@ -13,9 +13,9 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Dimensions,
+  Modal
 } from "react-native";
 import * as SQLite from "expo-sqlite";
-//import { borderTopColor } from "react-native/Libraries/Components/View/ReactNativeStyleAttributes";
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
@@ -37,7 +37,7 @@ function openDatabase() {
 
 const db = openDatabase();
 
-const { height } = Dimensions.get("window");
+// const { height } = Dimensions.get("window");
 
 function ShopingCartItem({ route, navigation }) {
   const { itemId } = route.params;
@@ -50,6 +50,10 @@ function ShopingCartItem({ route, navigation }) {
   const [forceUpdate] = useForceUpdate();
   const [text, setText] = React.useState(null);
   const [priceValue, setPriceValue] = React.useState(null);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [newDescription, setNewDescription] = useState('');
+
+//   console.log(itemId);
 
   const deleteItem = () => {
     db.transaction(
@@ -78,7 +82,7 @@ function ShopingCartItem({ route, navigation }) {
   const Dublicate = () => {
     Alert.alert(
       "Ups, something went wrong...",
-      "Please register your company with us to enable this feature.",
+      "Let us know if it happened",
       [
         {
           text: "Ok",
@@ -121,8 +125,28 @@ function ShopingCartItem({ route, navigation }) {
     );
   };
 
+  // edit item
+  // 1. show modal
+  // 2. call to database
+  const editItem = (text) => {
+    if (text === null || text === "") {
+      return false;
+    }
+    db.transaction(
+      (tx) => {
+        tx.executeSql("update cart set purpose=? where id=?", [text, itemId]);
+        tx.executeSql("select * from cart", [], (_, { rows }) =>
+          console.log(JSON.stringify(rows))
+        );
+      },
+      null,
+      forceUpdate
+    );
+  };
+
   let purposeString = JSON.stringify(purpose);
   let purposeToDisplay = purposeString.replace(/,/g, "\n");
+  const editText = purposeToDisplay.replace(/"/g, "\n");
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
@@ -197,7 +221,6 @@ function ShopingCartItem({ route, navigation }) {
               [
                 {
                   text: "Ok",
-                  //onPress: () => navigation.navigate("Home"),
                 },
               ],
               { cancelable: false }
@@ -205,14 +228,59 @@ function ShopingCartItem({ route, navigation }) {
           }}
         >
           <MaterialCommunityIcons name="update" size={24} color="black" />
-          <Text style={[styles.buttontext]}> Update Item </Text>
+          <Text style={[styles.buttontext]}> Update </Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.buttonDeck} onPress={Dublicate}>
           <Ionicons name="duplicate-outline" size={24} color="black" />
-          <Text style={[styles.buttontext]}> Duplicate Item </Text>
+          <Text style={[styles.buttontext]}> Duplicate </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.buttonDeck} onPress={() => setModalVisible(true)}>
+            <AntDesign name="edit" size={24} color="black" />
+            <Text style={[styles.buttontext]}> Edit </Text>
         </TouchableOpacity>
       </View>
+
+        <Modal animationType="fade"
+            transparent={true}
+            visible={modalVisible}
+            presentationStyle="overFullScreen"
+            >
+            <View style={styles.popupView}>
+                <View style={styles.modalContentView}>
+                    <Text style={[styles.titlePopuptext]}>Edit Item</Text> 
+                    <TextInput 
+                        multiline 
+                        style={styles.inputView} 
+                        onChangeText={setNewDescription}
+                        value={newDescription} 
+                    />
+                    <View style={[styles.flexRow, styles.backgroundButtonModal]}>
+                        <TouchableOpacity style={styles.buttonView} onPress={() => setModalVisible(false)}>
+                        <Text>Cancel</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.buttonView} onPress={() => {
+                            editItem(newDescription), 
+                            setModalVisible(false),
+                            Alert.alert(
+                                "Success",
+                                "This item has been edited. Refresh the view",
+                                [
+                                  {
+                                    text: "Ok",
+                                  },
+                                ],
+                                { cancelable: false }
+                              );
+                            }}>
+                        <Text>Update</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </View>
+        </Modal>
+
     </SafeAreaView>
   );
 }
@@ -225,6 +293,58 @@ function useForceUpdate() {
 const styles = StyleSheet.create({
   flexRow: {
     flexDirection: "row",
+  },
+  popupView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 10000,
+  },
+  modalContentView: {
+    margin: 20,
+    width: Dimensions.get('screen').width - 40,
+    height: 230,
+    backgroundColor: '#FFF',
+    borderRadius: 20,
+    padding: 20,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    paddingTop: 40,
+    // alignItems: "center",
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  titlePopuptext: {
+    textAlign: 'center',
+    fontSize: 14,
+    color: 'black'
+  },
+  inputView: {
+    height: 80,
+    marginVertical: 5,
+    borderWidth: 1,
+    borderColor: "#f7f7f7",
+    borderRadius: 10,
+    padding: 10,
+    width: "100%",
+    justifyContent: "center",
+    alignSelf: "center",
+    backgroundColor: "#f7f7f7",
+  },
+  backgroundButtonModal: {
+    justifyContent: 'space-between',
+  },
+  buttonView: {
+    borderWidth: 1,
+    width: 80,
+    alignItems: "center",
+    borderRadius: 10,
+    paddingVertical: 10,
+    borderColor: 'black'
   },
   inner: {
     padding: 24,

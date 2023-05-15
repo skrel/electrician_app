@@ -96,19 +96,6 @@ const Profile = () => {
       </View>
 
 
-      <View style={{ flex: 1, justifyContent: 'flex-end'}}>
-        <Text style={{ 
-          textAlign: "center", 
-          alignItems: "center", 
-          alignSelf: 'center', 
-          justifyContent: 'center',
-          alignSelf: "center",
-        }}>
-          © Electrician App
-        </Text>
-      </View>
-
-
     </SafeAreaView>
   );
 };

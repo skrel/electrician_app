@@ -27,42 +27,6 @@ const Configurators = ({ navigation }) => {
           <Text style={[styles.buttontext]}> Box Configurator </Text>
         </TouchableOpacity>
 
-        {/* Panel Configurator */}
-        <TouchableOpacity
-          style={styles.buttonDisabled}
-          onPress={() => Alert.alert(
-            "Register your company",
-            "Your company is not registered in the system. Reach out to us via appforconstruction@gmail.com",
-            [
-              {
-                text: "Ok",
-                onPress: () => console.log('Ok Pressed'),
-              }
-            ],
-          )
-        }
-        >
-          <Text style={[styles.buttontext]}> Panel Configurator </Text>
-        </TouchableOpacity>
-
-        {/* Light Configurator */}
-        <TouchableOpacity
-          style={styles.buttonDisabled}
-          onPress={() => 
-            Alert.alert(
-              "Register your company",
-              "Your company is not registered in the system. Reach out to us via appforconstruction@gmail.com",
-              [
-                {
-                  text: "Ok",
-                  onPress: () => console.log('Ok Pressed'),
-                }
-              ],
-            )
-          }
-        >
-          <Text style={[styles.buttontext]}> Light Configurator </Text>
-        </TouchableOpacity>
     </SafeAreaView>
   );
 };

@@ -25,7 +25,7 @@ export const ASSEMBLY = 'https://skrel.github.io/jsonapi/public/json/assembly.js
 export const CONDUIT = 'https://skrel.github.io/jsonapi/public/json/conduit.json';
 
 //other
-export const DEFAULT_QTY = 'add quantity';
+export const DEFAULT_QTY = 1;
 export const ASSEMBLY_TYPE_LOCAL = [
     {
         id: "1",

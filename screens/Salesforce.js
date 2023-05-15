@@ -10,7 +10,9 @@ import {
   ScrollView,
   Linking,
   Alert,
-  FlatList
+  FlatList,
+  Modal,
+  Dimensions
 } from "react-native";
 
 import * as SQLite from "expo-sqlite";
@@ -42,6 +44,13 @@ const Salesforce = ({ navigation }) => {
     const [accounts, setAccounts] = useState([]);
 
     let [totalAccounts, setTotalAccounts] = useState();
+
+    const [modalVisible, setModalVisible] = useState(false);
+    const [opportunityName, setOpportunityName] = useState('');
+    const [data, setData] = useState('');
+    const [accountId, setAccountId] = useState('');
+    const [accountName, setAccountName] = useState('');
+    let successPost;
 
     let url = 'https://login.salesforce.com/services/oauth2/token?';
     let client_id = '3MVG9Nk1FpUrSQHfqI0D15n2kX94zxFPYbLjP4ymITStd987ymiHR76JxxGq.2t9onJsKm6RiueJFAMVgi7Lf';
@@ -76,28 +85,6 @@ const Salesforce = ({ navigation }) => {
             })
     }
 
-    // post
-    // const postSF = () => {
-    //     console.log('post start')
-    //     return fetch(instanceUrl + '/services/data/v51.0/sobjects/Account', {
-    //         method: 'POST',
-    //         headers: {
-    //             Authorization: tokenType + " " + token,
-    //             Accept: 'application/json',
-    //             'Content-Type': 'application/json',
-    //         },
-    //         body: JSON.stringify({
-    //             Name: 'From App 20230426',
-    //             BillingState: 'AZ',
-    //         }),
-    //     })
-    //         .then((response) => response.json())
-    //         .then((responseData) => {
-    //             console.log('@@@ response after post = ' + JSON.stringify(responseData));
-    //         })
-    // }
-
-
     // get all accounts
     const getAccts = () => {
         console.log('step 3 start, get account pressed ============================================');
@@ -112,23 +99,17 @@ const Salesforce = ({ navigation }) => {
             .then((response) => response.json())
             .then((responseData) => {
                 // console.log('@@@ All my accounts = ' + JSON.stringify(responseData)),
-                // console.log('@@@  = ' + responseData.totalSize),
+                console.log('@@@  = ' + responseData.totalSize),
                 // console.log('@@@  = ' + JSON.stringify(responseData.records)),
                 setTotalAccounts(responseData.totalSize),
                 setAccounts(responseData.records)
             })
     }
 
-    const Item = ({title}) => (
-        <View style={styles.item}>
-          <Text style={styles.title}>{title}</Text>
-        </View>
-    );
-
 
 
       // create opportunity
-      const postOpps = () => {
+      const postOpps = (accountId, opportunityName, data) => {
         console.log('post opps clicked');
         fetch(instanceUrl.slice(1,-1) + '/services/data/v51.0/sobjects/Opportunity', {
             method: "POST",
@@ -138,27 +119,51 @@ const Salesforce = ({ navigation }) => {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                Name: 'Opp_From_App_20230511',
+                Name: opportunityName,
                 StageName: 'Prospecting',
                 CloseDate: '2023-01-01',
                 State__c: 'AZ',
-                AccountId: '0015Y00003pVcBwQAK',
-                Description: 'default description'
+                AccountId: accountId,
+                Description: data
             }),
         })
         .then((response) => response.json())
         .then((responseData) => {
-            console.log('@@@ post response = ' + JSON.stringify(responseData))
+            console.log('@@@ post response = ' + JSON.stringify(responseData));
+            if(responseData.success === true) {
+                Alert.alert(
+                    "Success",
+                    "It's been posted to Salesforce",
+                    [
+                      {
+                        text: "Ok",
+                      },
+                    ],
+                    { cancelable: false }
+                  );
+            } else {
+                Alert.alert(
+                    "Error",
+                    "Something went wrong. Ask your Salesforse Administrator. Error: " + {responseData},
+                    [
+                      {
+                        text: "Ok",
+                      },
+                    ],
+                    { cancelable: false }
+                  );
+            }
         })
     }
 
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+        <View style={{height: 500}} >
         <ScrollView style={{ flex: 1 }}>
         <View style={{ flex: 1, padding: 10 }}>
             <Text style={[styles.screenTitle]}>Salesforce</Text>
-            <Text style={{marginTop:10}}> Step 1 - Press "Salesforce Login" and enter your credentials.</Text>
+            <Text style={{marginTop:10}}> Step 1 - Press "Salesforce Login". It will redirect you to login.salesforce.com.</Text>
             <TouchableOpacity style={styles.buttonLogin} onPress={() => {
                 Linking.openURL(
                     "https://login.salesforce.com/services/oauth2/authorize?client_id=3MVG9Nk1FpUrSQHfqI0D15n2kX94zxFPYbLjP4ymITStd987ymiHR76JxxGq.2t9onJsKm6RiueJFAMVgi7Lf&redirect_uri=https://skrel.github.io/sf_auth_success&response_type=code"
@@ -167,7 +172,7 @@ const Salesforce = ({ navigation }) => {
                 <Text style={[styles.buttontext]}> Salesforce Login </Text>
             </TouchableOpacity>
 
-            <Text style={{marginTop:10}}> Step 2 - To get access to your Salesforce entity, paste the access code you copied on the previouse screen and click "Get Access"</Text>
+            <Text style={{marginTop:10}}> Step 2 - To get access to your Salesforce, paste the access code you copied on the last screen and press "Get Access". Press Erase to empty the field.</Text>
             <TextInput 
                 style={styles.input} 
                 underlineColorAndroid="transparent" 
@@ -183,7 +188,7 @@ const Salesforce = ({ navigation }) => {
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.buttonErase} onPress={() => {erase()}}>
-                    <Text style={[styles.buttontext]}> Erase Code </Text>
+                    <Text style={[styles.buttontext]}> Erase </Text>
                 </TouchableOpacity>
             </View>
 
@@ -194,19 +199,44 @@ const Salesforce = ({ navigation }) => {
             
         </View>
         </ScrollView>
+        </View>
 
         <FlatList
             data={accounts}
             renderItem={({item}) => (
-                <TouchableOpacity onPress={() => {postOpps()}}>
+                <TouchableOpacity onPress={() => {setModalVisible(true), setAccountId(item.Id), setAccountName(item.Name)}}>
                     <View style={{ flex: 1, padding: 10 }}>
-                        <Text>Name: {item.Name}</Text>
+                        <Text>{item.Name}</Text>
                         <Text style={[styles.accountId]}>Id: {item.Id}</Text>
                     </View>
                 </TouchableOpacity>
             )
         }
         />
+
+
+
+        <Modal animationType="fade"
+          transparent={true}
+          visible={modalVisible}
+          presentationStyle="overFullScreen"
+          >
+          <View style={styles.popupView}>
+            <View style={styles.modalContentView}>
+                <Text style={[styles.titlePopuptext]}>Creating new opportunity for account name: {accountName}</Text> 
+              <TextInput style={styles.inputView} placeholder="Enter Opportunity Name" onChangeText={(text) => setOpportunityName(text)}/>
+              <TextInput style={styles.inputView} placeholder="Enter Data" onChangeText={(text) => setData(text)}/>
+              <View style={[styles.flexRow, styles.backgroundButtonModal]}>
+                <TouchableOpacity style={styles.buttonView} onPress={() => setModalVisible(false)}>
+                  <Text>Cancel</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.buttonView} onPress={() => (setModalVisible(false), postOpps(accountId, opportunityName, data))}>
+                  <Text>Send</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </Modal>
 
     </SafeAreaView>
   );
@@ -217,6 +247,61 @@ const styles = StyleSheet.create({
     margin: 2,
     padding: 10,
     fontSize: 30
+  },
+  popupView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 10000,
+  },
+  flexRow: {
+    flexDirection: "row",
+  },
+  backgroundButtonModal: {
+    justifyContent: 'space-between',
+  },
+  modalContentView: {
+    margin: 20,
+    width: Dimensions.get('screen').width - 40,
+    height: 230,
+    backgroundColor: '#FFF',
+    borderRadius: 20,
+    padding: 20,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    paddingTop: 20,
+    // alignItems: "center",
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  titlePopuptext: {
+    textAlign: 'center',
+    fontSize: 14,
+    color: 'black'
+  },
+  inputView: {
+    height: 40,
+    marginVertical: 2,
+    borderWidth: 1,
+    borderColor: "#f7f7f7",
+    borderRadius: 10,
+    padding: 10,
+    width: "100%",
+    justifyContent: "center",
+    alignSelf: "center",
+    backgroundColor: "#f7f7f7",
+  },
+  buttonView: {
+    borderWidth: 1,
+    width: 80,
+    alignItems: "center",
+    borderRadius: 10,
+    paddingVertical: 10,
+    borderColor: 'black'
   },
   accountId: {
     fontSize: 9,
