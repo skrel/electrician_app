@@ -56,7 +56,8 @@ export default function DetailProject({ route }) {
         <FlatList
           data={items}
           renderItem={renderItem}
-          keyExtractor={({ id }) => id.toString()}
+        //   keyExtractor={({ id }) => id.toString()}
+            keyExtractor={({ id }) => id ? id.toString() : Math.random().toString(36).substr(2, 9)}
         />
       </View>
 

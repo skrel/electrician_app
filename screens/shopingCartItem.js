@@ -207,7 +207,7 @@ function ShopingCartItem({ route, navigation }) {
       <View style={styles.flexRow}>
         <TouchableOpacity style={styles.buttonDeck} onPress={deleteItem}>
           <AntDesign name="delete" size={24} color="black" />
-          <Text style={[styles.buttontext]}> Delete Item </Text>
+          <Text style={[styles.buttontext]}> Delete </Text>
         </TouchableOpacity>
 
         <TouchableOpacity

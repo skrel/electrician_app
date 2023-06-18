@@ -144,8 +144,55 @@ const ShopingCart = ({ navigation }) => {
   };
 
   const handleSaveItemToFirebase = (item) => {
+
+    // console.log('+++++++++++++++++++++++++++++++++++')
+    // console.log('+++++++++++++++++++++++++++++++++++')
+    // console.log('--- this is what is new coming =', flatListItems.length)
+    // console.log('--- this is what is new coming =', flatListItems)
+
+    
+
+    var myNewArray = []
+    for(var w = 0; w < flatListItems.length; w++) {
+        var newItem = flatListItems[w]
+        let createItem = {
+            "image": newItem.image,
+            "name": newItem.name,
+            "price": newItem.price,
+            "purpose": newItem.purpose,
+            "qty": newItem.qty
+        }
+        myNewArray.push(createItem)
+    }
+    // console.log('test array------- myNewArray')
+    // console.log(myNewArray)
+
+    
+    for (var i = 0; i < listProject.length; i++) {
+        var object = listProject[i]
+        if(object.id === item.id && object.projects.length > 0) {
+            var projectItems = object.projects
+            // console.log('what is there array length = ', projectItems.length)
+            for(var j = 0; j < projectItems.length; j++) {
+                var prj = projectItems[j]
+                let addItem = {
+                    "image": prj.image,
+                    "name": prj.name,
+                    "price": prj.price,
+                    "purpose": prj.purpose,
+                    "qty": prj.qty
+                }
+                myNewArray.push(addItem)
+            }
+            
+        }
+    }
+
+    // console.log('finish array that gets sent = ', myNewArray.length)
+    // console.log('finish array that gets sent = ', myNewArray)
+
     database.collection('users').doc(item?.id).update({
-      projects: [...flatListItems]
+      projects: [...myNewArray]
     })
     setModalVisible(false);
   }
@@ -210,7 +257,7 @@ const ShopingCart = ({ navigation }) => {
           <View style={styles.flexRow}>
             <TouchableOpacity style={styles.buttonDeck} onPress={clear}>
             <AntDesign name="delete" size={22} color="black" />
-              <Text style={styles.buttontext}>Emt</Text>
+              <Text style={styles.buttontext}>Empty</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
