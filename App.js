@@ -2,9 +2,9 @@
 
 import * as React from "react";
 import {
-  StyleSheet,
-  TouchableOpacity,
-  Text
+    StyleSheet,
+    TouchableOpacity,
+    Text
 } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -39,22 +39,23 @@ import ListMyProject from "./screens/ListMyProject";
 import DetailProject from "./screens/DetailProject";
 import Register from "./screens/Register";
 import Salesforce from "./screens/Salesforce";
+import ProjectItem from "./screens/ProjectItem";
 
 import { AntDesign } from '@expo/vector-icons';
 
 function openDatabase() {
-  if (Platform.OS === "web") {
-    return {
-      transaction: () => {
+    if (Platform.OS === "web") {
         return {
-          executeSql: () => {},
+            transaction: () => {
+                return {
+                    executeSql: () => { },
+                };
+            },
         };
-      },
-    };
-  }
+    }
 
-  const db = SQLite.openDatabase("db.db");
-  return db;
+    const db = SQLite.openDatabase("db.db");
+    return db;
 }
 
 const db = openDatabase();
@@ -62,523 +63,541 @@ const db = openDatabase();
 const Stack = createNativeStackNavigator();
 
 function App() {
-  //create a table
-  React.useEffect(() => {
-    db.transaction((tx) => {
-      tx.executeSql(
-        "create table if not exists cart (id integer primary key not null, image text, name text, purpose text, qty text);"
-      );
-      tx.executeSql('ALTER TABLE cart ADD COLUMN price text', []); // add new column to my sqlite
+    //create a table
+    React.useEffect(() => {
+        db.transaction((tx) => {
+            tx.executeSql(
+                "create table if not exists cart (id integer primary key not null, image text, name text, purpose text, qty text);"
+            );
+            tx.executeSql('ALTER TABLE cart ADD COLUMN price text', []); // add new column to my sqlite
+        });
+    }, []);
+
+    //TODO
+    // total amount of items in cart
+    const [itemsInCart, setItemsInCart] = React.useState(0);
+    let sql = "select * from cart";
+    let params = [];
+    db.transaction((txn) => {
+        txn.executeSql(
+            sql,
+            params,
+            (trans, results) => {
+                console.log("count = " + results.rows.length);
+                setItemsInCart(results.rows.length);
+            },
+            (error) => {
+                console.log("execute error: " + JSON.stringify(error));
+                return error;
+            }
+        );
     });
-  }, []);
 
-  //TODO
-  // total amount of items in cart
-  const [itemsInCart, setItemsInCart] = React.useState(0);
-  let sql = "select * from cart";
-  let params = [];
-  db.transaction((txn) => {
-    txn.executeSql(
-      sql,
-      params,
-      (trans, results) => {
-        console.log("count = " + results.rows.length);
-        setItemsInCart(results.rows.length);
-      },
-      (error) => {
-        console.log("execute error: " + JSON.stringify(error));
-        return error;
-      }
+    //
+
+    return (
+        <NavigationContainer>
+            <Stack.Navigator>
+                <Stack.Screen
+                    name="Home"
+                    component={HomeScreen}
+                    options={({ navigation }) => ({
+                        headerRight: () => (
+                            <TouchableOpacity onPress={() => navigation.navigate("Shoping Cart")}>
+                                {/* <Text style={{fontSize: 8, color: 'red', alignSelf: 'center', padding: 2,}}>{itemsInCart}</Text> */}
+                                <AntDesign name="shoppingcart" size={24} color="black" />
+                            </TouchableOpacity>
+                        ),
+                        headerLeft: () => (
+                            <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+                                <AntDesign name="user" size={24} color="black" />
+                            </TouchableOpacity>
+                        ),
+                        title: "",
+                        headerShadowVisible: false,
+                        //headerTintColor: 'white',
+                        headerStyle: {
+                            backgroundColor: '#f2f2f2',
+                            borderBottomColor: "transparent",
+                            shadowColor: "transparent",
+                            borderBottomWidth: 0,
+                            elevation: 0,
+                        },
+                    })}
+                />
+                <Stack.Screen
+                    name="Profile"
+                    component={Profile}
+                    options={{
+                        title: "",
+                        headerShadowVisible: false,
+                        headerStyle: {
+                            borderBottomColor: "transparent",
+                            shadowColor: "transparent",
+                            borderBottomWidth: 0,
+                            elevation: 0,
+                        },
+                    }}
+                />
+                <Stack.Screen
+                    name="Shoping Cart"
+                    component={ShopingCart}
+                    options={{
+                        title: "",
+                        headerShadowVisible: false,
+                        headerStyle: {
+                            borderBottomColor: "transparent",
+                            shadowColor: "transparent",
+                            borderBottomWidth: 0,
+                            elevation: 0,
+                        },
+                    }}
+                />
+                <Stack.Screen
+                    name="Shopping Cart Item"
+                    component={ShopingCartItem}
+                    options={{
+                        title: "",
+                        headerShadowVisible: false,
+                        headerStyle: {
+                            borderBottomColor: "transparent",
+                            shadowColor: "transparent",
+                            borderBottomWidth: 0,
+                            elevation: 0,
+                        },
+                    }}
+                />
+                <Stack.Screen
+                    name="Box"
+                    component={Box}
+                    options={{
+                        title: "",
+                        headerShadowVisible: false,
+                        headerStyle: {
+                            borderBottomColor: "transparent",
+                            shadowColor: "transparent",
+                            borderBottomWidth: 0,
+                            elevation: 0,
+                        },
+                    }}
+                />
+                <Stack.Screen
+                    name="Bracket"
+                    component={Bracket}
+                    options={{
+                        title: "",
+                        headerShadowVisible: false,
+                        headerStyle: {
+                            borderBottomColor: "transparent",
+                            shadowColor: "transparent",
+                            borderBottomWidth: 0,
+                            elevation: 0,
+                        },
+                    }}
+                />
+                <Stack.Screen
+                    name="Accessories"
+                    component={Accessories}
+                    options={{
+                        title: "",
+                        headerShadowVisible: false,
+                        headerStyle: {
+                            borderBottomColor: "transparent",
+                            shadowColor: "transparent",
+                            borderBottomWidth: 0,
+                            elevation: 0,
+                        },
+                    }}
+                />
+                <Stack.Screen
+                    name="Device"
+                    component={Device}
+                    options={{
+                        title: "",
+                        headerShadowVisible: false,
+                        headerStyle: {
+                            borderBottomColor: "transparent",
+                            shadowColor: "transparent",
+                            borderBottomWidth: 0,
+                            elevation: 0,
+                        },
+                    }}
+                />
+                <Stack.Screen
+                    name="Add My Own Item"
+                    component={AddMyOwnItem}
+                    options={{
+                        title: "",
+                        headerShadowVisible: false,
+                        headerStyle: {
+                            borderBottomColor: "transparent",
+                            shadowColor: "transparent",
+                            borderBottomWidth: 0,
+                            elevation: 0,
+                        },
+                    }}
+                />
+                <Stack.Screen
+                    name="Panel"
+                    component={Panel}
+                    options={{
+                        title: "",
+                        headerShadowVisible: false,
+                        headerStyle: {
+                            borderBottomColor: "transparent",
+                            shadowColor: "transparent",
+                            borderBottomWidth: 0,
+                            elevation: 0,
+                        },
+                    }}
+                />
+                <Stack.Screen
+                    name="Wire"
+                    component={Wire}
+                    options={{
+                        title: "",
+                        headerShadowVisible: false,
+                        headerStyle: {
+                            borderBottomColor: "transparent",
+                            shadowColor: "transparent",
+                            borderBottomWidth: 0,
+                            elevation: 0,
+                        },
+                    }}
+                />
+                <Stack.Screen
+                    name="Conduit"
+                    component={Conduit}
+                    options={{
+                        title: "",
+                        headerShadowVisible: false,
+                        headerStyle: {
+                            borderBottomColor: "transparent",
+                            shadowColor: "transparent",
+                            borderBottomWidth: 0,
+                            elevation: 0,
+                        },
+                    }}
+                />
+                <Stack.Screen
+                    name="Connector"
+                    component={Connector}
+                    options={{
+                        title: "",
+                        headerShadowVisible: false,
+                        headerStyle: {
+                            borderBottomColor: "transparent",
+                            shadowColor: "transparent",
+                            borderBottomWidth: 0,
+                            elevation: 0,
+                        },
+                    }}
+                />
+                <Stack.Screen
+                    name="Extension Ring"
+                    component={ExtensionRing}
+                    options={{
+                        title: "",
+                        headerShadowVisible: false,
+                        headerStyle: {
+                            borderBottomColor: "transparent",
+                            shadowColor: "transparent",
+                            borderBottomWidth: 0,
+                            elevation: 0,
+                        },
+                    }}
+                />
+                <Stack.Screen
+                    name="Assembly"
+                    component={Assembly}
+                    options={{
+                        title: "",
+                        headerShadowVisible: false,
+                        headerStyle: {
+                            borderBottomColor: "transparent",
+                            shadowColor: "transparent",
+                            borderBottomWidth: 0,
+                            elevation: 0,
+                        },
+                    }}
+                />
+                <Stack.Screen
+                    name="BoxConfigurator"
+                    component={BoxConfigurator}
+                    options={{
+                        title: "",
+                        headerShadowVisible: false,
+                        headerStyle: {
+                            borderBottomColor: "transparent",
+                            shadowColor: "transparent",
+                            borderBottomWidth: 0,
+                            elevation: 0,
+                        },
+                    }}
+                />
+
+                <Stack.Screen
+                    name="See All"
+                    component={SeeAll}
+                    options={{
+                        title: "",
+                        headerShadowVisible: false,
+                        headerStyle: {
+                            borderBottomColor: "transparent",
+                            shadowColor: "transparent",
+                            borderBottomWidth: 0,
+                            elevation: 0,
+                        },
+                    }}
+                />
+
+                <Stack.Screen
+                    name="Fire Alarm"
+                    component={FireAlarm}
+                    options={{
+                        title: "",
+                        headerShadowVisible: false,
+                        headerStyle: {
+                            borderBottomColor: "transparent",
+                            shadowColor: "transparent",
+                            borderBottomWidth: 0,
+                            elevation: 0,
+                        },
+                    }}
+                />
+
+                <Stack.Screen
+                    name="Other"
+                    component={Other}
+                    options={{
+                        title: "",
+                        headerShadowVisible: false,
+                        headerStyle: {
+                            borderBottomColor: "transparent",
+                            shadowColor: "transparent",
+                            borderBottomWidth: 0,
+                            elevation: 0,
+                        },
+                    }}
+                />
+
+                <Stack.Screen
+                    name="myProfile"
+                    component={MyProfile}
+                    options={{
+                        title: "",
+                        headerBackVisible: false,
+                        headerShadowVisible: false,
+                        headerStyle: {
+                            borderBottomColor: "transparent",
+                            shadowColor: "transparent",
+                            borderBottomWidth: 0,
+                            elevation: 0,
+                        },
+                    }}
+                />
+
+                <Stack.Screen
+                    name="Configurators"
+                    component={Configurators}
+                    options={{
+                        title: "",
+                        headerShadowVisible: false,
+                        headerStyle: {
+                            borderBottomColor: "transparent",
+                            shadowColor: "transparent",
+                            borderBottomWidth: 0,
+                            elevation: 0,
+                        },
+                    }}
+                />
+
+                <Stack.Screen
+                    name="PanelConfigurator"
+                    component={PanelConfigurator}
+                    options={{
+                        title: "",
+                        headerShadowVisible: false,
+                        headerStyle: {
+                            borderBottomColor: "transparent",
+                            shadowColor: "transparent",
+                            borderBottomWidth: 0,
+                            elevation: 0,
+                        },
+                    }}
+                />
+
+                <Stack.Screen
+                    name="LightConfigurator"
+                    component={LightConfigurator}
+                    options={{
+                        title: "",
+                        headerShadowVisible: false,
+                        headerStyle: {
+                            borderBottomColor: "transparent",
+                            shadowColor: "transparent",
+                            borderBottomWidth: 0,
+                            elevation: 0,
+                        },
+                    }}
+                />
+
+                <Stack.Screen
+                    name="Send"
+                    component={Send}
+                    options={{
+                        title: "",
+                        headerShadowVisible: false,
+                        headerStyle: {
+                            borderBottomColor: "transparent",
+                            shadowColor: "transparent",
+                            borderBottomWidth: 0,
+                            elevation: 0,
+                        },
+                    }}
+                />
+                <Stack.Screen
+                    name="ListMyProject"
+                    component={ListMyProject}
+                    options={{
+                        title: "",
+                        headerShadowVisible: false,
+                        headerStyle: {
+                            borderBottomColor: "transparent",
+                            shadowColor: "transparent",
+                            borderBottomWidth: 0,
+                            elevation: 0,
+                        },
+                    }}
+                />
+                <Stack.Screen
+                    name="DetailProject"
+                    component={DetailProject}
+                    options={{
+                        title: "",
+                        headerShadowVisible: false,
+                        headerStyle: {
+                            borderBottomColor: "transparent",
+                            shadowColor: "transparent",
+                            borderBottomWidth: 0,
+                            elevation: 0,
+                        },
+                    }}
+                />
+
+                <Stack.Screen
+                    name="Register"
+                    component={Register}
+                    options={{
+                        title: "",
+                        //headerBackVisible: false,
+                        headerShadowVisible: false,
+                        headerStyle: {
+                            borderBottomColor: "transparent",
+                            shadowColor: "transparent",
+                            borderBottomWidth: 0,
+                            elevation: 0,
+                        },
+                    }}
+                />
+
+                <Stack.Screen
+                    name="Salesforce"
+                    component={Salesforce}
+                    options={{
+                        title: "",
+                        headerShadowVisible: false,
+                        headerTintColor: 'white',
+                        headerStyle: {
+                            backgroundColor: '#2a57fa',
+                            borderBottomColor: "transparent",
+                            shadowColor: "transparent",
+                            borderBottomWidth: 0,
+                            elevation: 0,
+                        },
+                    }}
+                />
+
+                <Stack.Screen
+                    name="ProjectItem"
+                    component={ProjectItem}
+                    options={{
+                        title: "",
+                        headerShadowVisible: false,
+                        headerTintColor: 'white',
+                        headerStyle: {
+                            backgroundColor: '#2a57fa',
+                            borderBottomColor: "transparent",
+                            shadowColor: "transparent",
+                            borderBottomWidth: 0,
+                            elevation: 0,
+                        },
+                    }}
+                />
+
+            </Stack.Navigator>
+        </NavigationContainer>
     );
-  });
-  
-  //
-
-  return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          options={({ navigation }) => ({
-            headerRight: () => (
-                <TouchableOpacity onPress={() => navigation.navigate("Shoping Cart")}>
-                    <Text style={{fontSize: 8, color: 'red', alignSelf: 'center', padding: 2,}}>{itemsInCart}</Text>
-                    <AntDesign name="shoppingcart" size={24} color="black" />
-                </TouchableOpacity>
-            ),
-            headerLeft: () => (
-                <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
-                    <AntDesign name="user" size={24} color="black" />
-                </TouchableOpacity>
-            ),
-            title: "",
-            headerShadowVisible: false,
-            //headerTintColor: 'white',
-            headerStyle: {
-              backgroundColor: '#f2f2f2',
-              borderBottomColor: "transparent",
-              shadowColor: "transparent",
-              borderBottomWidth: 0,
-              elevation: 0,
-            },
-          })}
-        />
-        <Stack.Screen
-          name="Profile"
-          component={Profile}
-          options={{
-            title: "",
-            headerShadowVisible: false,
-            headerStyle: {
-              borderBottomColor: "transparent",
-              shadowColor: "transparent",
-              borderBottomWidth: 0,
-              elevation: 0,
-            },
-          }}
-        />
-        <Stack.Screen
-          name="Shoping Cart"
-          component={ShopingCart}
-          options={{
-            title: "",
-            headerShadowVisible: false,
-            headerStyle: {
-              borderBottomColor: "transparent",
-              shadowColor: "transparent",
-              borderBottomWidth: 0,
-              elevation: 0,
-            },
-          }}
-        />
-        <Stack.Screen
-          name="Shopping Cart Item"
-          component={ShopingCartItem}
-          options={{
-            title: "",
-            headerShadowVisible: false,
-            headerStyle: {
-              borderBottomColor: "transparent",
-              shadowColor: "transparent",
-              borderBottomWidth: 0,
-              elevation: 0,
-            },
-          }}
-        />
-        <Stack.Screen
-          name="Box"
-          component={Box}
-          options={{
-            title: "",
-            headerShadowVisible: false,
-            headerStyle: {
-              borderBottomColor: "transparent",
-              shadowColor: "transparent",
-              borderBottomWidth: 0,
-              elevation: 0,
-            },
-          }}
-        />
-        <Stack.Screen
-          name="Bracket"
-          component={Bracket}
-          options={{
-            title: "",
-            headerShadowVisible: false,
-            headerStyle: {
-              borderBottomColor: "transparent",
-              shadowColor: "transparent",
-              borderBottomWidth: 0,
-              elevation: 0,
-            },
-          }}
-        />
-        <Stack.Screen
-          name="Accessories"
-          component={Accessories}
-          options={{
-            title: "",
-            headerShadowVisible: false,
-            headerStyle: {
-              borderBottomColor: "transparent",
-              shadowColor: "transparent",
-              borderBottomWidth: 0,
-              elevation: 0,
-            },
-          }}
-        />
-        <Stack.Screen
-          name="Device"
-          component={Device}
-          options={{
-            title: "",
-            headerShadowVisible: false,
-            headerStyle: {
-              borderBottomColor: "transparent",
-              shadowColor: "transparent",
-              borderBottomWidth: 0,
-              elevation: 0,
-            },
-          }}
-        />
-        <Stack.Screen
-          name="Add My Own Item"
-          component={AddMyOwnItem}
-          options={{
-            title: "",
-            headerShadowVisible: false,
-            headerStyle: {
-              borderBottomColor: "transparent",
-              shadowColor: "transparent",
-              borderBottomWidth: 0,
-              elevation: 0,
-            },
-          }}
-        />
-        <Stack.Screen
-          name="Panel"
-          component={Panel}
-          options={{
-            title: "",
-            headerShadowVisible: false,
-            headerStyle: {
-              borderBottomColor: "transparent",
-              shadowColor: "transparent",
-              borderBottomWidth: 0,
-              elevation: 0,
-            },
-          }}
-        />
-        <Stack.Screen
-          name="Wire"
-          component={Wire}
-          options={{
-            title: "",
-            headerShadowVisible: false,
-            headerStyle: {
-              borderBottomColor: "transparent",
-              shadowColor: "transparent",
-              borderBottomWidth: 0,
-              elevation: 0,
-            },
-          }}
-        />
-        <Stack.Screen
-          name="Conduit"
-          component={Conduit}
-          options={{
-            title: "",
-            headerShadowVisible: false,
-            headerStyle: {
-              borderBottomColor: "transparent",
-              shadowColor: "transparent",
-              borderBottomWidth: 0,
-              elevation: 0,
-            },
-          }}
-        />
-        <Stack.Screen
-          name="Connector"
-          component={Connector}
-          options={{
-            title: "",
-            headerShadowVisible: false,
-            headerStyle: {
-              borderBottomColor: "transparent",
-              shadowColor: "transparent",
-              borderBottomWidth: 0,
-              elevation: 0,
-            },
-          }}
-        />
-        <Stack.Screen
-          name="Extension Ring"
-          component={ExtensionRing}
-          options={{
-            title: "",
-            headerShadowVisible: false,
-            headerStyle: {
-              borderBottomColor: "transparent",
-              shadowColor: "transparent",
-              borderBottomWidth: 0,
-              elevation: 0,
-            },
-          }}
-        />
-        <Stack.Screen
-          name="Assembly"
-          component={Assembly}
-          options={{
-            title: "",
-            headerShadowVisible: false,
-            headerStyle: {
-              borderBottomColor: "transparent",
-              shadowColor: "transparent",
-              borderBottomWidth: 0,
-              elevation: 0,
-            },
-          }}
-        />
-        <Stack.Screen
-          name="BoxConfigurator"
-          component={BoxConfigurator}
-          options={{
-            title: "",
-            headerShadowVisible: false,
-            headerStyle: {
-              borderBottomColor: "transparent",
-              shadowColor: "transparent",
-              borderBottomWidth: 0,
-              elevation: 0,
-            },
-          }}
-        />
-
-        <Stack.Screen
-          name="See All"
-          component={SeeAll}
-          options={{
-            title: "",
-            headerShadowVisible: false,
-            headerStyle: {
-              borderBottomColor: "transparent",
-              shadowColor: "transparent",
-              borderBottomWidth: 0,
-              elevation: 0,
-            },
-          }}
-        />
-
-        <Stack.Screen
-          name="Fire Alarm"
-          component={FireAlarm}
-          options={{
-            title: "",
-            headerShadowVisible: false,
-            headerStyle: {
-              borderBottomColor: "transparent",
-              shadowColor: "transparent",
-              borderBottomWidth: 0,
-              elevation: 0,
-            },
-          }}
-        />
-
-        <Stack.Screen
-          name="Other"
-          component={Other}
-          options={{
-            title: "",
-            headerShadowVisible: false,
-            headerStyle: {
-              borderBottomColor: "transparent",
-              shadowColor: "transparent",
-              borderBottomWidth: 0,
-              elevation: 0,
-            },
-          }}
-        />
-
-        <Stack.Screen
-          name="myProfile"
-          component={MyProfile}
-          options={{
-            title: "",
-            headerBackVisible: false,
-            headerShadowVisible: false,
-            headerStyle: {
-              borderBottomColor: "transparent",
-              shadowColor: "transparent",
-              borderBottomWidth: 0,
-              elevation: 0,
-            },
-          }}
-        />
-
-        <Stack.Screen
-          name="Configurators"
-          component={Configurators}
-          options={{
-            title: "",
-            headerShadowVisible: false,
-            headerStyle: {
-              borderBottomColor: "transparent",
-              shadowColor: "transparent",
-              borderBottomWidth: 0,
-              elevation: 0,
-            },
-          }}
-        />
-
-        <Stack.Screen
-          name="PanelConfigurator"
-          component={PanelConfigurator}
-          options={{
-            title: "",
-            headerShadowVisible: false,
-            headerStyle: {
-              borderBottomColor: "transparent",
-              shadowColor: "transparent",
-              borderBottomWidth: 0,
-              elevation: 0,
-            },
-          }}
-        />
-
-        <Stack.Screen
-          name="LightConfigurator"
-          component={LightConfigurator}
-          options={{
-            title: "",
-            headerShadowVisible: false,
-            headerStyle: {
-              borderBottomColor: "transparent",
-              shadowColor: "transparent",
-              borderBottomWidth: 0,
-              elevation: 0,
-            },
-          }}
-        />
-
-        <Stack.Screen
-          name="Send"
-          component={Send}
-          options={{
-            title: "",
-            headerShadowVisible: false,
-            headerStyle: {
-              borderBottomColor: "transparent",
-              shadowColor: "transparent",
-              borderBottomWidth: 0,
-              elevation: 0,
-            },
-          }}
-        />
-        <Stack.Screen
-          name="ListMyProject"
-          component={ListMyProject}
-          options={{
-            title: "",
-            headerShadowVisible: false,
-            headerStyle: {
-              borderBottomColor: "transparent",
-              shadowColor: "transparent",
-              borderBottomWidth: 0,
-              elevation: 0,
-            },
-          }}
-        />
-        <Stack.Screen
-          name="DetailProject"
-          component={DetailProject}
-          options={{
-            title: "",
-            headerShadowVisible: false,
-            headerStyle: {
-              borderBottomColor: "transparent",
-              shadowColor: "transparent",
-              borderBottomWidth: 0,
-              elevation: 0,
-            },
-          }}
-        />
-
-        <Stack.Screen
-          name="Register"
-          component={Register}
-          options={{
-            title: "",
-            //headerBackVisible: false,
-            headerShadowVisible: false,
-            headerStyle: {
-              borderBottomColor: "transparent",
-              shadowColor: "transparent",
-              borderBottomWidth: 0,
-              elevation: 0,
-            },
-          }}
-        />
-
-        <Stack.Screen
-          name="Salesforce"
-          component={Salesforce}
-          options={{
-            title: "",
-            headerShadowVisible: false,
-            headerTintColor: 'white',
-            headerStyle: {
-              backgroundColor: '#2a57fa',
-              borderBottomColor: "transparent",
-              shadowColor: "transparent",
-              borderBottomWidth: 0,
-              elevation: 0,
-            },
-          }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
 }
 
 const styles = StyleSheet.create({
-  flexRow: {
-    flexDirection: "row",
-  },
-  buttontext: {
-    fontWeight: "bold",
-    fontSize: 14,
-  },
-  buttontextwhite: {
-    fontWeight: "bold",
-    fontSize: 14,
-    color: "white",
-  },
-  button: {
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#e6e6e6",
-    borderWidth: 1,
-    borderColor: "black",
-    flex: 1,
-    height: 80,
-    margin: 16,
-    padding: 10,
-    borderRadius: 10,
-    shadowColor: "#000000",
-    shadowOffset: {
-      width: 0,
-      height: 3,
+    flexRow: {
+        flexDirection: "row",
     },
-    shadowRadius: 2,
-    shadowOpacity: 0.5,
-  },
-  titletext: {
-    fontWeight: "bold",
-    fontSize: 20,
-  },
-  normaltext: {
-    fontSize: 14,
-  },
-  screenTitle: {
-    margin: 2,
-    padding: 10,
-    fontSize: 40,
-    fontStyle: "italic",
-    //textDecorationLine: 'underline',
-  },
-  invisibleButton: {
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "white",
-    borderWidth: 1,
-    borderColor: "white",
-    flex: 1,
-    height: 80,
-    margin: 16,
-    padding: 10,
-    borderRadius: 10,
-  },
+    buttontext: {
+        fontWeight: "bold",
+        fontSize: 14,
+    },
+    buttontextwhite: {
+        fontWeight: "bold",
+        fontSize: 14,
+        color: "white",
+    },
+    button: {
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "#e6e6e6",
+        borderWidth: 1,
+        borderColor: "black",
+        flex: 1,
+        height: 80,
+        margin: 16,
+        padding: 10,
+        borderRadius: 10,
+        shadowColor: "#000000",
+        shadowOffset: {
+            width: 0,
+            height: 3,
+        },
+        shadowRadius: 2,
+        shadowOpacity: 0.5,
+    },
+    titletext: {
+        fontWeight: "bold",
+        fontSize: 20,
+    },
+    normaltext: {
+        fontSize: 14,
+    },
+    screenTitle: {
+        margin: 2,
+        padding: 10,
+        fontSize: 40,
+        fontStyle: "italic",
+        //textDecorationLine: 'underline',
+    },
+    invisibleButton: {
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "white",
+        borderWidth: 1,
+        borderColor: "white",
+        flex: 1,
+        height: 80,
+        margin: 16,
+        padding: 10,
+        borderRadius: 10,
+    },
 });
 
 export default App;

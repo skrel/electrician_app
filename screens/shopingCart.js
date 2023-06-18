@@ -283,6 +283,9 @@ const ShopingCart = ({ navigation }) => {
           </View>
         </View>
       </View>
+
+      {/* MODAL */}
+      {/* ==================================== */}
       <Modal animationType="fade"
         transparent={true}
         visible={modalVisible}
@@ -383,7 +386,7 @@ const styles = StyleSheet.create({
   modalContentView: {
     margin: 20,
     width: Dimensions.get('screen').width - 40,
-    height: 230,
+    height: '50%',
     backgroundColor: '#FFF',
     borderRadius: 20,
     padding: 20,

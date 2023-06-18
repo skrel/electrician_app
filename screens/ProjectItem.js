@@ -39,13 +39,14 @@ const db = openDatabase();
 
 // const { height } = Dimensions.get("window");
 
-function ShopingCartItem({ route, navigation }) {
+function ProjectItem({ route, navigation }) {
     const { itemId } = route.params;
     const { value } = route.params;
     const { image } = route.params;
     const { purpose } = route.params;
     const { qty } = route.params;
     const { price } = route.params;
+    const { projectName } = route.params;
 
     const [forceUpdate] = useForceUpdate();
     const [text, setText] = React.useState(null);
@@ -161,7 +162,7 @@ function ShopingCartItem({ route, navigation }) {
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
             <ScrollView style={{ flex: 1, backgroundColor: "white" }}>
-                <Text style={[styles.screenTitle]}>Cart Item</Text>
+                <Text style={[styles.screenTitle]}> {projectName} Cart Item</Text>
 
                 {/* QTY */}
                 {/* ================================= */}
@@ -456,4 +457,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default ShopingCartItem;
+export default ProjectItem;
