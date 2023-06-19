@@ -10,14 +10,40 @@ import {
     Dimensions,
     Modal,
     TextInput,
+    Alert
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FontAwesome } from "@expo/vector-icons";
 import database from "../firebase";
 
+
+
+// var myProjItems = ({route}) => {
+//     return route?.params?.projects
+// }
+
+
+// export function screenRefrech() {
+//     console.log('function ran ')
+//     // DeviceEventEmitter.emit("reloadItems");
+//     // setItems([]);
+// }
+
+
+
 export default function DetailProject({ route, navigation }) {
-    const [items, setItems] = useState(route?.params?.projects);
+    const [items, setItems] = useState(route?.params?.projects); // route?.params?.projects
     const [modalVisible, setModalVisible] = useState(false);
+
+
+    // try useEffect here
+    // useEffect(() => {
+    //     DeviceEventEmitter.emit("reloadItems");
+    //     setItems([]);
+    //   }, [])
+
+    
+      // try useEffect here
 
     const handleDeleteItemsFromFirebase = async (item) => {
         await database.collection("users").doc(route?.params?.id).update({
@@ -27,19 +53,51 @@ export default function DetailProject({ route, navigation }) {
         setItems([]);
     };
 
+    const handleRefreshProject = async (item) => {
+        console.log('refresh pressed')
+        Alert.alert(
+            "Ups, something went wrong...",
+            "Let us know if it happened",
+            [
+                {
+                    text: "Ok",
+                    //onPress: () => navigation.navigate("Home"),
+                },
+            ],
+            { cancelable: false }
+        );
+    };
+
+    // build ids to my items
+    let itemListWithIds = []
+    for(var j = 0; j < items.length; j++) {
+        var object = items[j]
+        const prjItemWithId = {
+            "iid": j+1,
+            "image": object.image,
+            "name": object.name,
+            "price": object.price,
+            "purpose": object.purpose,
+            "qty": object.qty
+        }
+        itemListWithIds.push(prjItemWithId)
+    }
+
     const renderItem = ({ item, index }) => (
-        <TouchableOpacity 
-        onPress={() =>
-            navigation.navigate("ProjectItem", {
-              itemId: item.id,
-              value: item.name,
-              image: item.image,
-              purpose: item.purpose,
-              qty: item.qty,
-              price: item.price,
-              projectName: route?.params?.name
-            })
-          }
+        <TouchableOpacity
+            onPress={() =>
+                navigation.navigate("ProjectItem", {
+                    itemId: item.iid,
+                    value: item.name,
+                    image: item.image,
+                    purpose: item.purpose,
+                    qty: item.qty,
+                    price: item.price,
+                    projectName: route?.params?.name,
+                    projectId: route?.params?.id,
+                    projItems: itemListWithIds // passing all items
+                })
+            }
         >
             <View style={styles.itemView}>
                 <View style={{ flex: 1, flexDirection: "row", marginBottom: 10 }}>
@@ -67,9 +125,15 @@ export default function DetailProject({ route, navigation }) {
                     <TouchableOpacity onPress={handleDeleteItemsFromFirebase}>
                         <FontAwesome name="trash" size={24} color="black" />
                     </TouchableOpacity>
+
+{/* Refresh */}
+                    <TouchableOpacity onPress={handleRefreshProject}>
+                    <FontAwesome name="refresh" size={24} color="black" />
+                    </TouchableOpacity>
+
                 </View>
                 <FlatList
-                    data={items}
+                    data={itemListWithIds} // items
                     renderItem={renderItem}
                     //   keyExtractor={({ id }) => id.toString()}
                     keyExtractor={({ id }) => id ? id.toString() : Math.random().toString(36).substr(2, 9)}

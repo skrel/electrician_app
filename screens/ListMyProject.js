@@ -47,7 +47,7 @@ export default function ListMyProject() {
           response.push(item)
         });
       setListProject(response)
-      console.log(response)
+    //   console.log(response)
     });
   }
 

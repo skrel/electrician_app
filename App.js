@@ -524,9 +524,8 @@ function App() {
                     options={{
                         title: "",
                         headerShadowVisible: false,
-                        headerTintColor: 'white',
+                        // headerTintColor: 'white',
                         headerStyle: {
-                            backgroundColor: '#2a57fa',
                             borderBottomColor: "transparent",
                             shadowColor: "transparent",
                             borderBottomWidth: 0,

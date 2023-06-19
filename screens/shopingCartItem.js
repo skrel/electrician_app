@@ -68,7 +68,7 @@ function ShopingCartItem({ route, navigation }) {
                     [
                         {
                             text: "Ok",
-                            onPress: () => console.log("OK Pressed"),
+                            onPress: () => navigation.navigate("Shoping Cart"),
                         },
                     ],
                     { cancelable: false }
@@ -94,6 +94,7 @@ function ShopingCartItem({ route, navigation }) {
     };
 
     const addQty = (text) => {
+        console.log('add qty run')
         if (text === null || text === "") {
             return false;
         }
@@ -110,6 +111,7 @@ function ShopingCartItem({ route, navigation }) {
     };
 
     const addPrice = (text) => {
+        console.log('add price run')
         if (text === null || text === "") {
             return false;
         }

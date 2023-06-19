@@ -19,6 +19,8 @@ import * as SQLite from "expo-sqlite";
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
+import database from "../firebase";
+import screenRefrech from "./DetailProject"
 
 function openDatabase() {
     if (Platform.OS === "web") {
@@ -47,6 +49,8 @@ function ProjectItem({ route, navigation }) {
     const { qty } = route.params;
     const { price } = route.params;
     const { projectName } = route.params;
+    const { projectId } = route.params;
+    const { projItems } = route.params;
 
     const [forceUpdate] = useForceUpdate();
     const [text, setText] = React.useState(null);
@@ -56,28 +60,37 @@ function ProjectItem({ route, navigation }) {
 
     //   console.log(itemId);
 
-    const deleteItem = () => {
-        db.transaction(
-            (tx) => {
-                tx.executeSql("delete from cart where id=?", [itemId]);
-                tx.executeSql("select * from cart", [], (_, { rows }) =>
-                    console.log(JSON.stringify(rows))
-                );
-                Alert.alert(
-                    "Success",
-                    "Item " + value + " was deleted",
-                    [
-                        {
-                            text: "Ok",
-                            onPress: () => console.log("OK Pressed"),
-                        },
-                    ],
-                    { cancelable: false }
-                );
-            },
-            null,
-            forceUpdate
-        );
+    // console.log('project items = ', projItems)
+
+
+    const deleteItem = async () => {
+        // console.log('All items ids = ', projItems.map(key => key.iid))
+        // console.log('my item = ', itemId)
+        console.log('deleting item')
+        let itemsLeft = []
+        for (var i = 0; i < projItems.length; i++) {
+            let object = projItems[i]
+            // console.log('loop item id = ', object.id)
+
+            if (object.iid != itemId) {
+                let createItem = {
+                    "image": object.image,
+                    "name": object.name,
+                    "price": object.price,
+                    "purpose": object.purpose,
+                    "qty": object.qty
+                }
+                itemsLeft.push(createItem)
+            }
+        }
+        // console.log('+++++++++++')
+        // console.log('what is left = ', itemsLeft)
+        // console.log('proj id = ', projectId)
+
+
+        await database.collection("users").doc(projectId).update({
+            projects: [...itemsLeft],
+        });
     };
 
     const Dublicate = () => {
@@ -94,55 +107,27 @@ function ProjectItem({ route, navigation }) {
         );
     };
 
-    const addQty = (text) => {
-        if (text === null || text === "") {
-            return false;
-        }
-        db.transaction(
-            (tx) => {
-                tx.executeSql("update cart set qty=? where id=?", [text, itemId]);
-                tx.executeSql("select * from cart", [], (_, { rows }) =>
-                    console.log(JSON.stringify(rows))
-                );
-            },
-            null,
-            forceUpdate
-        );
-    };
+    const updateItemInFirebase = () => {
 
-    const addPrice = (text) => {
-        if (text === null || text === "") {
-            return false;
-        }
-        db.transaction(
-            (tx) => {
-                tx.executeSql("update cart set price=? where id=?", [text, itemId]);
-                tx.executeSql("select * from cart", [], (_, { rows }) =>
-                    console.log(JSON.stringify(rows))
-                );
-            },
-            null,
-            forceUpdate
-        );
-    };
+    }
 
     // edit item
     // 1. show modal
     // 2. call to database
     const editItem = (text) => {
-        if (text === null || text === "") {
-            return false;
-        }
-        db.transaction(
-            (tx) => {
-                tx.executeSql("update cart set purpose=? where id=?", [text, itemId]);
-                tx.executeSql("select * from cart", [], (_, { rows }) =>
-                    console.log(JSON.stringify(rows))
-                );
-            },
-            null,
-            forceUpdate
-        );
+        // if (text === null || text === "") {
+        //     return false;
+        // }
+        // db.transaction(
+        //     (tx) => {
+        //         tx.executeSql("update cart set purpose=? where id=?", [text, itemId]);
+        //         tx.executeSql("select * from cart", [], (_, { rows }) =>
+        //             console.log(JSON.stringify(rows))
+        //         );
+        //     },
+        //     null,
+        //     forceUpdate
+        // );
     };
 
     let purposeString = JSON.stringify(purpose);
@@ -154,7 +139,7 @@ function ProjectItem({ route, navigation }) {
     const [state, setState] = useState(editText); // new
     let onChange = (event) => {
         let newValue = event
-        setState(newValue.replace(/\\n/g,'; '))
+        setState(newValue.replace(/\\n/g, '; '))
         // console.log('my state here = ', state)
     };
 
@@ -164,9 +149,11 @@ function ProjectItem({ route, navigation }) {
             <ScrollView style={{ flex: 1, backgroundColor: "white" }}>
                 <Text style={[styles.screenTitle]}> {projectName} Cart Item</Text>
 
-                {/* QTY */}
-                {/* ================================= */}
+
                 <View style={styles.itemcard}>
+
+                    {/* QTY */}
+                    {/* ================================= */}
                     <View style={styles.flexRow}>
                         <Text style={{ paddingLeft: 20, fontSize: 20 }}>Quantity:</Text>
                         <View style={{ flex: 1, paddingLeft: 20 }}>
@@ -211,10 +198,6 @@ function ProjectItem({ route, navigation }) {
                     <Text style={styles.normaltext}>
                         Description {editText}
                     </Text>
-                    <Text style={styles.normaltext}>
-                        Residential and comersial construction. Can be used in assemblies
-                        with other electrical items
-                    </Text>
                 </View>
 
                 {/* ITEM IMAGE */}
@@ -227,7 +210,20 @@ function ProjectItem({ route, navigation }) {
             {/* BUTTON DECK */}
             {/* ================================= */}
             <View style={styles.flexRow}>
-                <TouchableOpacity style={styles.buttonDeck} onPress={deleteItem}>
+                <TouchableOpacity style={styles.buttonDeck} onPress={() => {
+                    deleteItem();
+                        Alert.alert(
+                            "Success",
+                            "Item has been deleted",
+                            [
+                                {
+                                    text: "Ok",
+                                    onPress: () => navigation.navigate("Home"),
+                                },
+                            ],
+                            { cancelable: false }
+                        )
+                }}>
                     <AntDesign name="delete" size={24} color="black" />
                     <Text style={[styles.buttontext]}> Delete </Text>
                 </TouchableOpacity>
@@ -235,14 +231,14 @@ function ProjectItem({ route, navigation }) {
                 <TouchableOpacity
                     style={styles.buttonDeck}
                     onPress={() => {
-                        addQty(text);
-                        addPrice(priceValue);
+                        // updateItemInFirebase
                         Alert.alert(
-                            "Success",
-                            "This item was updated",
+                            "Ups, something went wrong...",
+                            "Let us know if it happened",
                             [
                                 {
                                     text: "Ok",
+                                    //onPress: () => navigation.navigate("Home"),
                                 },
                             ],
                             { cancelable: false }
@@ -288,11 +284,12 @@ function ProjectItem({ route, navigation }) {
                                 editItem(state), // newDescription
                                     setModalVisible(false),
                                     Alert.alert(
-                                        "Success",
-                                        "This item has been edited. Refresh the view",
+                                        "Ups, something went wrong...",
+                                        "Let us know if it happened",
                                         [
                                             {
                                                 text: "Ok",
+                                                //onPress: () => navigation.navigate("Home"),
                                             },
                                         ],
                                         { cancelable: false }
