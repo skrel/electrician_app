@@ -52,25 +52,16 @@ function ProjectItem({ route, navigation }) {
     const { projectId } = route.params;
     const { projItems } = route.params;
 
-    const [forceUpdate] = useForceUpdate();
-    const [text, setText] = React.useState(null);
-    const [priceValue, setPriceValue] = React.useState(null);
-    const [modalVisible, setModalVisible] = useState(false);
-    // const [newDescription, setNewDescription] = useState('');
-
-    //   console.log(itemId);
-
-    // console.log('project items = ', projItems)
-
+    const [forceUpdate] = useForceUpdate()
+    const [text, setText] = React.useState(qty)
+    const [priceValue, setPriceValue] = React.useState(price)
+    const [modalVisible, setModalVisible] = useState(false)
 
     const deleteItem = async () => {
-        // console.log('All items ids = ', projItems.map(key => key.iid))
-        // console.log('my item = ', itemId)
-        console.log('deleting item')
+
         let itemsLeft = []
         for (var i = 0; i < projItems.length; i++) {
             let object = projItems[i]
-            // console.log('loop item id = ', object.id)
 
             if (object.iid != itemId) {
                 let createItem = {
@@ -83,10 +74,6 @@ function ProjectItem({ route, navigation }) {
                 itemsLeft.push(createItem)
             }
         }
-        // console.log('+++++++++++')
-        // console.log('what is left = ', itemsLeft)
-        // console.log('proj id = ', projectId)
-
 
         await database.collection("users").doc(projectId).update({
             projects: [...itemsLeft],
@@ -107,28 +94,86 @@ function ProjectItem({ route, navigation }) {
         );
     };
 
-    const updateItemInFirebase = () => {
 
+
+
+
+
+
+
+    const updateItemInFirebase = async () => {
+        let pojectItems = []
+        let itemsNoChange = []
+        let updatedItem = []
+
+        // get project items
+        await database.collection('users')
+            .doc(projectId)
+            .get()
+            .then(doc => {
+                if (doc && doc.exists) {
+                    let myData = doc.data()
+                    // console.log(doc.id, '=>', myData)
+                    // console.log('name = ', myData.name)
+                    // console.log('items = ', myData.projects)
+                    pojectItems = [...myData.projects]
+                }
+            })
+
+            let itemArrNum = itemId - 1
+
+            for (var i = 0; i < pojectItems.length; i++) {
+                if (i != itemArrNum) {
+                    console.log('no change')
+                    itemsNoChange.push(pojectItems[i])
+                } else {
+                    console.log('change')
+                    // pojectItems[i].name = itemName
+                    pojectItems[i].price = priceValue
+                    // pojectItems[i].purpose = itemPurpose
+                    pojectItems[i].qty = text
+
+                    updatedItem.push(pojectItems[i])
+                }
+            }
+
+            console.log('updated -->')
+            console.log(updatedItem)
+
+            // console.log('not changing = '+ itemsNoChange)
+            // console.log('changing = ' + updatedItem)
+
+            let itemsToPush = [...itemsNoChange, ...updatedItem]
+        
+
+        // update item
+        await database.collection('users').doc(projectId).update({
+            projects: [...itemsToPush]
+        })
+        // .then()
+        .then(
+            Alert.alert(
+                "Success",
+                "Item has been updated. Please refresh.",
+                [
+                    {
+                        text: "Ok",
+                        //onPress: () => navigation.navigate("Home"),
+                    },
+                ],
+                { cancelable: false }
+            )
+        )
+           
     }
 
-    // edit item
-    // 1. show modal
-    // 2. call to database
-    const editItem = (text) => {
-        // if (text === null || text === "") {
-        //     return false;
-        // }
-        // db.transaction(
-        //     (tx) => {
-        //         tx.executeSql("update cart set purpose=? where id=?", [text, itemId]);
-        //         tx.executeSql("select * from cart", [], (_, { rows }) =>
-        //             console.log(JSON.stringify(rows))
-        //         );
-        //     },
-        //     null,
-        //     forceUpdate
-        // );
-    };
+
+
+
+
+
+
+
 
     let purposeString = JSON.stringify(purpose);
     let purposeToDisplay = purposeString.replace(/,/g, "\n");
@@ -164,7 +209,7 @@ function ProjectItem({ route, navigation }) {
                                 defaultValue={JSON.stringify(qty).replace(/"/g, "")}
                                 onChangeText={(text) => setText(text)}
                                 onSubmitEditing={() => {
-                                    addQty(text);
+                                    setText(text);
                                 }}
                                 maxLength={12}
                             />
@@ -183,7 +228,7 @@ function ProjectItem({ route, navigation }) {
                                 defaultValue={JSON.stringify(price).replace(/"/g, "")}
                                 onChangeText={(text) => setPriceValue(text)}
                                 onSubmitEditing={() => {
-                                    addPrice(priceValue);
+                                    setPriceValue(priceValue);
                                 }}
                                 maxLength={12}
                             />
@@ -228,26 +273,33 @@ function ProjectItem({ route, navigation }) {
                     <Text style={[styles.buttontext]}> Delete </Text>
                 </TouchableOpacity>
 
+
+
+{/* update item */}
                 <TouchableOpacity
                     style={styles.buttonDeck}
                     onPress={() => {
-                        // updateItemInFirebase
-                        Alert.alert(
-                            "Ups, something went wrong...",
-                            "Let us know if it happened",
-                            [
-                                {
-                                    text: "Ok",
-                                    //onPress: () => navigation.navigate("Home"),
-                                },
-                            ],
-                            { cancelable: false }
-                        );
+                        updateItemInFirebase()
+                        // Alert.alert(
+                        //     "Ups, something went wrong...",
+                        //     "Let us know if it happened",
+                        //     [
+                        //         {
+                        //             text: "Ok",
+                        //             //onPress: () => navigation.navigate("Home"),
+                        //         },
+                        //     ],
+                        //     { cancelable: false }
+                        // );
                     }}
                 >
                     <MaterialCommunityIcons name="update" size={24} color="black" />
                     <Text style={[styles.buttontext]}> Update </Text>
                 </TouchableOpacity>
+
+{/* update item */}
+
+
 
                 <TouchableOpacity style={styles.buttonDeck} onPress={Dublicate}>
                     <Ionicons name="duplicate-outline" size={24} color="black" />
@@ -281,7 +333,6 @@ function ProjectItem({ route, navigation }) {
                                 <Text>Cancel</Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={styles.buttonView} onPress={() => {
-                                editItem(state), // newDescription
                                     setModalVisible(false),
                                     Alert.alert(
                                         "Ups, something went wrong...",

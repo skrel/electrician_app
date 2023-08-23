@@ -15,26 +15,12 @@ import {
 import React, { useState, useEffect } from "react";
 import { FontAwesome } from "@expo/vector-icons";
 import database from "../firebase";
-
-
-
-// var myProjItems = ({route}) => {
-//     return route?.params?.projects
-// }
-
-
-// export function screenRefrech() {
-//     console.log('function ran ')
-//     // DeviceEventEmitter.emit("reloadItems");
-//     // setItems([]);
-// }
-
-
+import { auth } from "../firebase";
 
 export default function DetailProject({ route, navigation }) {
     const [items, setItems] = useState(route?.params?.projects); // route?.params?.projects
     const [modalVisible, setModalVisible] = useState(false);
-
+    const [projName, setProjName] = useState(route?.params?.name)
 
     // try useEffect here
     // useEffect(() => {
@@ -42,8 +28,39 @@ export default function DetailProject({ route, navigation }) {
     //     setItems([]);
     //   }, [])
 
-    
-      // try useEffect here
+
+    // try useEffect here
+
+
+    // refresh button
+    const handleRefresh = async () => {
+        console.log('pressed')
+        let response = []
+        let prjItemList = []
+        await database.collection('users').where('userId', '==', auth.currentUser.uid ).get().then( async(snapshot) => {
+            // let data = snapshot.data();
+            
+            snapshot
+              .forEach(documentSnapshot => {
+                item = {...documentSnapshot.data(), id: documentSnapshot.id};
+                response.push(item)
+              });
+            // setListProject(response)
+            // console.log('project name --->')
+            // console.log(response.body.name)
+          })
+
+          console.log('response.length =',response.length)
+          for(var i = 0; i < response.length; i++) {
+            
+            if(response[i].name === projName) {
+                // console.log('projName =',projName)
+                // console.log('current projName =',response[i].name)
+                // console.log('project items', response[i].projects)
+                setItems(response[i].projects)
+            }
+          }
+    }
 
     const handleDeleteItemsFromFirebase = async (item) => {
         await database.collection("users").doc(route?.params?.id).update({
@@ -53,27 +70,27 @@ export default function DetailProject({ route, navigation }) {
         setItems([]);
     };
 
-    const handleRefreshProject = async (item) => {
-        console.log('refresh pressed')
-        Alert.alert(
-            "Ups, something went wrong...",
-            "Let us know if it happened",
-            [
-                {
-                    text: "Ok",
-                    //onPress: () => navigation.navigate("Home"),
-                },
-            ],
-            { cancelable: false }
-        );
-    };
+    // const handleRefreshProject = async (item) => {
+    //     console.log('refresh pressed')
+    //     Alert.alert(
+    //         "Ups, something went wrong...",
+    //         "Let us know if it happened",
+    //         [
+    //             {
+    //                 text: "Ok",
+    //                 //onPress: () => navigation.navigate("Home"),
+    //             },
+    //         ],
+    //         { cancelable: false }
+    //     );
+    // };
 
     // build ids to my items
     let itemListWithIds = []
-    for(var j = 0; j < items.length; j++) {
+    for (var j = 0; j < items.length; j++) {
         var object = items[j]
         const prjItemWithId = {
-            "iid": j+1,
+            "iid": j + 1,
             "image": object.image,
             "name": object.name,
             "price": object.price,
@@ -122,16 +139,19 @@ export default function DetailProject({ route, navigation }) {
             <View style={styles.container}>
                 <View style={styles.headerView}>
                     <Text style={styles.titletext}>{route?.params?.name}</Text>
+
+                    {/* Delete */}
                     <TouchableOpacity onPress={handleDeleteItemsFromFirebase}>
                         <FontAwesome name="trash" size={24} color="black" />
                     </TouchableOpacity>
 
-{/* Refresh */}
-                    <TouchableOpacity onPress={handleRefreshProject}>
-                    <FontAwesome name="refresh" size={24} color="black" />
+                    {/* Refresh */}
+                    <TouchableOpacity onPress={handleRefresh}>
+                        <FontAwesome name="refresh" size={24} color="black" />
                     </TouchableOpacity>
-
                 </View>
+
+                
                 <FlatList
                     data={itemListWithIds} // items
                     renderItem={renderItem}
