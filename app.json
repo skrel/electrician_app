@@ -1,41 +1,56 @@
 {
-  "expo": {
-    "name": "Electrician",
-    "slug": "electrician-app",
-    "version": "2.4.0",
-    "orientation": "portrait",
-    "icon": "./assets/ios_logo.png",
-    "splash": {
-      "image": "./assets/splash-new.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "updates": {
-      "fallbackToCacheTimeout": 0
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.skrel.electricianapp",
-      "buildNumber": "2.4.0"
-    },
-    "android": {
-      "versionCode": 240,
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/logo.png",
-        "backgroundColor": "#FFFFFF"
-      },
-      "package": "com.skrel.electricianapp"
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    },
-    "extra": {
-      "eas": {
-        "projectId": "8697f49c-0c68-4c7d-9c8b-6679cd41abd0"
-      }
+    "expo": {
+        "name": "Electrician",
+        "slug": "electrician-app",
+        "version": "2.4.2",
+        "orientation": "portrait",
+        "icon": "./assets/ios_logo.png",
+        "splash": {
+            "image": "./assets/splash-new.png",
+            "resizeMode": "contain",
+            "backgroundColor": "#ffffff"
+        },
+        "updates": {
+            "fallbackToCacheTimeout": 0
+        },
+        "assetBundlePatterns": [
+            "**/*"
+        ],
+        "ios": {
+            "supportsTablet": true,
+            "bundleIdentifier": "com.skrel.electricianapp",
+            "buildNumber": "2.4.2"
+        },
+        "android": {
+            "versionCode": 242,
+            "adaptiveIcon": {
+                "foregroundImage": "./assets/logo.png",
+                "backgroundColor": "#FFFFFF"
+            },
+            "package": "com.skrel.electricianapp"
+        },
+        "web": {
+            "favicon": "./assets/favicon.png"
+        },
+        "extra": {
+            "eas": {
+                "projectId": "8697f49c-0c68-4c7d-9c8b-6679cd41abd0"
+            }
+        },
+        "plugins": [
+            [
+                "expo-build-properties",
+                {
+                    "android": {
+                        "compileSdkVersion": 33,
+                        "targetSdkVersion": 33,
+                        "buildToolsVersion": "33.0.0"
+                    },
+                    "ios": {
+                        "deploymentTarget": "13.0"
+                    }
+                }
+            ]
+        ]
     }
-  }
 }
