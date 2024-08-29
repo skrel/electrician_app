@@ -6,10 +6,6 @@
 There is a need to divide complex electrical installations into manageable subassemblies that can be prefabricated: electrical boxes for wall roughing, light fixtures, transformer wiring, overhead and underground conduits, panels, j-boxes etc. <br />
 Creating a native component configurator application for on-site team members will help optimize proper off-site assembly and functionality. This tool provides electrical contractors and subcontractors a productivity-boosting ordering system that communicates detailed assembly needs directly to their distribution center.
 
-# Download
-- [Android](https://play.google.com/store/apps/details?id=com.skrel.electricianapp)
-- [iOS](https://apps.apple.com/us/app/electrician-app/id1602414439)
-
 # Support page
 https://github.com/skrel/Electrician/wiki
 
