@@ -1,7 +1,7 @@
 # Demo
 
 ![image](https://user-images.githubusercontent.com/43278778/177060274-b92f3a77-b74c-4a68-95e9-c86025d2e8ca.png)
-Credit to image generator.
+<br />Credit to image generator.
 
 # electrician_app
 
@@ -25,16 +25,16 @@ Creating a native component configurator application for on-site team members wi
 - Firebase
 
 # Versions
-2.4.0 - 2.4.2 API version upgrade, ddding charts on the profile page
-2.3.8 Adjusted to work together its a Web app (see Vercel app)
-2.3.7 Access to Salesforce for all users, UI improvements
-2.3.6 UI improvements
-2.3.5 Users can create projects, UI improvements
-2.3.0 Bugs were fixed, enable ability to track prices, enable panel and light configurators for registered users, UI improvements
-2.1.0 Rebranding, Improved existing: More items in Configurator, Ability to create account and login, Ability to generate BIM files, ability to connect with CRM
-2.0.0 The following was improved: User interface, Configurator. The following was added: ability to create account and login, generate BIM files, connect with CRM
-1.5.0 Fire alarm system, spoolsheet, item price, UI improved, bugs fixed
-1.4.0 Posted with bugs, re-placed by v1.5.0
-1.3.0 Configurator performance improved
-1.2.0 Bug fixed, configurator added
-1.0.0 First version
+- 2.4.0 - 2.4.2 API version upgrade, ddding charts on the profile page
+- 2.3.8 Adjusted to work together its a Web app (see Vercel app)
+- 2.3.7 Access to Salesforce for all users, UI improvements
+- 2.3.6 UI improvements
+- 2.3.5 Users can create projects, UI improvements
+- 2.3.0 Bugs were fixed, enable ability to track prices, enable panel and light configurators for registered users, UI improvements
+- 2.1.0 Rebranding, Improved existing: More items in Configurator, Ability to create account and login, Ability to generate BIM files, ability to connect with CRM
+- 2.0.0 The following was improved: User interface, Configurator. The following was added: ability to create account and login, generate BIM files, connect with CRM
+- 1.5.0 Fire alarm system, spoolsheet, item price, UI improved, bugs fixed
+- 1.4.0 Posted with bugs, re-placed by v1.5.0
+- 1.3.0 Configurator performance improved
+- 1.2.0 Bug fixed, configurator added
+- 1.0.0 First version
