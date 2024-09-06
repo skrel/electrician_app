@@ -24,6 +24,11 @@ Creating a native component configurator application for on-site team members wi
 - SVG: https://docs.expo.dev/versions/v39.0.0/sdk/svg/ , https://github.com/react-native-svg/react-native-svg
 - Firebase
 
+# Architecture
+
+![software architecture](https://github.com/user-attachments/assets/e90588aa-07bc-4f45-94b3-d175025f0e23)
+
+
 # Versions
 - 2.4.0 - 2.4.2 API version upgrade, ddding charts on the profile page
 - 2.3.8 Adjusted to work together its a Web app (see Vercel app)
